@@ -1,1 +1,53 @@
 Title: Bus Reservation System 
+
+Technology Stack
+frontend: HTML, CSS ,js ,Reactjs
+Backend: Java spring Boot
+Databse: mysql
+
+
+
+Object/Goals : Design the system in which user can interact with system and search and book/reserv the system.
+
+
+short term goal: basic pages with CRUD operations i.e primary objective of the project like login registration, login, bus searching interface, bus booking interface, admin interface and interface for the bus owner company.
+
+
+Main Modules:
+Admin
+Bus Compsny
+End/ Registered User
+
+
+
+long term / end goal: 
+interactive frontend + backend with core technology + Database tyechnology + Cloud Technology + devops
+
+
+Task 0:  1.Identify the requirements
+        2.Make Entity Relation Diagram
+        3.Make DFD
+
+Task 1: Try to find out readymade <html > template which is suitable for the projects
+        login /registration / other interfaces
+Note: More Focus on user end . after user end is ready then move to admin site / owner site.
+
+
+
+Task 2: Design Database
+        1.Try to create table in sql database.
+Note: Identify Main Tables and create it.
+
+
+
+Task 3: 
+      
+
+
+
+
+
+
+
+
+
