@@ -29,7 +29,7 @@ public class StationController {
 	private StationService stationService;
 	
 	
-	@SecurityRequirement(name = "bearerAuth")
+	//@SecurityRequirement(name = "bearerAuth")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/addstation")
 	public ResponseEntity<?> addStation(@RequestBody StationNameDto stationDto){
