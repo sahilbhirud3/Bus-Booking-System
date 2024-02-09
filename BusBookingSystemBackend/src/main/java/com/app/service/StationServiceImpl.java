@@ -24,42 +24,53 @@ public class StationServiceImpl implements StationService {
 
 	@Autowired
 	private StationDao stationDao;
-	
+
 	@Override
 	public ApiResponse addStation(Station station) {
 		stationDao.save(station);
 		return new ApiResponse("Station added Successfully");
 	}
-	
+
 	public List<GetStationsDto> mapToDtoList(List<Station> entityList) {
-	    List<GetStationsDto> dtoList = new ArrayList<>();
-	    
-	    for (Station entity : entityList) {
-	        GetStationsDto dto = new GetStationsDto();
-	        dto.setId(entity.getId());
-	        dto.setStation_name(entity.getStationName());
-	        // Map other properties
-	        
-	        dtoList.add(dto);
-	    }
-	    
-	    return dtoList;
+		List<GetStationsDto> dtoList = new ArrayList<>();
+
+		for (Station entity : entityList) {
+			GetStationsDto dto = new GetStationsDto();
+			dto.setId(entity.getId());
+			dto.setStation_name(entity.getStationName());
+			// Map other properties
+
+			dtoList.add(dto);
+		}
+
+		return dtoList;
 	}
-	
+
 	@Override
 	public List<GetStationsDto> getStations() {
-		
+
 		List<Station> list = stationDao.findAll();
-		
+
 		List<GetStationsDto> list1 = mapToDtoList(list);
-		
+
 //		GetStationsDto targetListType = new TypeToken<List<GetStationsDto>>() {}.getType();
 //		List<GetStationsDto> dtoList = mapper.map(list, targetListType);
-		
+
 //		List<GetStationsDto> listdto = mapper.map(list, new TypeToken<List<GetStationsDto>>() {}.getType());
 //		System.out.println(list1.toString());
 		return list1;
 	}
-	
 
+	@Override
+	public boolean deleteStationById(Long stationId) {
+		if (stationDao.existsById(stationId)) {
+			// If it exists, delete the station
+			stationDao.deleteById(stationId);
+			return true;
+		} else {
+			// If the station doesn't exist, return false
+			return false;
+		}
+
+	}
 }

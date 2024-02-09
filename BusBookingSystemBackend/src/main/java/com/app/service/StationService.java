@@ -12,6 +12,8 @@ public interface StationService {
 	ApiResponse addStation(Station station);
 	
 	List<GetStationsDto> getStations();
+
+	boolean deleteStationById(Long stationId);
 	
 //	void getStations();
 

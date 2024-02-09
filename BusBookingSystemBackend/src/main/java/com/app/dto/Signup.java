@@ -41,7 +41,6 @@ public class Signup {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
-	private UserRole role;
 	public Signup(String firstName, String lastName,
 			String email, String password, UserRole role) {
 		super();
@@ -49,7 +48,6 @@ public class Signup {
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.role = role;
 	}
 	
 
