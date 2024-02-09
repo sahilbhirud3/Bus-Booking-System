@@ -42,10 +42,8 @@ public class SecurityConfig {
 		and().
 		authorizeRequests()
 		.antMatchers("/products/view",
-				"/users/signup",
-				"/users/signin",
+				
 				"/user/signup",
-				"/user/signin",
 				"/user/signin",
 				"/password-reset/reset",
 				"/password-reset/request",

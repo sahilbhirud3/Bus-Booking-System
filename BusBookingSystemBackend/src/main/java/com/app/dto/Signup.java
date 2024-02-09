@@ -22,6 +22,7 @@ public class Signup {
 	private Long id;
 	@NotBlank(message = "First Name required")
 	private String firstName;
+	@NotBlank(message = "Last Name required")
 	private String lastName;
 	@NotBlank(message = "Email is required")
 	@Email(message = "Invalid Email!!!")

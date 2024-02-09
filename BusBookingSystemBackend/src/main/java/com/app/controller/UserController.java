@@ -33,7 +33,7 @@ public class UserController {
 		// sign up
 		@PostMapping("/signup")
 		public ResponseEntity<?> userSignup(@RequestBody @Valid Signup dto) {
-			System.out.println("in sign up " + dto);
+//			System.out.println("in sign up " + dto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.userRegistration(dto));
 		}
 
@@ -64,29 +64,6 @@ public class UserController {
 
 	
 	
-	
-	
-	
-	
-	
-	
-//	old code
-//	@PostMapping("/signup")
-//	
-//	public ResponseEntity<?> signUpUser(@RequestBody User user)
-//	{
-//		ApiResponse resp=userService.signUpUser(user);
-//		
-//		return ResponseEntity.ok(resp);
-//	}
-//	
-//	@PostMapping("/login")
-//	public LoggedInUserData loginUser(@RequestBody LoginDto ld){
-//		
-//		LoggedInUserData resp = userService.loginUser(ld);
-//		
-//		return resp;
-//	}
 //	
 //	@PostMapping("/changepassword")
 //	public ResponseEntity<?> forgotPass(@RequestBody ChangePasswordDto pass){
