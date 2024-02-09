@@ -1,7 +1,13 @@
 import React from 'react';
-import { Dropdown as MDBDropdown, Collapse as MDBCollapse } from 'mdb-react-ui-kit'; // Import the MDB components
+//import { Dropdown as MDBDropdown, Collapse as MDBCollapse } from 'mdb-react-ui-kit'; // Import the MDB components
+import { Link } from 'react-router-dom';
+
+
 
 function Navbar() {
+
+  // const navigate=useNavigate();
+  // // const handleClick=
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary fixed-top">
       <div className="container-fluid">
@@ -18,7 +24,7 @@ function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <a className="navbar-brand mt-10 mt-lg-0" href="#">
+          <a className="navbar-brand mt-10 mt-lg-0" href="/">
             <img
               src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
               height="15"
@@ -28,25 +34,28 @@ function Navbar() {
           </a>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="/">
                 Dashboard
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="/login">
                 Team
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Projects
-              </a>
+                {/* <div className='nav-link' onClick={()=>navigate("/login")}>
+                  Projects
+                </div> */}
+                {/* <li><Link to="/login" className='nav-link'>Login</Link></li> */}
+                <li><Link to="/login" className='nav-link'>Login</Link></li>
+
             </li>
           </ul>
         </div>
 
         <div className="d-flex align-items-center">
-          <a className="text-reset me-3" href="#">
+          <a className="text-reset me-3" href="/">
             <i className="fas fa-shopping-cart"></i>
           </a>
 
@@ -98,7 +107,7 @@ function Navbar() {
             </a>
             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
               <li>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="/login">
                   My profile
                 </a>
               </li>
@@ -108,7 +117,7 @@ function Navbar() {
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="/">
                   Logout
                 </a>
               </li>
