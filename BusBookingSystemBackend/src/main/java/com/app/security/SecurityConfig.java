@@ -47,6 +47,8 @@ public class SecurityConfig {
 				"/user/signin",
 				"/password-reset/reset",
 				"/password-reset/request",
+				
+				"/station/getstations",
 				"/v*/api-doc*/**",
 				"/swagger-ui/**")
 		.permitAll()

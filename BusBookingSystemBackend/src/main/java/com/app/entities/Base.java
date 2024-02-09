@@ -9,7 +9,7 @@ import lombok.Setter;
 @MappedSuperclass // to tell hib , not to create any tables n other entities will extend from it
 @Getter
 @Setter
-public class BaseEntity {
+public class Base {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
