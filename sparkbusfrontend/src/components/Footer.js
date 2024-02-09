@@ -37,11 +37,10 @@ export default function App() {
             <MDBCol md='3' lg='4' xl='3' className='mx-auto mb-4'>
               <h6 className='text-uppercase fw-bold mb-4'>
                 <MDBIcon color='secondary' icon='gem' className='me-3' />
-                Company name
+                SPARK Bus
               </h6>
               <p>
-                Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit
-                amet, consectetur adipisicing elit.
+                We are a Bus Reservation/Booking system developed primarily in ReactJs, Spring Boot and MySql and bro chill
               </p>
             </MDBCol>
 
@@ -94,20 +93,20 @@ export default function App() {
             </MDBCol>
 
             <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+              <h6 className='text-uppercase fw-bold mb-4'>Contact us</h6>
               <p>
                 <MDBIcon color='secondary' icon='home' className='me-2' />
-                New York, NY 10012, US
+                Pune, Maharashtra, India
               </p>
               <p>
                 <MDBIcon color='secondary' icon='envelope' className='me-3' />
-                info@example.com
+                adminmail@sparkbus.com
               </p>
               <p>
-                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 01 234 567 88
+                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 91 9876893452
               </p>
               <p>
-                <MDBIcon color='secondary' icon='print' className='me-3' /> + 01 234 567 89
+                <MDBIcon color='secondary' icon='print' className='me-3' /> + 02425 12345
               </p>
             </MDBCol>
           </MDBRow>

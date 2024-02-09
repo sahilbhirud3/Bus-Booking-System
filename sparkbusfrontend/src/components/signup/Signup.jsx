@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import styles from "./Signup.css";
+import styles from "./styles.module.css";
+import Header from "../Header";
+import Footer from "../Footer";
 
 const Signup = () => {
 	const [data, setData] = useState({
@@ -36,13 +38,15 @@ const Signup = () => {
 	};
 
 	return (
+		<>
+		<Header/>
 		<div className={styles.signup_container}>
 			<div className={styles.signup_form_container}>
 				<div className={styles.left}>
 					<h1>Welcome Back</h1>
 					<Link to="/login">
 						<button type="button" className={styles.white_btn}>
-							Sing in
+							Sign in
 						</button>
 					</Link>
 				</div>
@@ -88,12 +92,14 @@ const Signup = () => {
 						{error && <div className={styles.error_msg}>{error}</div>}
 						{msg && <div className={styles.success_msg}>{msg}</div>}
 						<button type="submit" className={styles.green_btn}>
-							Sing Up
+							Sign Up
 						</button>
 					</form>
 				</div>
 			</div>
 		</div>
+		<Footer/>
+		</>
 	);
 };
 
