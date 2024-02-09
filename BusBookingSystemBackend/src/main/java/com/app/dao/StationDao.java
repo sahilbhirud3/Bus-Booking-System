@@ -9,5 +9,6 @@ import com.app.entities.Station;
 public interface StationDao extends JpaRepository<Station, Long>{
 	
 	Optional<Station> findByStationName(String s);
+	Optional<Station> getStationById(Long Id);
 
 }
