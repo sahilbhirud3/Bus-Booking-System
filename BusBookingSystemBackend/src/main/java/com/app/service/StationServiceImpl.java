@@ -2,21 +2,16 @@ package com.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.StationDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.GetStationsDto;
-import com.app.entities.BusDetails;
 import com.app.entities.Station;
-
-import net.bytebuddy.description.method.MethodDescription.TypeToken;
 
 @Service
 @Transactional

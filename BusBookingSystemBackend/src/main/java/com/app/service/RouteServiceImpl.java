@@ -32,17 +32,27 @@ public class RouteServiceImpl implements RouteService {
 
 	@Override
 	public ApiResponse addRoute(AddRouteDto ard) {
-		
-		Station from = stationDao.findById(ard.getStationIdFrom()).orElseThrow(()->new RuntimeException("Station not found."));
-		Station to = stationDao.findById(ard.getStationIdTo()).orElseThrow(()->new RuntimeException("Station not found."));
-		Routes r = new Routes();
-		r.setStationIdBoarding(from);
-		r.setStationIdDestination(to);
-		r.setDistance(ard.getDistance());
-		
-		Routes r1 = routeDao.save(r);
-		return new ApiResponse("Route Added");
+	    Station from = stationDao.findById(ard.getStationIdFrom())
+	            .orElseThrow(() -> new RuntimeException("Boarding station not found."));
+	    
+	    Station to = stationDao.findById(ard.getStationIdTo())
+	            .orElseThrow(() -> new RuntimeException("Destination station not found."));
+
+	    // Check if a similar route already exists
+	    if (routeDao.existsByStationIdBoardingAndStationIdDestinationAndDistance(from, to, ard.getDistance())) {
+	        throw new RuntimeException("Duplicate route found.");
+	    }
+
+	    Routes route = new Routes();
+	    route.setStationIdBoarding(from);
+	    route.setStationIdDestination(to);
+	    route.setDistance(ard.getDistance());
+
+	    Routes savedRoute = routeDao.save(route);
+	    
+	    return new ApiResponse("Route Added");
 	}
+
 
 	@Override
 	public ApiResponse deleteRoute(long routeid) {

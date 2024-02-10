@@ -15,6 +15,9 @@ public interface RouteDao  extends JpaRepository<Routes, Long>{
 //	List<Routes> findByStation_id_boardingAndStation_id_destination();
 	Optional<Routes> findByStationIdBoardingAndStationIdDestination(Station from,Station to);
 	
+	 boolean existsByStationIdBoardingAndStationIdDestinationAndDistance(
+		        Station stationIdBoarding, Station stationIdDestination, double distance
+		    );
 	 
 
 }

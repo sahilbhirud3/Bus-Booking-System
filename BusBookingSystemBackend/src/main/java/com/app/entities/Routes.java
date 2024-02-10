@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -34,19 +33,19 @@ public class Routes extends Base{
     private double distance;
     
     @OneToMany(mappedBy = "route",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<BusDetails> buses;
+    private List<Bus> buses;
     
     @OneToMany(mappedBy = "routes",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Bookings> routes;
     
-    public void addBus(BusDetails p) {
+    public void addBus(Bus p) {
 		buses.add(p); //parent to child reln
 		p.setRoute(this);//child to parent reln
 	}
 	
 	
 	//removing Bus from 
-	public void removeBus(BusDetails p) {
+	public void removeBus(Bus p) {
 		buses.remove(p);
 		p.setRoute(null);
 	}
