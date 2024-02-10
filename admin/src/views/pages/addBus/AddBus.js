@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { axiosInst } from "src/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
+import routes from "src/routes";
 // import AllRoutes from "./AllRoutes";
 
 const AddBus = () => {
@@ -9,26 +11,102 @@ const AddBus = () => {
     totalSeats: "",
     date: "",
     time: "",
-    routeId: "",
+    id: "",
+   
   });
-
+  const [routeData, setRouteData] = useState({
+    id: "",
+    route: "",
+});
+    
+  const [routes,setRoutes] = useState([]);
   const handleChanges = (e) => {
-    setBusDetails({ ...BusDetails, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target;
 
+    // If the target is the select element for the route
+    if (name === 'route') {
+        // Find the selected route object
+        const selectedRoute = routes.find(route => route.id === value);
+        
+        // Update both BusDetails and routeData
+        setBusDetails(prevDetails => ({
+            ...prevDetails,
+            id: value, // Add id to BusDetails
+        
+        }));
+        setRouteData(prevData => ({
+            ...prevData,
+            [name]: value,
+        }));
+    } else {
+        // If it's not the route select, update only BusDetails
+        setBusDetails(prevDetails => ({
+            ...prevDetails,
+            [name]: value,
+        }));
+    }
+};
+
+  
+   
   const busData = () => {
-    // Handle your bus data logic here
-  };
+    
+    console.log(BusDetails);
 
+
+
+  };
+  
+  useEffect(()=>{
+    axiosInst
+    .get("/route/allroutes", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    })
+    .then((response) => {
+        console.log(response.data);
+        setRoutes(response.data);
+        // setData();
+    })
+    .catch((error) => {
+        console.error(error);
+        toast.error("Something went wrong.");
+    });
+
+  },[])
+  
   return (
     <div className="container mt-5">
       <div className="row">
         <div className="col-md-6">
           <form>
+          <div className="form-group">
+            <label htmlFor="InputRouteId">Route </label>
+           
+            <select
+                className="form-select"
+                aria-label="Default select example"
+                name="route"
+                onChange={handleChanges}
+                value={routeData.route}
+            >
+                <option value="">Select</option>
+                
+                {routes.map((route) => (
+                    <option key={route.id} value={route.id}>
+                        {/* {station.from} */}
+                        {route.to} to {route.from}
+                        {/* {route.route} */}
+                        
+                    </option>
+                ))}
+            </select>
+            </div>
             <div className="form-group">
               <label htmlFor="InputBusNo">Bus No</label>
               <input
-                type="number"
+                
                 name="busNo"
                 className="form-control"
                 id="busno"
@@ -81,19 +159,7 @@ const AddBus = () => {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="InputRouteId">Route Id</label>
-              <input
-                type="number"
-                name="routeId"
-                className="form-control"
-                id="routeid"
-                value={BusDetails.routeId}
-                onChange={handleChanges}
-                placeholder="Enter Route Id"
-                required
-              />
-            </div>
+            
             <br/>
 
             <button
