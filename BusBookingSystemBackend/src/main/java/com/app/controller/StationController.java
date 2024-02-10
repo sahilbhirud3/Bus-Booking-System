@@ -39,7 +39,7 @@ public class StationController {
 		return ResponseEntity.ok(stationService.addStation(station));
 	}
 	
-	@PermitAll
+//	@PermitAll
 	@GetMapping("/getstations")
 	public List<GetStationsDto> getStations(){
 		return stationService.getStations();
