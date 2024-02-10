@@ -44,7 +44,7 @@ const _nav = [
   { 
     component: CNavItem,
     name: 'All Stations',
-    to: '/pages/bookings',
+    to: '/pages/stations',
     icon: <FontAwesomeIcon icon={faCity}  className="nav-icon"/>,
   },
 

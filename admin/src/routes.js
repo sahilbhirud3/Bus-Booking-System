@@ -1,7 +1,7 @@
 import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const AddStation = React.lazy(() => import('./views/pages/addStation/AddStation'))
-
+const AddStation = React.lazy(() => import('./views/pages/station/AddStation'))
+const Stations = React.lazy(() => import('./views/pages/station/Stations'))
 
 
 
@@ -20,6 +20,11 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
 
   { path: '/pages/station', name: 'Station', element: AddStation },
+
+  { path: '/pages/stations', name: 'Stations', element: Stations },
+
+
+
   { path: '/pages/Bikes', name: 'Bikes', element: Bikes },
   { path: '/pages/editBike', name: 'EditBike', element: EditBike },
   { path: '/pages/addBike', name: 'AddBike', element: AddBike },

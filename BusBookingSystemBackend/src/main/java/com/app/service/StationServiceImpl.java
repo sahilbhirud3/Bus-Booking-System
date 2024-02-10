@@ -62,15 +62,17 @@ public class StationServiceImpl implements StationService {
 	}
 
 	@Override
-	public boolean deleteStationById(Long stationId) {
-		if (stationDao.existsById(stationId)) {
-			// If it exists, delete the station
-			stationDao.deleteById(stationId);
-			return true;
-		} else {
-			// If the station doesn't exist, return false
-			return false;
-		}
-
-	}
+	 public boolean deleteStationById(Long stationId) {
+        if (stationDao.existsById(stationId)) {
+            // If the station exists, delete it
+            stationDao.deleteById(stationId);
+            // Log a message indicating successful deletion
+            System.out.println("Station with ID " + stationId + " deleted successfully.");
+            return true;
+        } else {
+            // Log a message indicating that the station doesn't exist
+            System.out.println("Station with ID " + stationId + " does not exist.");
+            return false;
+        }
+    }
 }

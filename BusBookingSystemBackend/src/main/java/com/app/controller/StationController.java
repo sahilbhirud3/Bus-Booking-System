@@ -42,9 +42,10 @@ public class StationController {
 	}
 	
 
-	//@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/deletestation")
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/deletestation/{stationId}")
 	public ResponseEntity<?> deleteStation(@PathVariable Long stationId) {
+		System.out.println("done in dewlete conts");
         // You need to implement the logic to delete the station by its ID
         boolean deleted = stationService.deleteStationById(stationId);
 
