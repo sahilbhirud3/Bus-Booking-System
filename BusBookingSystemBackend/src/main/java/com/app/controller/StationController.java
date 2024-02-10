@@ -7,7 +7,9 @@ import javax.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ public class StationController {
 	private StationService stationService;
 	
 	
-	@SecurityRequirement(name = "bearerAuth")
+	//@SecurityRequirement(name = "bearerAuth")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/addstation")
 	public ResponseEntity<?> addStation(@RequestBody StationNameDto stationDto){
@@ -39,7 +41,25 @@ public class StationController {
 		return ResponseEntity.ok(stationService.addStation(station));
 	}
 	
+<<<<<<< HEAD
 //	@PermitAll
+=======
+	//@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/deletestation")
+	public ResponseEntity<?> deleteStation(@PathVariable Long stationId) {
+        // You need to implement the logic to delete the station by its ID
+        boolean deleted = stationService.deleteStationById(stationId);
+
+        if (deleted) {
+            return ResponseEntity.ok("Station deleted successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to delete station.");
+        }
+    }
+
+	
+	@PermitAll
+>>>>>>> 4bbd1ad215581f768bd980e04527abfd6b80643a
 	@GetMapping("/getstations")
 	public List<GetStationsDto> getStations(){
 		return stationService.getStations();

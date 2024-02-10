@@ -1,74 +1,42 @@
 .navbar {
-    background-color: #333;
-    padding: 1rem 0;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navbar-logo {
-    color: #fff;
-    font-size: 1.5rem;
-    text-decoration: none;
-  }
-  
-  .navbar-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .navbar-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-  }
-  
-  .navbar-item {
-    margin-bottom: 1rem;
-  }
-  
-  .navbar-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar-link:hover {
-    color: #f3f3f3;
-  }
-  
-  .navbar-toggle {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .bar {
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-    margin: 4px 0;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .navbar-menu {
-      display: none;
-    }
-  
-    .navbar-toggle {
-      display: block;
-    }
-  
-    .active {
-      display: flex;
-    }
-  }
+  background-color: #3bb19b;
+}
+
+.left {
+  width: 35%;
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 30px;
+  margin-right: 10px;
+}
+
+.dashboard_button, .team_button {
+  margin-left: 10px;
+  color: white;
+}
+
+.center {
+  width: 30%;
+  text-align: center;
+}
+
+.right {
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.notification_button, .login_button, .profile_button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 140%;
+  margin-left: 20px;
+  text-decoration: none;
+}
   
