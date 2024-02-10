@@ -1,23 +1,17 @@
 package com.app.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.BusDao;
 import com.app.dao.RouteDao;
 import com.app.dao.StationDao;
 import com.app.dto.ApiResponse;
-import com.app.dto.GetBusDto;
-import com.app.dto.SendBusDto;
 import com.app.entities.Bus;
 import com.app.entities.Routes;
-import com.app.entities.Station;
 
 @Service
 @Transactional
@@ -37,11 +31,24 @@ public class BusSeviceImpl implements BusService {
 	
 	
 	@Override
-	public ApiResponse addBus(Bus bus,long routeid) {
-		Routes rv= routeDao.findById(routeid).orElseThrow(()->new RuntimeException("Route not found."));
-		rv.addBus(bus);
-		return new ApiResponse("bus added.");
+	public ApiResponse addBus(Bus bus, long routeId) {
+	    // Find the route by its ID
+	    Routes route = routeDao.findById(routeId)
+	            .orElseThrow(() -> new RuntimeException("Route not found."));
+
+	    // Check if a similar bus already exists for the route
+	    if (busDao.existsByBusNo(bus.getBusNo())) {
+	        throw new RuntimeException("Duplicate bus found.");
+	    }
+
+	    // Add the bus to the route and save the route
+	    route.addBus(bus);
+	    routeDao.save(route);
+
+	    return new ApiResponse("Bus added.");
 	}
+
+
 
 	@Override
 	public ApiResponse removeBus(int busNo) {

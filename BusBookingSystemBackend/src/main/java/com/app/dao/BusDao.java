@@ -16,4 +16,5 @@ public interface BusDao extends JpaRepository<Bus, Long>{
 	List<Bus> findByRoute(Routes r);
 	Optional<Bus> findByBusNoAndStartTime(int busNo,LocalDate date);
 
+	Boolean existsByBusNo(String busNo);
 }

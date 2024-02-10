@@ -2,11 +2,13 @@ package com.app.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +24,9 @@ import lombok.ToString;
 @ToString
 public class Bus extends Base {
 
-    @Min(value = 1, message = "Bus number must be greater than 0")
-    private int busNo;
+	 @Column(unique = true)
+	 @Pattern(regexp = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}", message = "Invalid vehicle number")
+	    private String busNo;
 
     @Min(value = 1, message = "Total seats must be greater than 0")
     private int totalSeats;

@@ -32,9 +32,10 @@ public class RouteServiceImpl implements RouteService {
 
 	@Override
 	public ApiResponse addRoute(AddRouteDto ard) {
+	    // Find the stations for the given IDs
 	    Station from = stationDao.findById(ard.getStationIdFrom())
 	            .orElseThrow(() -> new RuntimeException("Boarding station not found."));
-	    
+
 	    Station to = stationDao.findById(ard.getStationIdTo())
 	            .orElseThrow(() -> new RuntimeException("Destination station not found."));
 
@@ -43,15 +44,17 @@ public class RouteServiceImpl implements RouteService {
 	        throw new RuntimeException("Duplicate route found.");
 	    }
 
+	    // Create a new route object and save it
 	    Routes route = new Routes();
 	    route.setStationIdBoarding(from);
 	    route.setStationIdDestination(to);
 	    route.setDistance(ard.getDistance());
 
 	    Routes savedRoute = routeDao.save(route);
-	    
+
 	    return new ApiResponse("Route Added");
 	}
+
 
 
 	@Override

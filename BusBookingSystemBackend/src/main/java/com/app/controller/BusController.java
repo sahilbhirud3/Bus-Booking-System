@@ -23,7 +23,7 @@ public class BusController {
 	
 	 @PostMapping("/addbus/{routeid}")
 	    public ResponseEntity<?> addBus(@RequestBody BusDto busDto, @PathVariable long routeid) {
-	        try {
+	      
 	            // Log the bus details
 	            System.out.println(busDto.toString());
 
@@ -35,13 +35,7 @@ public class BusController {
 
 	            // Return a success response
 	            return ResponseEntity.ok("Bus added successfully");
-	        } catch (Exception e) {
-	            // Log the exception (you may want to log more details)
-	            e.printStackTrace();
-
-	            // Return an error response
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add bus");
-	        }
+	       
 	    }
 
 	  

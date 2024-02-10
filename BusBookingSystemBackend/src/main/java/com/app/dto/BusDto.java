@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BusDto {
 
-	@Min(value = 1, message = "Bus number must be greater than 0")
-    private int busNo;
+	 @Pattern(regexp = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}", message = "Invalid vehicle number")
+	    private String busNo;
 
     @Min(value = 1, message = "Total seats must be greater than 0")
     private int totalSeats;
