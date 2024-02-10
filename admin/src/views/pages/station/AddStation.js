@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInst } from "src/axiosInstance";
@@ -6,43 +6,77 @@ import { axiosInst } from "src/axiosInstance";
 
 const AddStation = () => {
   const [stationName, setStationName] = useState("");
+  const [stations, setStations] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    fetchStations();
+  }, []);
+
+  const fetchStations = () => {
+    axiosInst
+      .get("station/getstations", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        setStations(response.data);
+      })
+      .catch((error) => {
+        setShowAlert(true);
+        console.error("Error:", error);
+      });
+  };
+
   const handleChanges = (e) => {
-    setStationName(e.target.value );
+    setStationName(e.target.value);
   };
 
   const stationData = () => {
-    
-    axiosInst
-    .post("station/addstation", {
-      station_name: stationName
-    
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwtToken")}` // Add the JWT token here
-      }
-    })
-    .then((response) => {
-      console.log("Response:", response.data);
-      if (
-        response.data.message === "Station added Successfully"
-      ) {
-        
-        toast.success("Station added Successfully");
-       
-      } else {
-        toast.error("Station Not added!");
-      }
+    // Check if stationName is not empty
+    if (stationName.trim() === "") {
+      toast.error("Please enter a station name");
+      return;
+    }
 
-      // Handle the response data as needed
-    })
-    .catch((error) => {
-      setShowAlert(true);
-      console.error("Error:", error);
-      // Handle errors if any
-    });
+    // Check for duplicate station names
+    const stationExists = stations.some(
+      (station) => station.station_name === stationName
+    );
 
-
+    if (stationExists) {
+      toast.error("Station already exists");
+    } else {
+      axiosInst
+        .post(
+          "station/addstation",
+          {
+            station_name: stationName,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Response:", response.data);
+          if (response.data.message === "Station added Successfully") {
+            toast.success("Station added Successfully");
+            // Clear station name after successful addition
+            setStationName("");
+            // Fetch stations again to update the list
+            fetchStations();
+          } else {
+            toast.error("Station Not added!");
+          }
+        })
+        .catch((error) => {
+          setShowAlert(true);
+          console.error("Error:", error);
+        });
+    }
   };
 
   return (
@@ -63,9 +97,7 @@ const AddStation = () => {
                 required
               />
             </div>
-
-           <br></br>
-
+            <br />
             <button
               type="button"
               onClick={stationData}
@@ -78,6 +110,14 @@ const AddStation = () => {
         <div className="col-md-6 text-right">
           {/* <AllRoutes /> */}
         </div>
+      </div>
+      <div>
+        <h2>All Stations</h2>
+        <ul>
+          {stations.map((station, index) => (
+            <li key={index}>{station.station_name}</li>
+          ))}
+        </ul>
       </div>
       <ToastContainer />
     </div>
