@@ -41,9 +41,7 @@ public class StationController {
 		return ResponseEntity.ok(stationService.addStation(station));
 	}
 	
-<<<<<<< HEAD
-//	@PermitAll
-=======
+
 	//@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/deletestation")
 	public ResponseEntity<?> deleteStation(@PathVariable Long stationId) {
@@ -59,7 +57,7 @@ public class StationController {
 
 	
 	@PermitAll
->>>>>>> 4bbd1ad215581f768bd980e04527abfd6b80643a
+
 	@GetMapping("/getstations")
 	public List<GetStationsDto> getStations(){
 		return stationService.getStations();
