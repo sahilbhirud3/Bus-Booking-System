@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,15 +24,19 @@ public class PasswordResetController {
  @Autowired
  private PasswordResetService passwordResetService;
 
+ 
  @PostMapping("/request")
- public ResponseEntity<?> requestPasswordReset(@RequestParam("email") String email) {
+ public ResponseEntity<String> requestPasswordReset(@RequestParam("email") String email) {
      User user = userService.findByEmail(email);
      if (user == null) {
-         return ResponseEntity.notFound().build();
+         String errorMessage = "User with email " + email + " not found";
+         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
      }
      passwordResetService.createPasswordResetTokenForUser(user);
-     return ResponseEntity.ok().build();
+     String message = "Password reset link has been sent to your email";
+     return ResponseEntity.ok().body(message);
  }
+
 
  @PostMapping("/reset")
  public ResponseEntity<?> resetPassword(@RequestParam("token") String token,
