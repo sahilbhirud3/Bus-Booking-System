@@ -118,7 +118,7 @@ const Signup = () => {
                 className={styles.input}
               />
               <input
-                type="number"
+                type="tel"
                 placeholder="Mobile Number"
                 name="mobile"
                 onChange={handleChange}
