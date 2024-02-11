@@ -56,14 +56,14 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Add Route  ',
-    to: '/pages/Route',
+    to: '/pages/addRoute',
     icon: <FontAwesomeIcon icon={faRoute}  className="nav-icon"/>
     ,
   },
   { 
     component: CNavItem,
     name: 'All Routes',
-    to: '/pages/Routes',
+    to: '/pages/routes',
     icon: <FontAwesomeIcon icon={faRoute}  className="nav-icon"/>,
   },
 
@@ -82,8 +82,8 @@ const _nav = [
   
   {
     component: CNavItem,
-    name: 'Edit/Delete Bikes',
-    to: '/pages/Bikes',
+    name: 'Edit/Delete Buses',
+    to: '/pages/Bus',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
 
