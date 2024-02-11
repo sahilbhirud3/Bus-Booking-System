@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,23 +41,31 @@ public class BusController {
 		return ResponseEntity.ok("Bus added successfully");
 
 	}
+	
 
-	@DeleteMapping("/removebus/{busNo}")
-	public ResponseEntity<?> removeBus(@PathVariable int busNo) {
-
-		return ResponseEntity.ok(busService.removeBus(busNo));
+	@PostMapping("/getbuses")
+	public List<SendBusDto> getBuses(@RequestBody GetBusDto gbd) {
+		return busService.getBuses(gbd);
 	}
 
 	
-	  @PostMapping("/getbuses") 
-	  public List<SendBusDto> getBuses(@RequestBody GetBusDto gbd)
-	  { 
-		  System.out.println(gbd.toString());
-	  
-	  return busService.getBuses(gbd);
-	  }
-	  
-	 
+	
+	@GetMapping("/getallbuses")
+	public List<SendBusDto> getAllBuses() {
+
+		return busService.getAllBuses();
+	}
+	
+	
+	
+
+	@DeleteMapping("/removebus/{busId}")
+	public ResponseEntity<?> removeBus(@PathVariable long busId) {
+	    return ResponseEntity.ok(busService.removeBus(busId));
+	}
+
+
+	
 
 	private Bus convertToBusEntity(BusDto busDto) {
 		// Implement the conversion logic from BusDto to Bus entity

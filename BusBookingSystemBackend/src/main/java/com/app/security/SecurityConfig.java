@@ -42,7 +42,7 @@ public class SecurityConfig {
 						// station
 						"/station/getstations", "/station/deletestation",
 						// bus
-						"/bus/getbuses", "/v*/api-doc*/**", "/swagger-ui/**")
+						"/bus/getbuses","/bus/getallbuses", "/v*/api-doc*/**", "/swagger-ui/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().antMatchers("/products/add").hasRole("ADMIN")
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

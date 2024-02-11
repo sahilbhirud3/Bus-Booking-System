@@ -21,10 +21,5 @@ public interface BusDao extends JpaRepository<Bus, Long>{
 
 	Boolean existsByBusNo(String busNo);
 	
-	 @Query("SELECT b FROM Bus b " +
-	           "JOIN b.route r " +
-	           "WHERE r = :route " +
-	           "AND :date BETWEEN b.startTime AND b.endTime")
-	    List<Bus> findByRouteAndOperational(@Param("route") Routes route, @Param("date") LocalDate date);
-	
+
 }
