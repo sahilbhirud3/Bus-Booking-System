@@ -6,6 +6,7 @@ import Header from "../Header";
 import Footer from "../Footer";
 
 const Signup = () => {
+
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
@@ -15,6 +16,7 @@ const Signup = () => {
 		email: "",
 		password: "",
 	});
+	console.log(data,"second");
 	console.log(data,"next")
 	const [error, setError] = useState("");
 	const [msg, setMsg] = useState("");
