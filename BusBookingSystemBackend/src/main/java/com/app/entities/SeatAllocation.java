@@ -22,25 +22,18 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class SeatAllocation extends Base {
-	
+
+	private LocalDate dateOfJourney;
 
 	@ManyToOne
 	private Bookings booking;
 
 	@Column(unique = true)
 	private int seatNo;
-	
-	@OneToOne
-	private  Passenger passenger;
-	private LocalDate dateOfJourney;
-	
-	
-	
-	
-	
-	
 
-	
-	
-	
+	@OneToOne
+	private Passenger passenger;
+	@ManyToOne
+	private Bus bus;
+
 }
