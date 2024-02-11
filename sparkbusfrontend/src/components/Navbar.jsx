@@ -109,7 +109,7 @@ function Navbar() {
           <h3>SPARK BUS</h3>
           <div className='SpaceContainer'/>
           <Link to="/" className="dashboard-button">Dashboard</Link>
-          <Link to="/aboutus" className="team-button">Team</Link>
+          <Link to="/buslayout" className="team-button">Team</Link>
         </div>
         <div className="custom-navbar-center">
           {/* No content in the center */}
