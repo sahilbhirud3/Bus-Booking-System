@@ -6,7 +6,8 @@ This is a web application for managing bus bookings. It provides functionalities
 
 - **Frontend**: React.js
 - **Backend**: Spring Boot 2.7.18
-- **Database**: MySQL
+- **Database**: MySQL 8.0
+  
 
 ## Features
 
