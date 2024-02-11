@@ -9,6 +9,9 @@ const Signup = () => {
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
+		gender: "",
+		age: "",
+		mobilenumber: "",
 		email: "",
 		password: "",
 	});
@@ -23,7 +26,7 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/api/users";
+			const url = "http://localhost:7071/route/";
 			const { data: res } = await axios.post(url, data);
 			setMsg(res.message);
 		} catch (error) {
@@ -68,6 +71,36 @@ const Signup = () => {
 							name="lastName"
 							onChange={handleChange}
 							value={data.lastName}
+							required
+							className={styles.input}
+						/>
+						<select
+  name="gender"
+  onChange={handleChange}
+  value={data.gender}
+  required
+  className={styles.input}
+>
+  <option value="">Select Gender</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+  <option value="others">Others</option>
+</select>
+<input
+							type="number"
+							placeholder="Age"
+							name="age"
+							onChange={handleChange}
+							value={data.age}
+							required
+							className={styles.input}
+						/>
+						<input
+							type="number"
+							placeholder="Mobile Number"
+							name="mobilenumber"
+							onChange={handleChange}
+							value={data.mobilenumber}
 							required
 							className={styles.input}
 						/>
