@@ -2,44 +2,50 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { axiosInst } from "src/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import routes from "src/routes";
-// import AllRoutes from "./AllRoutes";
+import "./styles.css"
 
 const AddBus = () => {
   const [BusDetails, setBusDetails] = useState({
     busNo: "",
     totalSeats: "",
-    date: "",
-    time: "",
-    id: "",
-   
+    startTime: "",
+    endTime: "",
   });
   const [routeData, setRouteData] = useState({
     id: "",
     route: "",
-});
-    
-  const [routes,setRoutes] = useState([]);
+  });
+
+  const [routesData, setRoutesData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);  
+  };
+
+  const handleEndData = (endDate) => {
+    setEndDate(endDate);
+  }
+
   const handleChanges = (e) => {
     const { name, value } = e.target;
 
-    // If the target is the select element for the route
     if (name === 'route') {
-        // Find the selected route object
-        const selectedRoute = routes.find(route => route.id === value);
+        const selectedRoute = routesData.find(route => route.id === value);
         
-        // Update both BusDetails and routeData
         setBusDetails(prevDetails => ({
             ...prevDetails,
-            id: value, // Add id to BusDetails
-        
+            id: value,
         }));
         setRouteData(prevData => ({
             ...prevData,
             [name]: value,
         }));
     } else {
-        // If it's not the route select, update only BusDetails
         setBusDetails(prevDetails => ({
             ...prevDetails,
             [name]: value,
@@ -47,17 +53,38 @@ const AddBus = () => {
     }
 };
 
-  
-   
-  const busData = () => {
-    
-    console.log(BusDetails);
+const busData = () => {
+  if (!BusDetails.busNo || !BusDetails.totalSeats || !selectedDate || !endDate) {
+      toast.error("Please fill in all fields.");
+      return;
+  }
 
+  const startTimeISO = selectedDate.toISOString();
+  const endTimeISO = endDate.toISOString();
 
+  axiosInst
+    .post(`/bus/addbus/${BusDetails.id}`, {
+      busNo: BusDetails.busNo,
+      totalSeats: BusDetails.totalSeats,
+      startTime: startTimeISO,
+      endTime: endTimeISO,
+      routeId: BusDetails.id
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      toast.success("Bus added successfully.");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Failed to add bus.");
+    });
+};
 
-  };
-  
-  useEffect(()=>{
+useEffect(() => {
     axiosInst
     .get("/route/allroutes", {
         headers: {
@@ -65,48 +92,39 @@ const AddBus = () => {
         },
     })
     .then((response) => {
-        console.log(response.data);
-        setRoutes(response.data);
-        // setData();
+        setRoutesData(response.data);
     })
     .catch((error) => {
         console.error(error);
         toast.error("Something went wrong.");
     });
+}, []);
 
-  },[])
-  
-  return (
+return (
     <div className="container mt-5">
       <div className="row">
         <div className="col-md-6">
           <form>
-          <div className="form-group">
-            <label htmlFor="InputRouteId">Route </label>
-           
-            <select
+            <div className="form-group">
+              <label htmlFor="InputRouteId">Route </label>
+              <select
                 className="form-select"
                 aria-label="Default select example"
                 name="route"
                 onChange={handleChanges}
                 value={routeData.route}
-            >
+              >
                 <option value="">Select</option>
-                
-                {routes.map((route) => (
-                    <option key={route.id} value={route.id}>
-                        {/* {station.from} */}
-                        {route.to} to {route.from}
-                        {/* {route.route} */}
-                        
-                    </option>
+                {routesData.map((route) => (
+                  <option key={route.id} value={route.id}>
+                    {route.from} to {route.to}
+                  </option>
                 ))}
-            </select>
+              </select>
             </div>
             <div className="form-group">
               <label htmlFor="InputBusNo">Bus No</label>
               <input
-                
                 name="busNo"
                 className="form-control"
                 id="busno"
@@ -116,7 +134,6 @@ const AddBus = () => {
                 required
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="InputTotalSeats">Total Seats</label>
               <input
@@ -130,38 +147,37 @@ const AddBus = () => {
                 required
               />
             </div>
-
             <div className="form-group">
-              <label htmlFor="InputDate">Date</label>
-              <input
-                type="date"
-                name="date"
-                className="form-control"
-                id="date"
-                value={BusDetails.date}
-                onChange={handleChanges}
-                placeholder="Enter Date"
-                required
+              <label htmlFor="InputDate">Start Date</label>
+              <br/>
+              <DatePicker
+                name="startTime"
+                selected={selectedDate}
+                onChange={handleDateChange}
+                showTimeSelect
+                timeFormat="HH:mm:ss"
+                timeIntervals={15}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                timeCaption="Time"
+                value={selectedDate}
               />
             </div>
-
             <div className="form-group">
-              <label htmlFor="InputTime">Time</label>
-              <input
-                type="time"
-                name="time"
-                className="form-control"
-                id="time"
-                value={BusDetails.time}
-                onChange={handleChanges}
-                placeholder="Enter Time"
-                required
+              <label htmlFor="InputDate">End Date</label>
+              <br/>
+              <DatePicker
+                name="endTime"
+                selected={endDate}
+                onChange={handleEndData}
+                showTimeSelect
+                timeFormat="HH:mm:ss"
+                timeIntervals={15}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                timeCaption="Time"
+                value={endDate}
               />
             </div>
-
-            
             <br/>
-
             <button
               type="button"
               onClick={busData}
@@ -170,9 +186,6 @@ const AddBus = () => {
               Add Bus
             </button>
           </form>
-        </div>
-        <div className="col-md-6 text-right">
-          {/* <AllRoutes /> */}
         </div>
       </div>
       <ToastContainer />
