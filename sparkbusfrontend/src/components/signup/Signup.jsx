@@ -6,18 +6,20 @@ import Header from "../Header";
 import Footer from "../Footer";
 
 const Signup = () => {
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "",
-    age: "",
-    mobile: "",
-    email: "",
-    password: "",
-  });
-  // console.log(data,"next")
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
+
+	const [data, setData] = useState({
+		firstName: "",
+		lastName: "",
+		gender: "",
+		age: "",
+		mobilenumber: "",
+		email: "",
+		password: "",
+	});
+	console.log(data,"second");
+	console.log(data,"next")
+	const [error, setError] = useState("");
+	const [msg, setMsg] = useState("");
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });

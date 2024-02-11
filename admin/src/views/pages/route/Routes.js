@@ -3,27 +3,46 @@ import axios from "axios";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-// import api_ip from "../commonapi";
+import { axiosInst } from "src/axiosInstance";
 
 function AllRoutes() {
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    // axios
-    //   .get(`${api_ip}/route/allroutes`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     setRoutes(res.data); // Update the state with the response data
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    // Fetch routes data when the component mounts
+    axiosInst
+      .get("/route/allroutes",{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setRoutes(res.data); // Update the state with the response data
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []); // Add an empty dependency array to run the effect only once on component mount
 
   // Handle delete action
   const handleDelete = async (routeId) => {
-    // Add logic to delete the route
-    console.log("Delete route with ID:", routeId);
+    try {
+      // Send a delete request to the server
+      console.log('====================================');
+      console.log(routeId);
+      console.log('====================================');
+      await axiosInst.delete(`/route/deleteroute/${routeId}`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+    });
+      // Filter out the deleted route from the state
+      setRoutes(routes.filter((route) => route.id !== routeId));
+      console.log("Route deleted successfully.");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

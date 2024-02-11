@@ -7,8 +7,8 @@ const Routes = React.lazy(() => import('./views/pages/route/Routes'))
 
 
 const Bikes = React.lazy(() => import('./views/pages/buses/Buses'))
-const EditBike = React.lazy(() => import('./views/pages/editBus/EditBus'))
-const AddBike = React.lazy(() => import('./views/pages/addBus/AddBus'))
+const AllBus = React.lazy(() => import('./views/pages/editBus/allBuses'))
+const AddBus = React.lazy(() => import('./views/pages/addBus/AddBus'))
 
 const Payments = React.lazy(() => import('./views/pages/payments/Payments'))
 const ViewBooking = React.lazy(() => import('./views/pages/viewBooking/ViewBooking'))
@@ -29,8 +29,8 @@ const routes = [
 
 
   { path: '/pages/Bikes', name: 'Bikes', element: Bikes },
-  { path: '/pages/editBike', name: 'EditBike', element: EditBike },
-  { path: '/pages/addBike', name: 'AddBike', element: AddBike },
+  { path: '/pages/allBuses', name: 'allBuses', element: AllBus },
+  { path: '/pages/addBus', name: 'AddBus', element: AddBus },
 
   { path: '/pages/payments', name: 'Payments', element: Payments },
   { path: '/pages/viewBooking', name: 'ViewBooking', element: ViewBooking },
