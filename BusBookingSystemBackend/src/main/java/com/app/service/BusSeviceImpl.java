@@ -1,17 +1,25 @@
 package com.app.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.BusDao;
 import com.app.dao.RouteDao;
 import com.app.dao.StationDao;
 import com.app.dto.ApiResponse;
+import com.app.dto.GetBusDto;
+import com.app.dto.SendBusDto;
 import com.app.entities.Bus;
 import com.app.entities.Routes;
+import com.app.entities.Station;
 
 @Service
 @Transactional
@@ -51,58 +59,97 @@ public class BusSeviceImpl implements BusService {
 
 
 	@Override
-	public ApiResponse removeBus(int busNo) {
-		Bus bd = busDao.findByBusNo(busNo).orElseThrow(()->new RuntimeException("bus details not found."));
-		busDao.delete(bd);
-		return new ApiResponse("bus details deleted");
+	public ResponseEntity<?> removeBus(long busId) {
+	    try {
+	        Optional<Bus> optionalBus = busDao.findById(busId);
+	        if (optionalBus.isPresent()) {
+	            Bus bus = optionalBus.get();
+	            busDao.delete(bus);
+	            return new ResponseEntity<>("Bus removed successfully", HttpStatus.OK);
+	        } else {
+	            return new ResponseEntity<>("Bus not found", HttpStatus.NOT_FOUND);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>("Failed to remove bus", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 
-	//@Override
-	/*public List<SendBusDto> getBus(GetBusDto g) {
-		
-		List<Routes> list = routeDao.findAll();
-		
-		Station from = stationDao.findById(g.getFrom()).orElseThrow(()->new RuntimeException("Start Station not found."));
-		
-		Station to = stationDao.findById(g.getTo()).orElseThrow(()->new RuntimeException("Destination Station not found."));
-		
-//		list.stream().filter(e -> e.getStation_id_boarding() == from && 
-//				e.getStation_id_destination() == to ).forEach(e->System.out.println(e.getDistance()*2));
-		
-		List<Routes> l= list.stream().filter(e -> e.getStation_id_boarding() == from && 
-				e.getStation_id_destination() == to ).collect(Collectors.toList());
-		
-		List<Bus> buses = busDao.findByRoute(l.get(0));
-		
-		List<SendBusDto> sendBusDtoList = new ArrayList<SendBusDto>();
-		
-		for (Bus bus : buses) {
-			int cost = (int)l.get(0).getDistance()*2;
-			double d = (double)l.get(0).getDistance()*1.5;
-			String duration;
-			if(d>=60) {
-				duration = String.valueOf(d/60)+"hr";
-			}
-			else {
-				duration = String.valueOf(d)+"min";
-			}
-			
-			String from1 = from.getStation_name();
-			String to1 = to.getStation_name();
-			int seats = seat.getAvailable_seats();
-			SendBusDto sendbusobj = new SendBusDto(bus.getId(),from1, to1, cost, seats,duration);
-			sendBusDtoList.add(sendbusobj);
-		}
-		
-		System.out.println(sendBusDtoList.get(0).getCost());
-		
-     	System.out.println("In get bus service");
-//		System.out.println(buses.get(0).getBusNo());
-//		Routes s = routeDao.findByBoardingAndDestination(g.getFrom(), g.getTo());
-//		System.out.println(r.toString());
-		
-		return sendBusDtoList;
+	
+	@Override
+	public List<SendBusDto> getBuses(GetBusDto getBusInput) {
+	    // Get all routes
+	    List<Routes> allRoutes = routeDao.findAll();
+	    // Get from station
+	    Station from = stationDao.findById(getBusInput.getFrom())
+	            .orElseThrow(() -> new RuntimeException("Start Station not found."));
+	    // Get to station
+	    Station to = stationDao.findById(getBusInput.getTo())
+	            .orElseThrow(() -> new RuntimeException("Destination Station not found."));
+	    // Find route (which includes from -> to)
+	    List<Routes> matchingRoutes = allRoutes.stream()
+	            .filter(e -> e.getStationIdBoarding() == from && e.getStationIdDestination() == to)
+	            .collect(Collectors.toList());
+
+	    if (matchingRoutes.isEmpty()) {
+	        // No routes found between the specified stations
+	        return List.of();
+	    }
+
+	    Routes route = matchingRoutes.get(0);
+
+	    // Get the list of buses from the route
+	    List<Bus> buses = route.getBuses();
+
+	    // Filter buses based on the provided date
+	    List<Bus> filteredBuses = buses.stream()
+	            .filter(bus -> bus.getStartTime().toLocalDate().isEqual(getBusInput.getDate()))
+	            .collect(Collectors.toList());
+	    // Prepare and return the list of SendBusDto objects
+	    return filteredBuses.stream()
+	            .map(bus -> {
+	                int cost = (int) route.getDistance() * 2;
+	                double duration = (double) route.getDistance() * 1.5;
+	                String durationString = duration >= 60 ? (duration / 60) + "hr" : duration + "min";
+	                String fromName = from.getStationName();
+	                String toName = to.getStationName();
+	                return new SendBusDto(bus.getId(), fromName, toName, cost, durationString);
+	            })
+	            .collect(Collectors.toList());
 	}
 
-	*/
+	
+	
+	
+
+	public List<SendBusDto> getAllBuses() {
+	    // Retrieve all buses
+	    List<Bus> buses = busDao.findAll();
+
+	    // Prepare and return the list of SendBusDto objects
+	    return buses.stream()
+	            .map(bus -> {
+	                // Assuming the route information is available in the Bus entity
+	                Routes route = bus.getRoute();
+	                if (route == null) {
+	                    // If the route information is not available, handle it accordingly
+	                    throw new RuntimeException("Route information not available for bus with ID: " + bus.getId());
+	                }
+	                int cost = (int) route.getDistance() * 2;
+	                double duration = (double) route.getDistance() * 1.5;
+	                String durationString = duration >= 60 ? (duration / 60) + "hr" : duration + "min";
+	                Station from = route.getStationIdBoarding();
+	                Station to = route.getStationIdDestination();
+	                String fromName = from != null ? from.getStationName() : "Unknown";
+	                String toName = to != null ? to.getStationName() : "Unknown";
+	                return new SendBusDto(bus.getId(), fromName, toName, cost, durationString);
+	            })
+	            .collect(Collectors.toList());
+	}
+
+	
+	
+	
+	
+	
 }

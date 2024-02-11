@@ -75,15 +75,15 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Add Bus',
-    to: '/pages/addBike',
+    to: '/pages/addBus',
     icon: <FontAwesomeIcon icon={faBus}  className="nav-icon"/>,
   },
 
   
   {
     component: CNavItem,
-    name: 'Edit/Delete Buses',
-    to: '/pages/Bus',
+    name: 'All/Delete Buses',
+    to: '/pages/allBuses',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
 

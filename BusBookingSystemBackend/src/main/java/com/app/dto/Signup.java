@@ -1,5 +1,7 @@
 package com.app.dto;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -40,6 +42,10 @@ public class Signup {
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
+	
+	@JsonProperty(access=Access.READ_ONLY)
+	@Enumerated(EnumType.STRING)
+	private UserRole role=UserRole.ROLE_CUSTOMER;
 	
 	public Signup(String firstName, String lastName,
 			String email, String password, UserRole role) {
