@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ public class BusController {
 	@Autowired
 	private BusService busService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/addbus/{routeid}")
 	public ResponseEntity<?> addBus(@RequestBody BusDto busDto, @PathVariable long routeid) {
 
@@ -43,7 +45,7 @@ public class BusController {
 	}
 	
 
-	@PostMapping("/getbuses")
+	@GetMapping("/getbuses")
 	public List<SendBusDto> getBuses(@RequestBody GetBusDto gbd) {
 		return busService.getBuses(gbd);
 	}
@@ -59,7 +61,8 @@ public class BusController {
 	
 	
 
-	@DeleteMapping("/removebus/{busId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/deletebus/{busId}")
 	public ResponseEntity<?> removeBus(@PathVariable long busId) {
 	    return ResponseEntity.ok(busService.removeBus(busId));
 	}

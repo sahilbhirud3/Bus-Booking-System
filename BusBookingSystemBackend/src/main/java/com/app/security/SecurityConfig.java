@@ -41,6 +41,8 @@ public class SecurityConfig {
 						"/user/signup", "/user/signin", "/password-reset/reset", "/password-reset/request",
 						// station
 						"/station/getstations", "/station/deletestation",
+						//route
+						"/route/allroutes",
 						// bus
 						"/bus/getbuses","/bus/getallbuses", "/v*/api-doc*/**", "/swagger-ui/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().antMatchers("/products/add").hasRole("ADMIN")
