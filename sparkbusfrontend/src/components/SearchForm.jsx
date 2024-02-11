@@ -2,6 +2,7 @@ import React from "react";
 import "./SearchForm.css"
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
+import axios from "axios";
 
 
 function SearchForm() {
@@ -13,8 +14,14 @@ function SearchForm() {
   const fetchOptionsFromDatabase = async () => {
     try {
       // Make an API call to fetch options from the database
-      const response = await fetch('your_api_endpoint_here');
-      const data = await response.json();
+      // const response = await fetch('your_api_endpoint_here');
+      // const data = await response.json();
+      
+      console.log(localStorage.getItem("jwt"));
+      const token=localStorage.getItem("jwt");
+      const url = "https://localhost:7071/route/allroutes";
+      const data = await axios.get(url);
+      console.log(data);
 
       // Map the data to the format required by react-select
       const formattedOptions = data.map(option => ({
