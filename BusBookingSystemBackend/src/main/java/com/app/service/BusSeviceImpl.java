@@ -1,11 +1,14 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.BusDao;
@@ -56,12 +59,23 @@ public class BusSeviceImpl implements BusService {
 
 
 	@Override
-	public ApiResponse removeBus(int busNo) {
-		Bus bd = busDao.findByBusNo(busNo).orElseThrow(()->new RuntimeException("bus details not found."));
-		busDao.delete(bd);
-		return new ApiResponse("bus details deleted");
+	public ResponseEntity<?> removeBus(long busId) {
+	    try {
+	        Optional<Bus> optionalBus = busDao.findById(busId);
+	        if (optionalBus.isPresent()) {
+	            Bus bus = optionalBus.get();
+	            busDao.delete(bus);
+	            return new ResponseEntity<>("Bus removed successfully", HttpStatus.OK);
+	        } else {
+	            return new ResponseEntity<>("Bus not found", HttpStatus.NOT_FOUND);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>("Failed to remove bus", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 
+	
 	@Override
 	public List<SendBusDto> getBuses(GetBusDto getBusInput) {
 	    // Get all routes
@@ -84,11 +98,15 @@ public class BusSeviceImpl implements BusService {
 
 	    Routes route = matchingRoutes.get(0);
 
-	    // Find buses which run on the found route and are operational at the given date and time
-	    List<Bus> buses = busDao.findByRouteAndOperational(route, getBusInput.getDate());
+	    // Get the list of buses from the route
+	    List<Bus> buses = route.getBuses();
 
+	    // Filter buses based on the provided date
+	    List<Bus> filteredBuses = buses.stream()
+	            .filter(bus -> bus.getStartTime().toLocalDate().isEqual(getBusInput.getDate()))
+	            .collect(Collectors.toList());
 	    // Prepare and return the list of SendBusDto objects
-	    return buses.stream()
+	    return filteredBuses.stream()
 	            .map(bus -> {
 	                int cost = (int) route.getDistance() * 2;
 	                double duration = (double) route.getDistance() * 1.5;
@@ -100,5 +118,38 @@ public class BusSeviceImpl implements BusService {
 	            .collect(Collectors.toList());
 	}
 
+	
+	
+	
+
+	public List<SendBusDto> getAllBuses() {
+	    // Retrieve all buses
+	    List<Bus> buses = busDao.findAll();
+
+	    // Prepare and return the list of SendBusDto objects
+	    return buses.stream()
+	            .map(bus -> {
+	                // Assuming the route information is available in the Bus entity
+	                Routes route = bus.getRoute();
+	                if (route == null) {
+	                    // If the route information is not available, handle it accordingly
+	                    throw new RuntimeException("Route information not available for bus with ID: " + bus.getId());
+	                }
+	                int cost = (int) route.getDistance() * 2;
+	                double duration = (double) route.getDistance() * 1.5;
+	                String durationString = duration >= 60 ? (duration / 60) + "hr" : duration + "min";
+	                Station from = route.getStationIdBoarding();
+	                Station to = route.getStationIdDestination();
+	                String fromName = from != null ? from.getStationName() : "Unknown";
+	                String toName = to != null ? to.getStationName() : "Unknown";
+	                return new SendBusDto(bus.getId(), fromName, toName, cost, durationString);
+	            })
+	            .collect(Collectors.toList());
+	}
+
+	
+	
+	
+	
 	
 }

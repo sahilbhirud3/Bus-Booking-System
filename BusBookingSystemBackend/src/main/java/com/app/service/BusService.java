@@ -2,6 +2,8 @@ package com.app.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.app.dto.ApiResponse;
 import com.app.dto.GetBusDto;
 import com.app.dto.SendBusDto;
@@ -12,8 +14,10 @@ public interface BusService {
 	
 	ApiResponse addBus(Bus bus,long routeid);
 	
-	ApiResponse removeBus(int busNo);
+	ResponseEntity<?> removeBus(long busId);
 	
 	List<SendBusDto> getBuses(GetBusDto gbd);
+	
+	List<SendBusDto> getAllBuses();
 
 }
