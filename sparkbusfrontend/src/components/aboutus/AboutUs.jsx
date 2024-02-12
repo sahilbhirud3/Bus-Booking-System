@@ -1,7 +1,7 @@
 import React from 'react';
 import './AboutUs.css'; // Import your CSS file
 import Header from "../Header";
-import Footer from "../Footer";
+import Footer from "../footer/Footer";
 import sahil from "../images/sahil.jpg"
 
 function AboutUs() {

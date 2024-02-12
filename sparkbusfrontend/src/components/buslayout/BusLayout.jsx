@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './BusLayout.css'; // Import your CSS file
 import Header from '../Header';
-import Footer from '../Footer';
+import Footer from '../footer/Footer';
 import { MdOutlineChair } from "react-icons/md";
 
 function BusLayout() {
