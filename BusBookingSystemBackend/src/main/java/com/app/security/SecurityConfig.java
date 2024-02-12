@@ -44,7 +44,11 @@ public class SecurityConfig {
 						//route
 						"/route/allroutes",
 						// bus
-						"/bus/getbuses","/bus/getallbuses", "/v*/api-doc*/**", "/swagger-ui/**")
+						"/bus/getbuses","/bus/getallbuses", 
+						//bookings
+						"/bookings/book","/bookings/getbookings/{userid}","/bookings/getbooking/{bookingId}",
+						//other
+						"/v*/api-doc*/**", "/swagger-ui/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().antMatchers("/products/add").hasRole("ADMIN")
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -60,7 +64,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001", "http://localhost:3002"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://localhost:3001", "http://localhost:3002"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);

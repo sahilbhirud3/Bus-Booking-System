@@ -24,8 +24,7 @@ import lombok.ToString;
 public class Bookings extends Base {
 
  
-    private LocalDateTime bookingDateTime;
-
+   
     @ManyToOne
     private User user; // User Relationship
     
@@ -33,8 +32,11 @@ public class Bookings extends Base {
     private Bus bus; // Bus Relationship
 
 
-    private double fare;
+    private double  fare;
     
+    
+    private LocalDateTime bookingDateTime;
+
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatAllocation> seatList = new ArrayList<>();
 
