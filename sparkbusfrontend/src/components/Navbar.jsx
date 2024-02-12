@@ -6,16 +6,8 @@ import { CgProfile } from "react-icons/cg";
 import "./Navbar.css";
 
 function Navbar() {
-  // Sample user data (replace with actual data fetched from backend)
-  const [userData, setUserData] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    age: 30
-  });
-
   // Assume you have a state to manage the JWT token
   const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwt'));
-  const [showProfileCard, setShowProfileCard] = useState(false);
 
   // Function to handle logout
   const handleLogout = () => {
@@ -44,20 +36,12 @@ function Navbar() {
             <IoNotificationsSharp className='notification-icon'/>
           </button>
           {/* Conditional rendering based on authentication status */}
-          {jwtToken ?  (
+          {jwtToken ? (
             <>
-            <button className="login-button" onClick={handleLogout}>Logout</button>
-              <button className="profile-button" onClick={() => setShowProfileCard(!showProfileCard)}>
+              <button className="login-button" onClick={handleLogout}>Logout</button>
+              <button className="profile-button">
                 <CgProfile className='profile-icon'/>
               </button>
-              {showProfileCard && (
-                <div className="profile-card">
-                  <h4>{userData.firstName} {userData.lastName}</h4>
-                  <p>Age: {userData.age}</p>
-                  <Link to="/history" className="history-button">History</Link>
-                </div>
-              )}
-              
             </>
           ) : (
             <Link to="/login" className="login-button">Login</Link>
