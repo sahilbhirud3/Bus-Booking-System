@@ -35,6 +35,7 @@ const Signup = () => {
       // Assuming response.data contains the response body
 	  // 
       console.log(response.data.message);
+      
       setMsg(response.data.message);
     } catch (error) {
       if (
