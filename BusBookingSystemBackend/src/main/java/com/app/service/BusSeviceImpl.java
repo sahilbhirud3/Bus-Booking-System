@@ -34,8 +34,11 @@ public class BusSeviceImpl implements BusService {
 	@Autowired
 	private StationDao stationDao;
 	
-	
-	
+	@Override
+	public Bus getBusById(long busId) {
+        return busDao.findById(busId)
+                .orElse(null); // Returns null if bus is not found
+    }
 	
 	
 	@Override

@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.BookingsDao;
@@ -61,7 +62,6 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public ApiResponse addBooking(BookingsDto booking) {
-
 	    // Retrieve user and bus entities
 	    User user = userDao.findById(booking.getUserId())
 	            .orElseThrow(() -> new RuntimeException("User Not found"));
@@ -75,8 +75,14 @@ public class BookingServiceImpl implements BookingService {
 	    newBooking.setBus(bus);
 	    newBooking.setFare(booking.getFare());
 
-	    // Iterate through seat-passenger list to save passengers and seat allocations
+	    // Iterate through seat-passenger list to save passengers and validate seat allocations
 	    for (SeatPassengerDto seatPassenger : booking.getSeatPassengerList()) {
+	        int seatNo = seatPassenger.getSeatNo();
+	        // Check if the seat is already allocated
+	        boolean isSeatAllocated = seatAllocationDao.existsByBusAndSeatNo(bus, seatNo);
+	        if (isSeatAllocated) {
+	            return new ApiResponse("Seat " + seatNo + " is already allocated.", HttpStatus.BAD_REQUEST);
+	        }
 	        // Map DTO to entity for passenger
 	        Passenger passenger = mapDtoToEntity(seatPassenger.getPassenger());
 	        // Save the passenger entity
@@ -84,7 +90,7 @@ public class BookingServiceImpl implements BookingService {
 
 	        // Create seat allocation for the booking
 	        SeatAllocation seatAllocation = new SeatAllocation();
-	        seatAllocation.setSeatNo(seatPassenger.getSeatNo());
+	        seatAllocation.setSeatNo(seatNo);
 	        seatAllocation.setPassenger(savedPassenger);
 	        seatAllocation.setBooking(newBooking);
 	        seatAllocation.setBus(bus);
@@ -92,17 +98,17 @@ public class BookingServiceImpl implements BookingService {
 	        newBooking.addSeat(seatAllocation);
 	    }
 
-	    
 	    // Save the new booking entity
 	    Bookings savedBooking = bookingDao.save(newBooking);
 
 	    // Check if the booking was successfully saved
 	    if (savedBooking != null) {
-	        return new ApiResponse("Booking Successful.");
+	        return new ApiResponse("Booking Successful.", HttpStatus.CREATED);
 	    } else {
-	        return new ApiResponse("Failed to add booking.");
+	        return new ApiResponse("Failed to add booking.", HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
+
 
 	@Override
 	public List<GetBookingDto> getAllBookings(long userid) throws RuntimeException {

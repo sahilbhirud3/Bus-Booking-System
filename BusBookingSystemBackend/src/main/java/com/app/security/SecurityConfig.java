@@ -45,6 +45,8 @@ public class SecurityConfig {
 						"/route/allroutes",
 						// bus
 						"/bus/getbuses","/bus/getallbuses", 
+						//seats
+						"/seats/bus/{busId}",
 						//bookings
 						"/bookings/book","/bookings/getbookings/{userid}","/bookings/getbooking/{bookingId}",
 						//other

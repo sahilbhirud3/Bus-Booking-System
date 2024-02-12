@@ -12,6 +12,7 @@ import com.app.entities.Bus;
 
 public interface BusService {
 	
+	 Bus getBusById(long busId);
 	ApiResponse addBus(Bus bus,long routeid);
 	
 	ResponseEntity<?> removeBus(long busId);
