@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 import Header from "../Header";
 import Footer from "../Footer";
+import { ToastContainer, toast } from "react-toastify";
 
 const Signup = () => {
 
@@ -16,8 +17,8 @@ const Signup = () => {
 		email: "",
 		password: "",
 	});
-	console.log(data,"second");
-	console.log(data,"next")
+	// console.log(data,"second");
+	// console.log(data,"next")
 	const [error, setError] = useState("");
 	const [msg, setMsg] = useState("");
 
@@ -35,8 +36,9 @@ const Signup = () => {
       // Assuming response.data contains the response body
 	  // 
       console.log(response.data.message);
-      
       setMsg(response.data.message);
+      // toast.success("user added successfully.");
+      alert("submitted successfully")
     } catch (error) {
       if (
         error.response &&
@@ -59,13 +61,16 @@ const Signup = () => {
         console.error("Error:", error.message);
         setError("An unexpected error occurred. Please try again later.");
       }
+      // toast.error("invalid options")
     }
-
+ 
+    // toast.success("user added serror.");
   };
 
   return (
     <>
       <Header />
+          {/* <ToastContainer /> */}
       <div className={styles.signup_container}>
         <div className={styles.signup_form_container}>
           <div className={styles.left}>

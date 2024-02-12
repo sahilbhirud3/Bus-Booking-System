@@ -70,3 +70,66 @@
     font-size: 18px;
     font-weight: bold;
   }
+  /* styles.css */
+
+/* Style for the container of the date picker */
+.date-picker-container {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Style for the date picker input field */
+.react-datepicker-wrapper {
+  display: inline-block;
+}
+
+/* Style for the date picker input field */
+.react-datepicker__input-container input {
+  width: 620px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Style for the date picker calendar */
+.react-datepicker {
+  font-family: Arial, sans-serif;
+  border-radius: 4px;
+}
+
+/* Style for the date picker calendar header */
+.react-datepicker__header {
+  background-color: #007bff;
+  color: #fff;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+/* Style for the date picker selected date */
+.react-datepicker__day--selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Style for the date picker day */
+.react-datepicker__day {
+  padding: 8px;
+}
+
+/* Style for the time select dropdown */
+.react-datepicker__time-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Style for the time select option */
+.react-datepicker__time-list-item {
+  padding: 8px;
+}
+
+/* Style for the time select option when hovered */
+.react-datepicker__time-list-item:hover {
+  background-color: #007bff;
+  color: #fff;
+}
