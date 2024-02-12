@@ -25,13 +25,6 @@ public class Passenger extends Base{
 	private String gender;
 	private int age;
 	
-	
-	
-	
-	
-			
-			
-			
-	
+
 
 }
