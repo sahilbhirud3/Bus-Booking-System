@@ -20,7 +20,11 @@ function SearchForm() {
       console.log(localStorage.getItem("jwt"));
       const token=localStorage.getItem("jwt");
       const url = "https://localhost:7071/route/allroutes";
-      const data = await axios.get(url);
+      const data = await axios.get(url, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+    });
       console.log(data);
 
       // Map the data to the format required by react-select
