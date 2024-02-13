@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 import Header from "../Header";
 import Footer from "../Footer";
+import { axiosInst } from "../../axiosInstance";
 // import { axiosInst } from "src/axiosInstance";
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
@@ -16,11 +17,8 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "https://localhost:7071/user/signin";
-			const  res  = await axios.post(url, data);
-			
-			localStorage.setItem("jwtToken", res.data.jwt);	
-			// console.log(localStorage.getItem("jwtToken"));
+			const res=await axiosInst.post("/user/signin",data)
+            localStorage.setItem("jwtToken", res.data.jwt);	
 			window.location = "/";
 		} catch (error) {
 			if (

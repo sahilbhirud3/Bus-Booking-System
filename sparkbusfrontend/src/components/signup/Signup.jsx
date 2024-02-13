@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import Header from "../Header";
 import Footer from "../Footer";
 import { ToastContainer, toast } from "react-toastify";
+import { axiosInst } from "../../axiosInstance";
 
 const Signup = () => {
 
@@ -30,11 +31,8 @@ const Signup = () => {
     e.preventDefault();
     console.log(data);
     try {
-      const url = "https://localhost:7071/user/signup";
-      const response = await axios.post(url, data);
-
-      // Assuming response.data contains the response body
-	  // 
+      const response=await axiosInst.post("/user/signup",data)
+    
       console.log(response.data.message);
       setMsg(response.data.message);
       // toast.success("user added successfully.");
