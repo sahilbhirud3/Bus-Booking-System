@@ -3,6 +3,7 @@ package com.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import com.app.dto.BusDto;
 import com.app.dto.GetBusDto;
 import com.app.dto.SendBusDto;
 import com.app.entities.Bus;
+import com.app.entities.SeatAllocation;
 import com.app.service.BusService;
 
 @RestController
@@ -45,7 +47,7 @@ public class BusController {
 	}
 	
 
-	@GetMapping("/getbuses")
+	@PostMapping("/getbuses")
 	public List<SendBusDto> getBuses(@RequestBody GetBusDto gbd) {
 		return busService.getBuses(gbd);
 	}
@@ -60,7 +62,10 @@ public class BusController {
 	
 	
 	
-
+	
+	
+	
+	
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/deletebus/{busId}")
 	public ResponseEntity<?> removeBus(@PathVariable long busId) {

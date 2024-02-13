@@ -24,16 +24,26 @@ public class BookingsController {
     private BookingService bookingService;
 
     @PostMapping("/book")
-    public ResponseEntity<?> addBookings(@RequestBody  BookingsDto booking) {
-        ApiResponse createdBooking = bookingService.addBooking(booking);
-        return new ResponseEntity<>(createdBooking, HttpStatus.CREATED);
+    public ResponseEntity<?> addBookings(@RequestBody BookingsDto booking) {
+        ApiResponse response = bookingService.addBooking(booking);
+        if (response.getStatus() == HttpStatus.CREATED) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(response.getMessage());
+        } else {
+            return ResponseEntity.status(response.getStatus()).body(response.getMessage());
+        }
     }
+
     
     @GetMapping("/getbookings/{userid}")
     public ResponseEntity<?> getAllBookings(@PathVariable long userid){
-    	System.out.println("INside booking"+userid);
+//    	System.out.println("INside booking"+userid);
     	return ResponseEntity.ok(bookingService.getAllBookings(userid));
     }
+    
+    
+    
+    
+    
     @GetMapping("/getbooking/{bookingId}")
     public ResponseEntity<?> getBookingDetails(@PathVariable long bookingId) {
         try {
