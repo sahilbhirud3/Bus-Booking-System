@@ -130,6 +130,7 @@ public class BookingServiceImpl implements BookingService {
 
 			Bus bus = booking.getBus();
 			GetBookingDto bookingDto = new GetBookingDto();
+			bookingDto.setId(booking.getId());
 			bookingDto.setBusNo(bus.getBusNo());
 			bookingDto.setFrom(bus.getRoute().getStationIdBoarding().getStationName());
 			bookingDto.setTo(bus.getRoute().getStationIdDestination().getStationName());

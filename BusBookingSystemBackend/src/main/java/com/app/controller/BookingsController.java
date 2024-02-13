@@ -36,9 +36,14 @@ public class BookingsController {
     
     @GetMapping("/getbookings/{userid}")
     public ResponseEntity<?> getAllBookings(@PathVariable long userid){
-    	System.out.println("INside booking"+userid);
+//    	System.out.println("INside booking"+userid);
     	return ResponseEntity.ok(bookingService.getAllBookings(userid));
     }
+    
+    
+    
+    
+    
     @GetMapping("/getbooking/{bookingId}")
     public ResponseEntity<?> getBookingDetails(@PathVariable long bookingId) {
         try {
