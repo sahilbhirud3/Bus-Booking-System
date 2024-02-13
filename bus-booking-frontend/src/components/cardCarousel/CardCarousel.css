@@ -1,0 +1,25 @@
+
+.custom-carousel {
+    margin-top: 20px;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 0 auto;
+    width: 300px; /* Adjust card width as needed */
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: #000000; /* Customize carousel control icons */
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 50px; /* Customize carousel control width */
+    height: 50px; /* Customize carousel control height */
+  }
+  

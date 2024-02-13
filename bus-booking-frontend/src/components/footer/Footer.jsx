@@ -1,6 +1,7 @@
 // React Component
 
-import { SiSparkfun, SiInstagram, SiFacebook, SiGithub, SiLinkedin, SiTwitter, SiGoogle } from "react-icons/si";
+import {  SiInstagram, SiFacebook, SiGithub, SiLinkedin, SiTwitter, SiGoogle } from "react-icons/si";
+import { FaBus } from "react-icons/fa";
 import './Footer.css';
 
 export default function App() {
@@ -33,7 +34,7 @@ export default function App() {
       <section className="footer_section footer_content">
         <div className="footer_content-container">
           <h6 className="footer_content-heading">
-            <SiSparkfun/>
+            <FaBus/>&nbsp;
             SPARK Bus
           </h6>
           <p className="footer_content-paragraph">
@@ -45,9 +46,9 @@ export default function App() {
 
       <div className="footer_copyright">
         © 2023 Copyright:
-        <a className="footer_content-link" href="https://mdbootstrap.com/">
+        
           SparkBus
-        </a>
+        
       </div>
     </footer>
   );
