@@ -4,9 +4,11 @@ import Header from '../Header';
 import Footer from '../footer/Footer';
 import { MdOutlineChair } from "react-icons/md";
 
+import { axiosInst } from "../../axiosInstance";
+
 function BusLayout() {
   // Sample data for seats (replace with data from backend)
-  const totalSeats = 40;
+  const totalSeats = 20;
   const unavailableSeats = [3, 6, 9]; // Example unavailable seats
 
   // State to store selected seats
@@ -61,6 +63,29 @@ function BusLayout() {
     }
     return seats;
   };
+
+  const fetchBusDetails = () => {
+    //"bus/getbuses"
+    ///seats/bus/1
+    axiosInst
+    
+      .get("/bus/getallbuses", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        // setStationList(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching stations:", error);
+      });
+  };
+
+  useEffect(()=>{
+    fetchBusDetails();
+  },[])
 
   return (
     <>

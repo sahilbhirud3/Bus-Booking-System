@@ -2,42 +2,31 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import axios from "axios";
 import { axiosInst } from "../axiosInstance";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 function SearchForm() {
   const [stationList, setStationList] = useState([]);
-  const [routeData, setRouteData] = useState({
-    stationIdFrom: "",
-    stationIdTo: "",
-    distance: 0,
-  });
+  const [selectedFromStation, setSelectedFromStation] = useState(null);
+  const [selectedToStation, setSelectedToStation] = useState(null);
+  //const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
 
-  const handleFromChange = (selectedOption) => {
-    if (selectedOption) {
-      setRouteData((prevData) => ({
-        ...prevData,
-        stationIdFrom: selectedOption.value,
-      }));
-    } else {
-      setRouteData((prevData) => ({
-        ...prevData,
-        stationIdFrom: "",
-      }));
-    }
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setShowCalendar(false); // Hide the calendar after selecting a date
   };
 
-  const handleToChange = (selectedOption) => {
-    if (selectedOption) {
-      setRouteData((prevData) => ({
-        ...prevData,
-        stationIdTo: selectedOption.value,
-      }));
-    } else {
-      setRouteData((prevData) => ({
-        ...prevData,
-        stationIdTo: "",
-      }));
-    }
+  const toggleCalendar = () => {
+    setShowCalendar(!showCalendar); // Toggle the visibility of the calendar
   };
+  useEffect(() => {
+    fetchStationList();
+  }, []);
 
   const fetchStationList = () => {
     axiosInst
@@ -54,68 +43,123 @@ function SearchForm() {
       });
   };
 
-  useEffect(() => {
-    fetchStationList();
-  }, []);
+  const handleFromChange = (selectedOption) => {
+    setSelectedFromStation(selectedOption);
+    setFilteredToOptions(
+      stationList.filter((station) => station.id !== selectedOption.value)
+    );
+  };
+
+  const handleToChange = (selectedOption) => {
+    setSelectedToStation(selectedOption);
+  };
+
+  const [filteredToOptions, setFilteredToOptions] = useState(stationList);
+
+  const search = () => {
+    // Handle search functionality
+    console.log("Searching...");
+    console.log(selectedFromStation.value);
+    console.log(selectedToStation.value);
+      // Create the request body
+      const requestBody = {
+        from: selectedFromStation.value,
+        to: selectedToStation.value,
+        date: selectedDate.toLocaleDateString("en-CA") // Format the date as "yyyy-mm-dd"
+      };
+    
+      // Make the API call to /bus/getbuses
+      axiosInst
+        .post("/bus/getbuses", requestBody)
+        .then((response) => {
+          // Handle the API response
+          console.log("Buses:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching buses:", error);
+        });
+    
+  };
 
   return (
     <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-4">
-          <label htmlFor="from">
-            <b>From:</b>
-          </label>
-          <Select
-            name="stationIdFrom"
-            onChange={handleFromChange}
-            value={
-              stationList.find(
-                (station) => station.id === routeData.stationIdFrom
-              ) || ""
-            }
-            placeholder="Enter station"
-            options={stationList.map((station) => ({
-              value: station.id,
-              label: station.station_name,
-            }))}
-          />
-        </div>
+  <div className="row" style={{ paddingTop: "60px" }}>
+    <div className="col-md-4">
+      <label htmlFor="from">
+        <b>From:</b>
+      </label>
+      <Select
+        value={selectedFromStation}
+        onChange={handleFromChange}
+        options={stationList.map((station) => ({
+          value: station.id,
+          label: station.station_name,
+        }))}
+        placeholder="Search or Select..."
+        isSearchable={true}
+      />
+    </div>
 
-        <div className="col-md-4">
-          <label htmlFor="to">
-            <b>To:</b>
-          </label>
-          <Select
-            aria-label="Default select example"
-            name="stationIdTo"
-            onChange={handleToChange}
-            value={
-              stationList.find(
-                (station) => station.id === routeData.stationIdTo
-              ) || ""
-            }
-            placeholder="Enter station"
-            options={stationList.map((station) => ({
-              value: station.id,
-              label: station.station_name,
-            }))}
-          />
-        </div>
+    <div className="col-md-4">
+      <label htmlFor="to">
+        <b>To:</b>
+      </label>
+      <Select
+        value={selectedToStation}
+        onChange={handleToChange}
+        options={filteredToOptions.map((station) => ({
+          value: station.id,
+          label: station.station_name,
+        }))}
+        placeholder="Search or Select..."
+        isSearchable={true}
+      />
+    </div>
 
-        <div className="col-md-4">
-          <label htmlFor="from">
-            <b>Date:</b>
-          </label>
-          <input type="date" name="dateofbirth" id="dateofbirth" />
-        </div>
-
-        <div className="col-md-4">
-          <button type="button" className="btn btn-primary mb-2">
-            Search
-          </button>
-        </div>
+    <div className="col-md-4">
+      <label htmlFor="date">
+        <b>Date:</b>
+      </label>
+      <br />
+      <div style={{ position: "relative" }}>
+        <input
+          className="form-control"
+          type="text"
+          value={selectedDate.toLocaleDateString("en-CA")}
+          onClick={toggleCalendar}
+          readOnly
+        />
+        {showCalendar && (
+          <div
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              zIndex: 999,
+              backgroundColor: "#fff",
+              boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Calendar onChange={handleDateChange} value={selectedDate} minDate={new Date()} />
+          </div>
+        )}
       </div>
     </div>
+  </div>
+
+  <div className="row justify-content-center mt-3">
+    <div className="col-md-4 text-center">
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        onClick={search}
+      >
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 }
 

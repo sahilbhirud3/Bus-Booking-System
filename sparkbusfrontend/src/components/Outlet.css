@@ -1,6 +1,7 @@
 .outlet_container {
-    margin-top: 200px; /* Adjust according to header's height */
-  }
+  margin: 200px 0; /* Adjust according to header's height */
+  padding-top: 100px;  
+}
   
   .background_image {
     height: 400px; /* Adjust height as needed */
@@ -11,6 +12,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    
+    border: 10px solid #3bb19b;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    margin: 20px;
   }
   
   .card_container {
