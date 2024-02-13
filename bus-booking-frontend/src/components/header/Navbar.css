@@ -1,0 +1,172 @@
+/* 
+   .custom-navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: #3bb19b;
+    padding: 5px 0;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+  }
+  
+  .custom-navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 5%;
+  }
+  
+  .custom-navbar-left {
+    width: 40%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 30px;
+    padding: 30px;
+  }
+  
+  .dashboard-button, .team-button {
+    margin: 0 20px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .custom-navbar-center {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .custom-navbar-right {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .notification-button, .login-button, .profile-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .logo-bus{
+    font-size: 50px;
+  }
+  .notification-button{
+    font-size: 30px;
+    margin-top: 10px;
+  }
+  .profile-button{
+    font-size: 40px;
+    margin-top: 10px;
+  }
+  .SpaceContainer{
+    width: 5%;
+  } */
+
+
+  .custom-navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: #3bb19b;
+    padding: 5px 0;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+  }
+ 
+  .custom-navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 5%;
+  }
+  
+  .custom-navbar-left {
+    width: 40%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 30px;
+    padding: 30px;
+  }
+  
+  .dashboard-button, .team-button {
+    margin: 0 20px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .custom-navbar-center {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .custom-navbar-right {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .notification-button, .login-button, .profile-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .logo-bus {
+    font-size: 50px;
+  }
+  
+  .notification-button {
+    font-size: 30px;
+    margin-top: 10px;
+  }
+  
+  .profile-button {
+    font-size: 40px;
+    margin-top: 10px;
+  }
+
+  
+  /* Profile Card Styles */
+  .profile-card {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+  }
+  
+  .profile-card h4 {
+    margin-bottom: 5px;
+  }
+  
+  .profile-card p {
+    margin: 0;
+  }
+  
+  .profile-card .history-button {
+    display: block;
+    margin-top: 10px;
+    color: #3bb19b;
+    text-decoration: none;
+  }
+  
