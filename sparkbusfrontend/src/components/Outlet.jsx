@@ -1,6 +1,7 @@
 import React from 'react'
 import SearchForm from './SearchForm'
 import Login from './login/Login'
+import BusDetailsCard from './busdetailscard/BusDetailsCard'
 
 function Outlet() {
   return (
@@ -28,6 +29,8 @@ function Outlet() {
     India's No. 1 Online Bus Ticket Booking Site
     </p>
     {/* <Login></Login> */}
+
+    <BusDetailsCard/>
     
     </>
   )

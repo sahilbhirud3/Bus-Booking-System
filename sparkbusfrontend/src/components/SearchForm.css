@@ -10,6 +10,7 @@
   
   /* custom styles */
   body {
+    margin-top: 160px;
     padding-top: auto;
     background: #e5e5e5;
     font: 13px/1.4 Geneva, 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
