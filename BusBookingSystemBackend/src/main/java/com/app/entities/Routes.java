@@ -35,8 +35,8 @@ public class Routes extends Base{
     @OneToMany(mappedBy = "route",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Bus> buses;
     
-    @OneToMany(mappedBy = "routes",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<Bookings> routes;
+//    @OneToMany(mappedBy = "routes",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+//    private List<Bookings> routes;
     
     public void addBus(Bus p) {
 		buses.add(p); //parent to child reln
@@ -50,17 +50,17 @@ public class Routes extends Base{
 		p.setRoute(null);
 	}
 	
-	public void addBooking(Bookings b) {
-		routes.add(b); //parent to child reln
-		b.setRoutes(this);//child to parent reln
-	}
-	
-	
-	
-	public void removeBus(Bookings b) {
-		routes.remove(b);
-		b.setRoutes(null);
-	}
+//	public void addBooking(Bookings b) {
+//		routes.add(b); //parent to child reln
+//		b.setRoutes(this);//child to parent reln
+//	}
+//	
+//	
+//	
+//	public void removeBus(Bookings b) {
+//		routes.remove(b);
+//		b.setRoutes(null);
+//	}
 
 
 

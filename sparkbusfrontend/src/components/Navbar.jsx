@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { IoMdBus } from "react-icons/io";
+import { IoNotificationsSharp } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 import { IoMdBus } from "react-icons/io";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import "./Navbar.css";
 
 function Navbar() {
+  // Assume you have a state to manage the JWT token
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwt'));
+
+  // Function to handle logout
+  const handleLogout = () => {
+    // Perform logout actions (e.g., clear authentication token, reset state, etc.)
+    localStorage.removeItem('jwt'); // Remove token from localStorage
+    setJwtToken(null); // Update token state
+  };
   // Assume you have a state to manage the JWT token
   const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwt'));
 
@@ -22,6 +35,11 @@ function Navbar() {
         <div className="custom-navbar-left">
           <div className="logo">
             <IoMdBus className='logo-bus'/>
+    <nav className="custom-navbar">
+      <div className="custom-navbar-container">
+        <div className="custom-navbar-left">
+          <div className="logo">
+            <IoMdBus className='logo-bus'/>
           </div>
           <h3>SPARK BUS</h3>
           <div className='SpaceContainer'/>
@@ -30,11 +48,27 @@ function Navbar() {
         </div>
         <div className="custom-navbar-center">
           {/* No content in the center */}
+        <div className="custom-navbar-center">
+          {/* No content in the center */}
         </div>
         <div className="custom-navbar-right">
           <button className="notification-button">
             <IoNotificationsSharp className='notification-icon'/>
+        <div className="custom-navbar-right">
+          <button className="notification-button">
+            <IoNotificationsSharp className='notification-icon'/>
           </button>
+          {/* Conditional rendering based on authentication status */}
+          {jwtToken ? (
+            <>
+              <button className="login-button" onClick={handleLogout}>Logout</button>
+              <button className="profile-button">
+                <CgProfile className='profile-icon'/>
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="login-button">Login</Link>
+          )}
           {/* Conditional rendering based on authentication status */}
           {jwtToken ? (
             <>

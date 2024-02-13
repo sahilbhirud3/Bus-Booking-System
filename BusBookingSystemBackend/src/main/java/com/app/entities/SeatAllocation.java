@@ -1,14 +1,8 @@
 package com.app.entities;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.ManyToAny;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,25 +16,18 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class SeatAllocation extends Base {
-	
+
+//	private LocalDate dateOfJourney;
 
 	@ManyToOne
 	private Bookings booking;
 
-	@Column(unique = true)
 	private int seatNo;
-	
-	@OneToOne
-	private  Passenger passenger;
-	private LocalDate dateOfJourney;
-	
-	
-	
-	
-	
-	
 
+	@OneToOne
+	private Passenger passenger;
 	
-	
-	
+	@ManyToOne
+	private Bus bus;
+
 }
