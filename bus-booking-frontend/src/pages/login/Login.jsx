@@ -62,6 +62,8 @@ const Login = () => {
 						<button type="submit" className={styles.green_btn}>
 							Sign In
 						</button>
+				<Link to="/forgot-password">Forgot Password?</Link><br />
+				<Link to="/change-password">Change Password?</Link>
 					</form>
 				</div>
 				<div className={styles.right}>

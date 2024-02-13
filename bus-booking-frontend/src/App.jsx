@@ -6,6 +6,8 @@ import Signup from './pages/signup/Signup';
 import AboutUs from './pages/aboutus/AboutUs';
 import BusLayout from './components/buslayout/BusLayout';
 import Home from './pages/home/Home';
+import ForgotPassword from './pages/forgotpass/ForgotPassword';
+import ChangePassword from './pages/changepass/ChangePassword';
 function App() {
   return (
     
@@ -17,6 +19,8 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/buslayout' element={<BusLayout />} />
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
+        <Route path='/change-password' element={<ChangePassword/>}/>
         </Route>
         {/* <Route path='/seatselection' element={<BusSeats />} /> */}
         {/* Add more routes here */}
