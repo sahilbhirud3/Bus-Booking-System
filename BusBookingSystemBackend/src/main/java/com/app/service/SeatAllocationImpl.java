@@ -9,9 +9,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.dao.BusDao;
 import com.app.dao.SeatAllocationDao;
+import com.app.dto.BusSeatBookings;
 import com.app.dto.SeatNoAndPassengerDto;
+import com.app.entities.Bus;
 import com.app.entities.Passenger;
+import com.app.entities.Routes;
 import com.app.entities.SeatAllocation;
 
 @Service
@@ -21,6 +25,8 @@ public class SeatAllocationImpl implements SeatAllocationService{
 	@Autowired
 	private SeatAllocationDao seatAllocationDao;
 	
+	@Autowired
+	private BusDao busDao;
 	
 	
 	public List<Integer> getSeatNumbersByBus(long busId) {
@@ -35,18 +41,32 @@ public class SeatAllocationImpl implements SeatAllocationService{
         return seatNumbers;
     }
 
-	 public List<SeatNoAndPassengerDto> getPassengerListWithSeatNoForBus(long busId) {
-	        List<SeatAllocation> seatAllocations = seatAllocationDao.findByBusId(busId);
-	        List<SeatNoAndPassengerDto> seatNoAndPassengerDto = new ArrayList<>();
+	public BusSeatBookings getPassengerListWithSeatNoForBus(long busId) {
+	    List<SeatAllocation> seatAllocations = seatAllocationDao.findByBusId(busId);
+	    Bus bus = busDao.findById(busId).orElseThrow(()->new RuntimeException("Bus Not Found")); // Fetch bus information
 
-	        for (SeatAllocation seatAllocation : seatAllocations) {
-	            Passenger passenger = seatAllocation.getPassenger();
-	            int seatNo = seatAllocation.getSeatNo();
-	            seatNoAndPassengerDto.add(new SeatNoAndPassengerDto(seatNo,passenger));
-	        }
+	    BusSeatBookings busSeatBookings = new BusSeatBookings();
+	    busSeatBookings.setBusNo(bus.getBusNo());
+	    busSeatBookings.setTotalSeats(bus.getTotalSeats());
+	    busSeatBookings.setStartTime(bus.getStartTime());
+	    busSeatBookings.setEndTime(bus.getEndTime());
 
-	        return seatNoAndPassengerDto;
+	    Routes route = bus.getRoute();
+	    busSeatBookings.setFrom(route.getStationIdBoarding().getStationName());
+	    busSeatBookings.setTo(route.getStationIdDestination().getStationName());
+
+	    List<SeatNoAndPassengerDto> seatNoAndPassengerDtoList = new ArrayList<>();
+
+	    for (SeatAllocation seatAllocation : seatAllocations) {
+	        Passenger passenger = seatAllocation.getPassenger();
+	        int seatNo = seatAllocation.getSeatNo();
+	        seatNoAndPassengerDtoList.add(new SeatNoAndPassengerDto(seatNo, passenger));
 	    }
-	
+
+	    busSeatBookings.setSeatList(seatNoAndPassengerDtoList);
+
+	    return busSeatBookings;
+	}
+
 	
 }

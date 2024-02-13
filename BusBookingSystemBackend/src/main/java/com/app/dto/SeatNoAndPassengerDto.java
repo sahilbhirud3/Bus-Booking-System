@@ -17,6 +17,7 @@ import lombok.Setter;
 
 public class SeatNoAndPassengerDto {
 
+	
 	private int seatNo;
 	private Passenger passenger;
     

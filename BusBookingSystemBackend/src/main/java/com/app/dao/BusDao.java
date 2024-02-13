@@ -15,7 +15,7 @@ import com.app.entities.Routes;
 public interface BusDao extends JpaRepository<Bus, Long>{
 	
 	Optional<Bus> findByBusNo(int busNo);
-	
+	Optional<Bus> findById(long Id);
 	List<Bus> findByRoute(Routes r);
 	Optional<Bus> findByBusNoAndStartTime(int busNo,LocalDate date);
 
