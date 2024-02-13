@@ -17,3 +17,17 @@
 .form-control {
   width: 100%; /* Make the input fields fill the entire column width */
 }
+.gif-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.gif {
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+}
+
+
+
