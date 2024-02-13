@@ -49,6 +49,8 @@ public class SecurityConfig {
 						"/seats/bus/{busId}",
 						//bookings
 						"/bookings/book","/bookings/getbookings/{userid}","/bookings/getbooking/{bookingId}",
+						//seatAllocation
+						"/passenger/bus/{busId}/seat-list",
 						//other
 						"/v*/api-doc*/**", "/swagger-ui/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().antMatchers("/products/add").hasRole("ADMIN")

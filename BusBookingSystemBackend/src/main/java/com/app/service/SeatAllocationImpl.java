@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.SeatAllocationDao;
+import com.app.dto.SeatNoAndPassengerDto;
+import com.app.entities.Passenger;
 import com.app.entities.SeatAllocation;
 
 @Service
@@ -32,6 +35,18 @@ public class SeatAllocationImpl implements SeatAllocationService{
         return seatNumbers;
     }
 
+	 public List<SeatNoAndPassengerDto> getPassengerListWithSeatNoForBus(long busId) {
+	        List<SeatAllocation> seatAllocations = seatAllocationDao.findByBusId(busId);
+	        List<SeatNoAndPassengerDto> seatNoAndPassengerDto = new ArrayList<>();
+
+	        for (SeatAllocation seatAllocation : seatAllocations) {
+	            Passenger passenger = seatAllocation.getPassenger();
+	            int seatNo = seatAllocation.getSeatNo();
+	            seatNoAndPassengerDto.add(new SeatNoAndPassengerDto(seatNo,passenger));
+	        }
+
+	        return seatNoAndPassengerDto;
+	    }
 	
 	
 }

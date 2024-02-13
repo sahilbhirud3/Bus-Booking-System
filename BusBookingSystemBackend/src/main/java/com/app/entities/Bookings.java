@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,9 @@ import lombok.ToString;
 @ToString
 public class Bookings extends Base {
 
+	
+	@Version
+    private int version;//used for optimistic locking
  
    
     @ManyToOne
