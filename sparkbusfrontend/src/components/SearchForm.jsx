@@ -1,138 +1,122 @@
-import React from "react";
-import "./SearchForm.css"
-import { useState, useEffect } from 'react';
-import Select from 'react-select';
-
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import axios from "axios";
+import { axiosInst } from "../axiosInstance";
 
 function SearchForm() {
-  // State to manage the selected option and options fetched from the database
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [options, setOptions] = useState([]);
+  const [stationList, setStationList] = useState([]);
+  const [routeData, setRouteData] = useState({
+    stationIdFrom: "",
+    stationIdTo: "",
+    distance: 0,
+  });
 
-  // Function to fetch options from the database
-  const fetchOptionsFromDatabase = async () => {
-    try {
-      // Make an API call to fetch options from the database
-      const response = await fetch('your_api_endpoint_here');
-      const data = await response.json();
-
-      // Map the data to the format required by react-select
-      const formattedOptions = data.map(option => ({
-        value: option.value,
-        label: option.label
+  const handleFromChange = (selectedOption) => {
+    if (selectedOption) {
+      setRouteData((prevData) => ({
+        ...prevData,
+        stationIdFrom: selectedOption.value,
       }));
-
-      // Update the options state with the fetched options
-      setOptions(formattedOptions);
-    } catch (error) {
-      console.error('Error fetching options:', error);
+    } else {
+      setRouteData((prevData) => ({
+        ...prevData,
+        stationIdFrom: "",
+      }));
     }
   };
 
-  // Fetch options when the component mounts
-  useEffect(() => {
-    fetchOptionsFromDatabase();
-  }, []);
-
-  // Function to handle option selection
-  const handleSelectChange = selectedOption => {
-    setSelectedOption(selectedOption);
+  const handleToChange = (selectedOption) => {
+    if (selectedOption) {
+      setRouteData((prevData) => ({
+        ...prevData,
+        stationIdTo: selectedOption.value,
+      }));
+    } else {
+      setRouteData((prevData) => ({
+        ...prevData,
+        stationIdTo: "",
+      }));
+    }
   };
 
+  const fetchStationList = () => {
+    axiosInst
+      .get("/station/getstations", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        setStationList(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching stations:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchStationList();
+  }, []);
+
   return (
-    <><div className="container mt-5">
+    <div className="container mt-5">
       <div className="row">
         <div className="col-md-4">
           <label htmlFor="from">
             <b>From:</b>
           </label>
           <Select
-            options={options} // Pass fetched options to the dropdown
-            value={selectedOption} // Set the selected option
-            onChange={handleSelectChange} // Handle option change event
-            isSearchable // Enable searching
-            placeholder="Type to search..." // Placeholder text
+            name="stationIdFrom"
+            onChange={handleFromChange}
+            value={
+              stationList.find(
+                (station) => station.id === routeData.stationIdFrom
+              ) || ""
+            }
+            placeholder="Enter station"
+            options={stationList.map((station) => ({
+              value: station.id,
+              label: station.station_name,
+            }))}
           />
-          {/* Display selected option */}
-          {selectedOption && <p>Selected Option: {selectedOption.label}</p>}
-          
-      </div>
-
-      <div className="col-md-4">
-        <label htmlFor="to">
-          <b>To:</b>
-        </label>
-        <Select
-            options={options} // Pass fetched options to the dropdown
-            value={selectedOption} // Set the selected option
-            onChange={handleSelectChange} // Handle option change event
-            isSearchable // Enable searching
-            placeholder="Type to search..." // Placeholder text
-          />
-      </div>
-
-      <div className="col-md-4">
-        <label htmlFor="from">
-          <b>Date:</b>
-        </label>
-
-        <input type="date" name="dateofbirth" id="dateofbirth"></input>
-      </div>
-      <div className="col-md-4">
-        <button
-          //onClick={getBuses}
-          type="button"
-          className="btn btn-primary mb-2"
-        >
-          Search
-        </button>
-      </div>
-    </div>
-      {/* <ToastContainer /> */}
-      <div className="row mt-4">
-        {/* {buses.map((e) => {
-      return (
-        <div className="col-md-4" key={e.id}>
-          <BusComp data={e} />
         </div>
-      );
-    })} */}
+
+        <div className="col-md-4">
+          <label htmlFor="to">
+            <b>To:</b>
+          </label>
+          <Select
+            aria-label="Default select example"
+            name="stationIdTo"
+            onChange={handleToChange}
+            value={
+              stationList.find(
+                (station) => station.id === routeData.stationIdTo
+              ) || ""
+            }
+            placeholder="Enter station"
+            options={stationList.map((station) => ({
+              value: station.id,
+              label: station.station_name,
+            }))}
+          />
+        </div>
+
+        <div className="col-md-4">
+          <label htmlFor="from">
+            <b>Date:</b>
+          </label>
+          <input type="date" name="dateofbirth" id="dateofbirth" />
+        </div>
+
+        <div className="col-md-4">
+          <button type="button" className="btn btn-primary mb-2">
+            Search
+          </button>
+        </div>
       </div>
     </div>
-
-
-
-    <div class="card">
-    <div class="card-content">
-      <div class="data-row">
-        <span>Image here</span>
-        <div class="data-text">John Doe</div>
-      </div>
-      <div class="data-row">
-        <span>I,age</span>
-        <div class="data-text">john.doe@example.com</div>
-      </div>
-    </div>
-    </div>
-      </>
   );
 }
 
 export default SearchForm;
-
-// const Select = () => {
-//      return (
-//           <Form.Group controlId="custom-select">
-//                <Form.Label>Customized Select</Form.Label>
-//                <Form.Control as="select" className="rounded-0 shadow">
-//                     <option className="d-none" value="">
-//                          Select Option
-//                     </option>
-//                     {["1", "2", "3", "4", "5"].map(option => (
-//                          <option key={option}>Option {option}</option>
-//                     ))}
-//                </Form.Control>
-//           </Form.Group>
-//      );
-// };
-// export default Select;

@@ -5,6 +5,8 @@ import Layout from './components/Layout';
 import Login from './components/login/Login';
 import Signup from './components/signup/Signup';
 import AboutUs from './components/aboutus/AboutUs';
+//import BusSeats from './components/seatselection/Seats';
+import BusLayout from './components/buslayout/BusLayout';
 
 
 function App() {
@@ -19,7 +21,8 @@ function App() {
         <Route path='/aboutus' element={<AboutUs/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup/>}/>
-
+        <Route path='/buslayout' element={<BusLayout/>}/>
+        {/* <Route path='/seatselection' element={<BusSeats/>}/> */}
 
       </Routes>
    </Router>

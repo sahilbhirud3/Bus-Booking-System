@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 import Header from "../Header";
 import Footer from "../Footer";
-
+// import { axiosInst } from "src/axiosInstance";
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
@@ -16,9 +16,11 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/api/auth";
-			const { data: res } = await axios.post(url, data);
-			localStorage.setItem("token", res.data);
+			const url = "https://localhost:7071/user/signin";
+			const  res  = await axios.post(url, data);
+			
+			localStorage.setItem("jwtToken", res.data.jwt);	
+			// console.log(localStorage.getItem("jwtToken"));
 			window.location = "/";
 		} catch (error) {
 			if (
@@ -59,7 +61,7 @@ const Login = () => {
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
 						<button type="submit" className={styles.green_btn}>
-							Sing In
+							Sign In
 						</button>
 					</form>
 				</div>
@@ -67,7 +69,7 @@ const Login = () => {
 					<h1>New Here ?</h1>
 					<Link to="/signup">
 						<button type="button" className={styles.white_btn}>
-							Sing Up
+							Sign Up
 						</button>
 					</Link>
 				</div>
