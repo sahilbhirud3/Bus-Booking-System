@@ -7,14 +7,17 @@ import "./Navbar.css";
 
 function Navbar() {
   // Assume you have a state to manage the JWT token
-  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwt'));
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
 
   // Function to handle logout
   const handleLogout = () => {
-    // Perform logout actions (e.g., clear authentication token, reset state, etc.)
-    localStorage.removeItem('jwt'); // Remove token from localStorage
-    setJwtToken(null); // Update token state
-  };
+    if (window.confirm("Confirm Logout!")) {
+        // Perform logout actions (e.g., clear authentication token, reset state, etc.)
+        localStorage.removeItem('jwtToken'); // Remove token from localStorage
+        setJwtToken(null); // Update token state
+    }
+};
+
 
   return (
     <nav className="custom-navbar">

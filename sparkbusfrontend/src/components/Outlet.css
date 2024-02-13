@@ -1,6 +1,7 @@
 .outlet_container {
-  margin: 100px 0; /* Adjust according to header's height */
-  }
+  margin: 200px 0; /* Adjust according to header's height */
+  padding-top: 100px;  
+}
   
   .background_image {
     height: 400px; /* Adjust height as needed */

@@ -8,7 +8,7 @@ import { axiosInst } from "../../axiosInstance";
 
 function BusLayout() {
   // Sample data for seats (replace with data from backend)
-  const totalSeats = 40;
+  const totalSeats = 20;
   const unavailableSeats = [3, 6, 9]; // Example unavailable seats
 
   // State to store selected seats
