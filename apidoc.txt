@@ -1,0 +1,38 @@
+POST  /user/signup
+
+{
+  "firstName": "chaitanya",
+  "lastName": "bhavar",
+  "email": "chaitanyabhavar2021@gmail.com",
+  "mobile": "9579213171",
+  "age": 24,
+  "gender": "Male",
+  "password": "chaitanya123"
+}
+
+response
+{
+  "id": 4,
+  "firstName": "chaitanya",
+  "lastName": "bhavar",
+  "email": "chaitanyabhavar2021@gmail.com",
+  "mobile": "9579213171",
+  "age": 24,
+  "gender": "Male"
+}
+===================================================
+POST   /user/signin
+{
+  "email": "chaitanyabhvar2021@gmail.com",
+  "password": "chaitanya123"
+}
+
+
+response
+{
+  "jwt": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFpdGFueWFiaGF2YXIyMDIxQGdtYWlsLmNvbSIsImlhdCI6MTcwNzU4NTk0OSwiZXhwIjoxNzA3NjcyMzQ5LCJhdXRob3JpdGllcyI6IlJPTEVfQ1VTVE9NRVIifQ.ucpJRH0C_xwTu80SHaEQPQVff9eDz3OBRw6-xyVLiaA9uWEOw50DniDSsO2cPx_KL3xbEi3-N-pppyCkPXHz2g",
+  "mesg": "Successful Authentication!!!"
+}
+
+===============================================================
+POST    /station/addstation

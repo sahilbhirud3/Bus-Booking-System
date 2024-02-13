@@ -25,24 +25,6 @@ public class Passenger extends Base{
 	private String gender;
 	private int age;
 	
-	@ManyToOne
-	private User user;
-	
-	@OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true,fetch =FetchType.EAGER )
-	private List<Bookings> bookings;
-	
-	//adding Booking in passenger
-			public void addBooking(Bookings b) {
-				bookings.add(b); //parent to child reln
-				b.setPassenger(this);//child to parent reln
-			}
-			
-			
-			//removing Booking from user account
-			public void removeBooking(Bookings b) {
-				bookings.remove(b);
-				b.setPassenger(null);
-			}
-	
+
 
 }

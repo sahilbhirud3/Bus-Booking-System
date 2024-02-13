@@ -15,7 +15,7 @@ public class SendBusDto {
 	private String from;
 	private String to;
 	private int cost;
-	private int availableSeats;
+	//private int availableSeats;
 	private String duration;
 
 }

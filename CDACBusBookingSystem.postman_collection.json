@@ -1,0 +1,680 @@
+{
+	"info": {
+		"_postman_id": "ebf79132-b355-4642-b2bf-3ecb6727d821",
+		"name": "CDACBusBookingSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27059107"
+	},
+	"item": [
+		{
+			"name": "user/signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"raaj\",\n  \"lastName\": \"chimulkar\",\n  \"email\": \"raajchimulkar@gmail.com\",\n  \"mobile\": \"9765163728\",\n  \"age\": 24,\n  \"gender\": \"Male\",\n  \"password\": \"raaj123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user/signup",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"signup"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "user/signin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"sahilbhirud3@gmail.com\",\r\n  \"password\": \"sahil123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user/signin",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"signin"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "password-reset/request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/password-reset/request?email=sahilbhird3@gmail.com",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"password-reset",
+						"request"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "sahilbhird3@gmail.com"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "password-reset/reset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/password-reset/reset",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"password-reset",
+						"reset"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "station/addstation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"station_name\": \"Nashik\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/station/addstation",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"station",
+						"addstation"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "station/getstations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/station/getstations",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"station",
+						"getstations"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "station/deletestation/{stationId}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/station/deletestation/3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"station",
+						"deletestation",
+						"3"
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "route/addroute",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"stationIdFrom\": 1,\r\n  \"stationIdTo\": 2,\r\n  \"distance\": 700\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/route/addroute",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"route",
+						"addroute"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "route/allroute",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/route/allroutes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"route",
+						"allroutes"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "route/deleteroute/{routeid}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/route/deleteroute/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"route",
+						"deleteroute",
+						"2"
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "bus/addbus/{routeid}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"busNo\": \"MH15GF3423\",\r\n  \"totalSeats\": 30,\r\n  \"startTime\": \"2024-02-11T21:11:40.582Z\",\r\n  \"endTime\": \"2024-02-12T21:11:40.582Z\",\r\n  \"routeId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bus/addbus/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bus",
+						"addbus",
+						"1"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "bus/getallbuses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bus/getallbuses",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bus",
+						"getallbuses"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "bus/getbuses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"from\": 1,\r\n  \"to\": 2,\r\n  \"date\": \"2024-02-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bus/getbuses",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bus",
+						"getbuses"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "bus/deletebus/{busId}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWhpbGJoaXJ1ZDNAZ21haWwuY29tIiwiaWF0IjoxNzA3NjYyNDYwLCJleHAiOjE3MDc3NDg4NjAsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.BCpuYhV6R6EmnUXOEOPgPDs52jKtdIDBm_CIXuSfZdJZ0TdCqueTlls4QOJB31-NAgWHXgHkroZIiqHCRcr2wA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/bus/deletebus/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"bus",
+						"deletebus",
+						"1"
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://localhost:7071"
+		}
+	]
+}
