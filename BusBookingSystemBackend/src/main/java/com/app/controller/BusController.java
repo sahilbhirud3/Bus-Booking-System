@@ -47,7 +47,7 @@ public class BusController {
 	}
 	
 
-	@GetMapping("/getbuses")
+	@PostMapping("/getbuses")
 	public List<SendBusDto> getBuses(@RequestBody GetBusDto gbd) {
 		return busService.getBuses(gbd);
 	}
