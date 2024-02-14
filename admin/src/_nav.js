@@ -16,7 +16,7 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
-  cilBike,
+  cilBus,
   cilBank,
   cilBook,
   cilTask
