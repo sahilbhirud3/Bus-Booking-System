@@ -39,11 +39,8 @@ function Navbar() {
           
           {jwtToken ? (
             <>
-<<<<<<< HEAD
-              <button className="logout-button" onClick={handleLogout}>Logout</button>
-=======
+
              <Link className="login-button" onClick={handleLogout}> Logout</Link>
->>>>>>> 84f9686b1bf31abcc156dfaee948c91c957b6af7
               <button className="profile-button">
                 <CgProfile className='profile-icon'/>
               </button>

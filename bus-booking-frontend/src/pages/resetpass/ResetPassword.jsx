@@ -41,8 +41,6 @@ const ResetPassword = () => {
       const response = await axiosInst.post('/password-reset/reset', { token, password:confirmNewPassword });
       // Handle successful response
       if (response.status==200) {
-          setMessage(response.data,'Login with new password.');
-          // Show success toast
           toast.success(response.data,' Login with new password.');
       } else {
           // Show error toast

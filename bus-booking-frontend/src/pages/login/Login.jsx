@@ -13,7 +13,6 @@ const Login = () => {
     setData({ ...data, [input.name]: input.value });
   };
 
-<<<<<<< HEAD
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -30,28 +29,7 @@ const Login = () => {
 			}
 		}
 	};
-=======
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const url = "https://localhost:7071/user/signin";
-      const res = await axios.post(url, data);
->>>>>>> 84f9686b1bf31abcc156dfaee948c91c957b6af7
-
-      localStorage.setItem("jwtToken", res.data.jwt);
-      // console.log(localStorage.getItem("jwtToken"));
-      window.location = "/";
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
-      }
-    }
-  };
-
+ 
   return (
     <>
       <div className={styles.login_container}>
