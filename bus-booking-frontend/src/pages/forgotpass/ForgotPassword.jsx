@@ -2,9 +2,12 @@
 import { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import  "./forgotpass.css";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { axiosInst } from "../../service/axiosInstance";
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+
 //   const history = useHistory();
 
   const handleEmailChange = (e) => {
@@ -14,31 +17,17 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Call your backend API to initiate the password recovery process
-    try {
-      const response = await fetch('/api/forgot-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        setMessage('Password reset email sent. Check your inbox.');
-      } else {
-        const errorData = await response.json();
-        setMessage(errorData.message);
+    
+      try {
+        const response = await axiosInst.post('/password-reset/request', { email });
+        toast.success(response.data);
+      } catch (error) {
+        toast.error(error.response.data);
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setMessage('An error occurred while processing your request.');
-    }
+    
   };
 
-  const handleLoginClick = () => {
-    // history.push('/login');
-  };
+ 
 
   return (
     
@@ -50,9 +39,10 @@ const ForgotPassword = () => {
     <div className="forgot_password_right">
       <form onSubmit={handleSubmit}>
         <h1>Forgot Password</h1>
-        <label>Email:</label>
+        
         <input
           type="email"
+          placeholder='Enter your Registered Email Address'
           value={email}
           onChange={handleEmailChange}
           required
@@ -62,13 +52,14 @@ const ForgotPassword = () => {
           Reset Password
         </button>
       </form>
-      {message && <p>{message}</p>}
+      
       <p>
         Remember your password?{' '}
-        <span onClick={handleLoginClick}>Login</span>
+        <a href="/login">Login</a>
       </p>
     </div>
   </div>
+  <ToastContainer/>
 </div>
 
   );

@@ -5,7 +5,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CardCarousel from "../cardCarousel/CardCarousel";
-import BusAnimation from "../../assets/images/bus-animation-1.gif";
+
 function SearchForm() {
   const [stationList, setStationList] = useState([]);
   const [selectedFromStation, setSelectedFromStation] = useState(null);
@@ -71,7 +71,7 @@ function SearchForm() {
 
   return (
     <div className="container mt-5">
-      
+      <div>
         <div className="row" style={{ paddingTop: "60px" }}>
           <div className="col-md-4">
             <label htmlFor="from">
@@ -151,12 +151,9 @@ function SearchForm() {
             </button>
           </div>
         </div>
-
+</div>
         <CardCarousel />
-        {/* GIF at the right corner with background effect */}
-        <div className="gif-container">
-          <img src={BusAnimation} alt="GIF" className="gif" />
-        </div>
+ 
       
     </div>
   );

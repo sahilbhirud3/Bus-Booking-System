@@ -37,13 +37,13 @@ const Popovers = () => {
             </p>
             <DocsExample href="components/popover#four-directions">
               <CPopover
-                content="Vivamus sagittis lacus vel augue laoreet rutrum fauciBike."
+                content="Vivamus sagittis lacus vel augue laoreet rutrum fauciBus."
                 placement="top"
               >
                 <CButton color="secondary">Popover on top</CButton>
               </CPopover>
               <CPopover
-                content="Vivamus sagittis lacus vel augue laoreet rutrum fauciBike."
+                content="Vivamus sagittis lacus vel augue laoreet rutrum fauciBus."
                 placement="right"
               >
                 <CButton color="secondary">Popover on right</CButton>

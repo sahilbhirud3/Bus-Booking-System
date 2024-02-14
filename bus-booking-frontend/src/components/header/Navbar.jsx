@@ -30,9 +30,9 @@ function Navbar() {
           <Link to="/" className="dashboard-button">Dashboard</Link>
           <Link to="/buslayout" className="team-button">Team</Link>
         </div>
-        <div className="custom-navbar-center">
-          {/* No content in the center */}
-        </div>
+        {/* <div className="custom-navbar-center">
+         
+        </div> */}
         <div className="custom-navbar-right">
           <button className="notification-button">
             <IoNotificationsSharp className='notification-icon'/>
