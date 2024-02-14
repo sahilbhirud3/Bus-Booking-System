@@ -24,9 +24,10 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='/change-password' element={<ChangePassword/>}/>
         <Route path='/reset-password' element={<ResetPassword/>}/>
-        </Route>
         {/* <Route path='/seatselection' element={<BusSeats />} /> */}
         {/* Add more routes here */}
+        </Route>
+       
         <Route path='*' element={<NoMatch />} />
       </Routes>
     </BrowserRouter>

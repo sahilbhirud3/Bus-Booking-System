@@ -40,7 +40,7 @@ function Navbar() {
           {/* Conditional rendering based on authentication status */}
           {jwtToken ? (
             <>
-              <button className="login-button" onClick={handleLogout}>Logout</button>
+             <Link className="login-button" onClick={handleLogout}> Logout</Link>
               <button className="profile-button">
                 <CgProfile className='profile-icon'/>
               </button>

@@ -1,19 +1,26 @@
-import  { useState } from 'react';
-//import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import  { useState,useEffect } from 'react';
+import { useLocation} from 'react-router-dom';
 import styles from './styles.module.css'; // Import your CSS file
+import { axiosInst } from "../../service/axiosInstance";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const ChangePassword = () => {
-  //const [oldPassword, setOldPassword] = useState('');
+// eslint-disable-next-line react/prop-types
+const ResetPassword = () => {
+  const [token, setToken] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [message, setMessage] = useState('');
-  //const history = useHistory();
-
-//   const handleOldPasswordChange = (e) => {
-//     setOldPassword(e.target.value);
-//   };
-
+  const location = useLocation();
+  
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get('token');
+    if (token) {
+        setToken(token);
+    }
+    
+}, [location]);
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
   };
@@ -31,27 +38,22 @@ const ChangePassword = () => {
     }
 
     try {
-      const response = await axios.post('/api/change-password', {
-        //oldPassword,
-        newPassword,
-      });
-
-      if (response.data.success) {
-        setMessage('Password changed successfully.');
-        // Redirect to login or another page
-        // history.push('/login');
+      const response = await axiosInst.post('/password-reset/reset', { token, password:confirmNewPassword });
+      // Handle successful response
+      if (response.status==200) {
+          setMessage(response.data,'Login with new password.');
+          // Show success toast
+          toast.success(response.data,' Login with new password.');
       } else {
-        setMessage(response.data.message);
+          // Show error toast
+          toast.error("Something went wrong"+response.data);
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setMessage('An error occurred while processing your request.');
-    }
+  } catch (error) {
+      // Show error toast
+      toast.error('An error occurred while processing your request.');
+  }
   };
 
-//   const handleLoginClick = () => {
-//    // history.push('/login');
-//   };
 
   return (
     <div className={styles.change_password_container}>
@@ -62,15 +64,8 @@ const ChangePassword = () => {
         <div className={styles.change_password_right}>
           <form onSubmit={handleSubmit} className={styles.form_container}>
             
-            <h1>Change Password</h1>
-            {/* <label>Old Password:</label>
-            <input
-              type="password"
-              value={oldPassword}
-              onChange={handleOldPasswordChange}
-              required
-              className={styles.change_password_input}
-            /> */}
+            <h1>Set New Password</h1>
+            
             <label>New Password:</label>
             <input
               type="password"
@@ -92,14 +87,12 @@ const ChangePassword = () => {
               Set Password
             </button>
           </form>
-          {/* <p>
-            Remember your password?{' '}
-            <span onClick={handleLoginClick}>Login</span>
-          </p> */}
+          
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };
 
-export default ChangePassword;
+export default ResetPassword;
