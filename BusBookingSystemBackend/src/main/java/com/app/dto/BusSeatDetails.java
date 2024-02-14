@@ -23,5 +23,6 @@ public class BusSeatDetails {
     private String to;
     private LocalDateTime endTime; 
     private int totalSeats;
+    private double fare;
     List<Integer> bookedSeats=new ArrayList<>();
 }
