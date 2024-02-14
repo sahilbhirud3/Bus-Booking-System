@@ -47,7 +47,7 @@ public class EmailService {
     }
     private String getEmailContent(String username, String token) {
         
-        String resetUrl = basePath + "/reset?token=" + token;
+        String resetUrl = basePath + "/reset-password?token=" + token;
 
         return "<html><head><style>" +
         "body { font-family: Arial, sans-serif; }" +
