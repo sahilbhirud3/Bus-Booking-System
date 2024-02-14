@@ -1,0 +1,35 @@
+/* BusDetailsCard.css */
+
+.bus-details-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .bus-details-container > div {
+    margin-bottom: 8px;
+  }
+  
+  .bus-details-container p {
+    margin: 4px 0;
+  }
+  
+  .bus-details-container p b {
+    font-weight: bold;
+  }
+  
+  .book-now-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .book-now-button:hover {
+    background-color: #0056b3;
+  }
+  
+  

@@ -5,6 +5,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CardCarousel from "../cardCarousel/CardCarousel";
+import BusDetailsCard from "../busCard/BusDetailsCard";
 
 function SearchForm() {
   const [stationList, setStationList] = useState([]);
@@ -14,6 +15,7 @@ function SearchForm() {
     new Date(new Date().setHours(0, 0, 0, 0))
   );
   const [showCalendar, setShowCalendar] = useState(false);
+  const [bus,setBuses]=useState([])
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -62,12 +64,21 @@ function SearchForm() {
     axiosInst
       .post("/bus/getbuses", requestBody)
       .then((response) => {
-        console.log("Buses:", response.data);
+        // console.log("Buses:", response.data);
+        setBuses(response.data)
       })
       .catch((error) => {
         console.error("Error fetching buses:", error);
       });
   };
+  
+  const handleBookNow=(id)=>{
+ console.log(id,"//////////");
+ 
+  }
+  useEffect(()=>{
+ console.log(bus);
+  },[bus])
 
   return (
     <div className="container mt-5">
@@ -149,9 +160,28 @@ function SearchForm() {
             >
               Search
             </button>
+            
+            {/* <BusDetailsCard
+                from={bus.from}
+                to={bus.to}
+                duration={bus.duration}
+                fare={bus.fare}
+                // handleBookNow={handleBookNow}
+            /> */}
+            {bus.map(bus => (
+                <BusDetailsCard
+                    key={bus.id}
+                    from={bus.from}
+                    to={bus.to}
+                    duration={bus.duration}
+                    fare={bus.cost}
+                    handleBookNow={() => handleBookNow(bus.id)}
+                />
+            ))}
           </div>
         </div>
 </div>
+
         <CardCarousel />
  
       
