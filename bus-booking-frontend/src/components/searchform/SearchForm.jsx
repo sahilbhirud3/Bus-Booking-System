@@ -6,6 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CardCarousel from "../cardCarousel/CardCarousel";
 import BusDetailsCard from "../busCard/BusDetailsCard";
+import {useNavigate} from "react-router-dom"
 
 function SearchForm() {
   const [stationList, setStationList] = useState([]);
@@ -17,6 +18,7 @@ function SearchForm() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [bus,setBuses]=useState([])
 
+;  const navigate=useNavigate()
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setShowCalendar(false);
@@ -64,8 +66,9 @@ function SearchForm() {
     axiosInst
       .post("/bus/getbuses", requestBody)
       .then((response) => {
-        // console.log("Buses:", response.data);
+        console.log("Buses:", response.data);
         setBuses(response.data)
+
       })
       .catch((error) => {
         console.error("Error fetching buses:", error);
@@ -73,7 +76,8 @@ function SearchForm() {
   };
   
   const handleBookNow=(id)=>{
- console.log(id,"//////////");
+//  console.log(id,"//////////");
+  navigate(`/buslayout/${id}`)
  
   }
   useEffect(()=>{
