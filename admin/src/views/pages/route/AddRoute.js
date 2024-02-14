@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast,Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInst } from "src/axiosInstance";
 import '@coreui/coreui/dist/css/coreui.min.css';
@@ -148,7 +148,7 @@ const AddRoute = () => {
         </button>
     </form>
 </div>
-<ToastContainer />
+<Toaster toastOptions={{ duration: 4000 }} />
 
         </>
     );
