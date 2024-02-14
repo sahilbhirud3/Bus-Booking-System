@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.Signup;
+import com.app.entities.User;
 import com.app.security.JwtUtils;
 import com.app.service.UserService;
 
@@ -55,10 +56,11 @@ public class UserController {
 			Authentication verifiedAuth = mgr
 					.authenticate(new UsernamePasswordAuthenticationToken
 							(reqDTO.getEmail(), reqDTO.getPassword()));
-			System.out.println(verifiedAuth.getClass());// Custom user details
+			// Obtain userId from UserDetails
+			Long userId = ((User) verifiedAuth.getPrincipal()).getId();
 			// => auth success
 			return ResponseEntity
-					.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
+					.ok(new SigninResponse(userId,utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
 
 		}
 

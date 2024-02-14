@@ -42,7 +42,7 @@ public class SeatAllocationController {
 	    busSeatDetails.setTotalSeats(bus.getTotalSeats());
 	    seatNumbers.sort((o1,o2)->o1.compareTo(o2));
 	    busSeatDetails.setBookedSeats(seatNumbers);
-
+	    busSeatDetails.setFare(bus.getRoute().getDistance()*2);
 	    return ResponseEntity.ok(busSeatDetails);
 	}
 }

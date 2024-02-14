@@ -10,6 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SigninResponse {
+	private long id;
 	private String jwt;
 	private String mesg;
+	public SigninResponse(String jwt, String mesg) {
+		super();
+		this.jwt = jwt;
+		this.mesg = mesg;
+	}
+
+	
 }
