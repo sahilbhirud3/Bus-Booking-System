@@ -30,17 +30,16 @@ function Navbar() {
           <Link to="/" className="dashboard-button">Dashboard</Link>
           <Link to="/buslayout" className="team-button">Team</Link>
         </div>
-        {/* <div className="custom-navbar-center">
-         
-        </div> */}
+        
         <div className="custom-navbar-right">
           <button className="notification-button">
             <IoNotificationsSharp className='notification-icon'/>
           </button>
           {/* Conditional rendering based on authentication status */}
+          
           {jwtToken ? (
             <>
-              <button className="login-button" onClick={handleLogout}>Logout</button>
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
               <button className="profile-button">
                 <CgProfile className='profile-icon'/>
               </button>

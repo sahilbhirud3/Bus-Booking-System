@@ -1,9 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
-
-// import { ToastContainer, toast } from "react-toastify";
+import { axiosInst } from "../../service/axiosInstance";
+import { toast } from "react-toastify";
 
 const Signup = () => {
 
@@ -29,13 +29,15 @@ const Signup = () => {
     e.preventDefault();
     console.log(data);
     try {
-      const url = "https://localhost:7071/user/signup";
-      const response = await axios.post(url, data);
+      // const url = "https://localhost:7071/user/signup";
+      // const response = await axios.post(url, data);
+
+      const res = await axiosInst.post('user/signup', data);
 
       // Assuming response.data contains the response body 
-      console.log(response.data.message);
-      setMsg(response.data.message);
-      // toast.success("user added successfully.");
+      console.log(res.data.message);
+      setMsg(res.data.message);
+      toast.success("user added successfully.");
       alert("submitted successfully")
     } catch (error) {
       if (
@@ -59,10 +61,10 @@ const Signup = () => {
         console.error("Error:", error.message);
         setError("An unexpected error occurred. Please try again later.");
       }
-      // toast.error("invalid options")
+       toast.error("invalid options")
     }
  
-    // toast.success("user added serror.");
+     toast.success("user added successfully.");
   };
 
   return (
