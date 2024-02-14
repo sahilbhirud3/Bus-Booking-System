@@ -64,6 +64,8 @@ const Login = () => {
 						</button>
 				<Link to="/forgot-password">Forgot Password?</Link><br />
 				<Link to="/change-password">Change Password?</Link>
+				<Link to="/reset-password">Reset Password?</Link>
+
 					</form>
 				</div>
 				<div className={styles.right}>

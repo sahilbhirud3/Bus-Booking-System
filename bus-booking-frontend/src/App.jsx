@@ -8,6 +8,7 @@ import BusLayout from './components/buslayout/BusLayout';
 import Home from './pages/home/Home';
 import ForgotPassword from './pages/forgotpass/ForgotPassword';
 import ChangePassword from './pages/changepass/ChangePassword';
+import ResetPassword from './pages/resetpass/ResetPassword';
 function App() {
   return (
     
@@ -21,6 +22,7 @@ function App() {
         <Route path='/buslayout' element={<BusLayout />} />
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='/change-password' element={<ChangePassword/>}/>
+        <Route path='/reset-password' element={<ResetPassword/>}/>
         </Route>
         {/* <Route path='/seatselection' element={<BusSeats />} /> */}
         {/* Add more routes here */}
