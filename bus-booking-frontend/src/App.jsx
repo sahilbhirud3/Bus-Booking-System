@@ -9,6 +9,7 @@ import Home from './pages/home/Home';
 import ForgotPassword from './pages/forgotpass/ForgotPassword';
 import ChangePassword from './pages/changepass/ChangePassword';
 function App() {
+  
   return (
     
     <BrowserRouter>
