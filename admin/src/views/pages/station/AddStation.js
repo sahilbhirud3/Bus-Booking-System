@@ -63,7 +63,7 @@ const AddStation = () => {
         .then((response) => {
           console.log("Response:", response.data);
           if (response.data.message === "Station added Successfully") {
-            toast.success("Station added Successfully");
+            toast.success("Station added Successfully",{position:toast.POSITION.TOP_CENTER});
             // Clear station name after successful addition
             setStationName("");
             // Fetch stations again to update the list

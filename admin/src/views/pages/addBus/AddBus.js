@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast,Toaster } from "react-hot-toast";
 import { axiosInst } from "src/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
@@ -188,7 +188,7 @@ return (
           </form>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster toastOptions={{ duration: 4000 }} />
     </div>
   );
 };

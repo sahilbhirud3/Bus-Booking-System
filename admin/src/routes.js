@@ -5,8 +5,6 @@ const Stations = React.lazy(() => import('./views/pages/station/Stations'))
 const AddRoute = React.lazy(() => import('./views/pages/route/AddRoute'))
 const Routes = React.lazy(() => import('./views/pages/route/Routes'))
 
-
-const Bikes = React.lazy(() => import('./views/pages/buses/Buses'))
 const AllBus = React.lazy(() => import('./views/pages/editBus/allBuses'))
 const AddBus = React.lazy(() => import('./views/pages/addBus/AddBus'))
 
@@ -28,7 +26,7 @@ const routes = [
 
 
 
-  { path: '/pages/Bikes', name: 'Bikes', element: Bikes },
+
   { path: '/pages/allBuses', name: 'allBuses', element: AllBus },
   { path: '/pages/addBus', name: 'AddBus', element: AddBus },
 
