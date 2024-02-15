@@ -59,30 +59,43 @@ public class StationServiceImpl implements StationService {
 
 	@Override
 	public boolean deleteStationById(Long stationId) {
-	    try {
-	        if (stationDao.existsById(stationId)) {
-	            // If the station exists, attempt to delete it
-	            stationDao.deleteById(stationId);
-	            // Log a message indicating successful deletion
-	            System.out.println("Station with ID " + stationId + " deleted successfully.");
-	            return true;
-	        } else {
-	            // Log a message indicating that the station doesn't exist
-	            System.out.println("Station with ID " + stationId + " does not exist.");
-	            return false;
-	        }
-	    } catch (DataIntegrityViolationException e) {
-	        // Log the exception for debugging purposes
-	        e.printStackTrace();
-	        // Log a message indicating that the deletion failed due to a constraint violation
-	        System.out.println("Could not delete station with ID " + stationId + " due to a constraint violation.");
-	        return false;
-	    } catch (Exception e) {
-	        // Log the exception for debugging purposes
-	        e.printStackTrace();
-	        // Handle any other unexpected exceptions and return false
-	        return false;
-	    }
+		try {
+			if (stationDao.existsById(stationId)) {
+				// If the station exists, attempt to delete it
+				stationDao.deleteById(stationId);
+				// Log a message indicating successful deletion
+				System.out.println("Station with ID " + stationId + " deleted successfully.");
+				return true;
+			} else {
+				// Log a message indicating that the station doesn't exist
+				System.out.println("Station with ID " + stationId + " does not exist.");
+				return false;
+			}
+		} catch (DataIntegrityViolationException e) {
+			// Log the exception for debugging purposes
+			e.printStackTrace();
+			// Log a message indicating that the deletion failed due to a constraint
+			// violation
+			System.out.println("Could not delete station with ID " + stationId + " due to a constraint violation.");
+			return false;
+		} catch (Exception e) {
+			// Log the exception for debugging purposes
+			e.printStackTrace();
+			// Handle any other unexpected exceptions and return false
+			return false;
+		}
 	}
 
+	@Override
+	public Station updateStation(Station station) {
+		try {
+			return stationDao.save(station);
+		} catch (Exception e) {
+			// Log the exception for debugging purposes
+			e.printStackTrace();
+			// You can throw a custom exception or return null based on your application's
+			// logic
+			throw new RuntimeException("Error occurred while updating the station: " + e.getMessage());
+		}
+	}
 }

@@ -44,6 +44,11 @@
   min-height: 300px;
 }
 
+button[type='submit']:disabled {
+  background-color: #ccc; /* Change the background color to a shade of gray */
+  cursor: not-allowed; /* Change cursor to not-allowed when disabled */
+}
+
 /* Right Section */
 .right-section {
   width: 700px; /* Set a fixed width for the right section */
@@ -138,6 +143,7 @@ button[type='submit'] {
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button[type='submit']:hover {
