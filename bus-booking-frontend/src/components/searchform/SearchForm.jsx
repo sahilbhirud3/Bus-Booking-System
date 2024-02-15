@@ -4,6 +4,8 @@ import { axiosInst } from "../../service/axiosInstance";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CardCarousel from "../cardCarousel/CardCarousel";
 import BusDetailsCard from "../busCard/BusDetailsCard";
 import {useNavigate} from "react-router-dom"
@@ -16,9 +18,10 @@ function SearchForm() {
     new Date(new Date().setHours(0, 0, 0, 0))
   );
   const [showCalendar, setShowCalendar] = useState(false);
-  const [bus,setBuses]=useState([])
+  const [bus,setBuses]=useState([]);  
+  const [noBusesFound, setNoBusesFound] = useState(false);
+  const navigate=useNavigate()
 
-;  const navigate=useNavigate()
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setShowCalendar(false);
@@ -67,7 +70,15 @@ function SearchForm() {
       .post("/bus/getbuses", requestBody)
       .then((response) => {
         console.log("Buses:", response.data);
-        setBuses(response.data)
+        setBuses(response.data);
+        if (response.data.length === 0) {
+          setNoBusesFound(true);
+          toast.warning(
+            "Oops! You can try searching for another date..."
+          );
+        } else {
+          setNoBusesFound(false);
+        }
 
       })
       .catch((error) => {
@@ -164,6 +175,7 @@ function SearchForm() {
             >
               Search
             </button>
+            {noBusesFound && <p>Oops! We do not have any bus scheduled for given stations on that date</p>}
             {bus.map(bus => (
                 <BusDetailsCard
                     key={bus.id}
@@ -174,6 +186,10 @@ function SearchForm() {
                     handleBookNow={() => handleBookNow(bus.id)}
                 />
             ))}
+            <div className="container mt-5">
+      <ToastContainer />
+      {/* Rest of your component */}
+    </div>
           </div>
         </div>
 </div>

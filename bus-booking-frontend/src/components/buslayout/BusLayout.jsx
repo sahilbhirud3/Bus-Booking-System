@@ -4,17 +4,20 @@ import { MdOutlineChair } from "react-icons/md";
 import { axiosInst } from '../../service/axiosInstance';
 import { useParams } from 'react-router-dom';
 import './BusLayout.css'; // Import CSS file
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function BusLayout() {
   const [seats, setSeats] = useState([]);
   const [travelInfo, setTravelInfo] = useState({});
   const [bookingSuccess, setBookingSuccess] = useState(false); // State to track booking success
-
-  let totalSeats = 30;
-  
-  const { id } = useParams();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [passengerDetails, setPassengerDetails] = useState([]);
+  const [isPassengerDetailsFilled, setIsPassengerDetailsFilled] = useState(false);
+  let totalSeats = 30;
+  const { id } = useParams();
+  
 
   const handleSeatClick = (seatNumber) => {
     if (selectedSeats.includes(seatNumber)) {
@@ -27,10 +30,19 @@ function BusLayout() {
           ...prevDetails,
           { seatNumber, firstName: '', lastName: '', age: '', gender: '' }
         ]);
+      } else {
+        toast.error('Seat already booked', {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
   };
-
+  
   const handleInputChange = (event, seatNumber, fieldName) => {
     const { value } = event.target;
     setPassengerDetails(prevDetails =>
@@ -40,66 +52,80 @@ function BusLayout() {
     );
   };
  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if(!isPassengerDetailsFilled){
+      toast.error('Enter passenger details', {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+    })} else {
+      try {
+      
+        const payload = {
+          busId: id, // Assuming busId is a fixed value or it can come from state
+          userId: localStorage.getItem('id'), // Assuming userId comes from localStorage or state
+          fare: travelInfo.fare * passengerDetails.length, // Calculating fare based on the number of passengers and fare per passenger
+          seatPassengerList: passengerDetails.map((passenger) => ({
+            seatNo: passenger.seatNumber, // Assuming seat numbers start from 1
+            passenger: {
+              firstName: passenger.firstName,
+              lastName: passenger.lastName,
+              gender: passenger.gender,
+              age: passenger.age
+            }
+          }))
+        };
+        
+        const response = await axiosInst.post('/bookings/book', payload);
   
-  const convertToValidTimeFormat = (dateTimeString) => {
-    return dateTimeString.split('T')[1].split('.')[0];
+        console.log('Passenger details submitted:', response.data);
+        setBookingSuccess(true); // Set booking success state to true
+  
+      } catch (error) {
+        console.error('Error submitting passenger details:', error);
+      }
+    }
   };
+ 
+const convertToValidDateTimeFormat = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${day}/${month}/${year}: ${hours}:${minutes}`; 
+};
 
-  const calculateTotalTime = (startTime, endTime) => {
-    try {
-      // Check if startTime and endTime are defined
-      if (!startTime || !endTime) {
-        return 'Invalid input';
-      }
-
-      const start = new Date(`01/01/2022 ${convertToValidTimeFormat(startTime)}`);
-      const end = new Date(`01/01/2022 ${convertToValidTimeFormat(endTime)}`);
-
-      let differenceMs = end - start;
-      if (differenceMs < 0) {
-        differenceMs += 24 * 60 * 60 * 1000;
-      }
-
-      const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-      const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
-
-      return `${hours} hours ${minutes} minutes`;
-    } catch (error) {
-      console.error('Error calculating total time:', error);
+const calculateTotalTime = (startTime, endTime) => {
+  try {
+    if (!startTime || !endTime) {
       return 'Invalid input';
     }
+
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    let differenceMs = end - start;
+    if (differenceMs < 0) {
+      differenceMs += 24 * 60 * 60 * 1000;
+    }
+
+    const hours = Math.floor(differenceMs / (1000 * 60 * 60));
+    const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `${hours} hours ${minutes} minutes`;
+  } catch (error) {
+    console.error('Error calculating total time:', error);
+    return 'Invalid input';
+  }
 };
 
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-  
-    try {
-      
-      const payload = {
-        busId: id, // Assuming busId is a fixed value or it can come from state
-        userId: localStorage.getItem('id'), // Assuming userId comes from localStorage or state
-        fare: travelInfo.fare * passengerDetails.length, // Calculating fare based on the number of passengers and fare per passenger
-        seatPassengerList: passengerDetails.map((passenger) => ({
-          seatNo: passenger.seatNumber, // Assuming seat numbers start from 1
-          passenger: {
-            firstName: passenger.firstName,
-            lastName: passenger.lastName,
-            gender: passenger.gender,
-            age: passenger.age
-          }
-        }))
-      };
-      
-      const response = await axiosInst.post('/bookings/book', payload);
-
-      console.log('Passenger details submitted:', response.data);
-      setBookingSuccess(true); // Set booking success state to true
-
-    } catch (error) {
-      console.error('Error submitting passenger details:', error);
-    }
-  };
 
 
   const renderSeats = () => {
@@ -132,6 +158,18 @@ function BusLayout() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setIsPassengerDetailsFilled(
+      passengerDetails.every(
+        (passenger) =>
+          passenger.firstName &&
+          passenger.lastName &&
+          passenger.age &&
+          passenger.gender
+      ) && passengerDetails.length > 0
+    );
+  }, [passengerDetails]);
   
   useEffect(() => {
     fetchBusById();
@@ -140,13 +178,14 @@ function BusLayout() {
   return (
     <>
       <div className="bus-seat-selection-page">
+      <ToastContainer />
         <div className="left-section">
           <div className="upper-left">
             <h2>Travel Information</h2>
             <p className='line'>Bus Number: {travelInfo.busNo}</p>
             <p className='line'><p>From: {travelInfo.from} </p><p>To: {travelInfo.to}</p></p>
-            <p className='line'><p>Departure: {travelInfo.startTime}</p>
-            <p>Completion: {travelInfo.endTime}</p></p>
+            <p className='line'><p>Departure: {convertToValidDateTimeFormat(travelInfo.startTime)}</p>
+            <p>Completion: {convertToValidDateTimeFormat(travelInfo.startTime)}</p></p>
             <p className='line'>Total Time: {calculateTotalTime(travelInfo.startTime, travelInfo.endTime)}</p>
           </div>
           <div className="lower-left">
@@ -187,7 +226,8 @@ function BusLayout() {
                   </div>
                 </div>
               ))}
-              <button type='submit'>Book Ticket</button>
+              <button type='submit' disabled={selectedSeats.length === 0}>Book Ticket</button>
+
             </form>
             {bookingSuccess && (
         <div className="booking-success-message">
