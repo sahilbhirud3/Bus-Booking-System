@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast,Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInst } from "src/axiosInstance";
 // import AllRoutes from "./AllRoutes";
@@ -63,7 +63,9 @@ const AddStation = () => {
         .then((response) => {
           console.log("Response:", response.data);
           if (response.data.message === "Station added Successfully") {
-            toast.success("Station added Successfully",{position:toast.POSITION.TOP_CENTER});
+            toast.success("Station added Successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
             // Clear station name after successful addition
             setStationName("");
             // Fetch stations again to update the list
@@ -111,7 +113,8 @@ const AddStation = () => {
           {/* <AllRoutes /> */}
         </div>
       </div>
-      <div>
+      <div hidden>
+        
         <h2>All Stations</h2>
         <ul>
           {stations.map((station, index) => (
@@ -119,7 +122,7 @@ const AddStation = () => {
           ))}
         </ul>
       </div>
-      <ToastContainer />
+      <Toaster toastOptions={{ duration: 4000 }} />
     </div>
   );
 };
