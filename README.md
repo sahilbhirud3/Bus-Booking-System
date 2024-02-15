@@ -1,20 +1,71 @@
-# Bus Booking System
+# Bus Booking System - Frontend
 
-This is a web application for managing bus bookings. It provides functionalities for users to search for available buses, make bookings, and manage their bookings.
+Welcome to the Bus Booking System Frontend! This web application allows users to search for available buses, make bookings, and manage their bookings conveniently.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [Setup Instructions](#setup-instructions)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+The Bus Booking System Frontend is built using React.js, providing an intuitive user interface for managing bus bookings. Users can perform actions such as searching for buses, making bookings, and managing their bookings seamlessly through the frontend interface.
 
 ## Technologies Used
 
-- **Frontend**: React.js
-- **Backend**: Spring Boot 2.7.18
-- **Database**: MySQL 8.0
-  
+- React.js: A JavaScript library for building user interfaces.
+- React Router: For managing navigation within the application.
+- Bootstrap: For styling and layout of the user interface.
+- Axios: For making HTTP requests to the backend APIs.
+- React Toastify: For displaying notifications to users.
 
 ## Features
 
-- User Authentication: Users can sign up, log in, and log out.
-- Bus Search: Users can search for available buses based on various criteria such as origin, destination, date, etc.
-- Booking Management: Users can make bookings for available buses and manage their bookings.
-- Admin Panel: Administrators can manage buses, bookings, users, etc.
+1. **User Authentication:**
+   - Users can sign up, log in, and log out securely.
+
+2. **Bus Search:**
+   - Users can search for available buses based on various criteria such as origin, destination, date, etc.
+
+3. **Booking Management:**
+   - Users can make bookings for available buses and manage their bookings.
+   - Features include adding, editing, and canceling bookings.
+
+4. **Admin Panel:**
+   - Administrators have access to an admin panel where they can manage buses, bookings, users, etc.
+   - Admin functionalities include adding, editing, and deleting buses, routes, stations, etc.
+
+5. **Passenger List PDF:**
+   - Bus conductors/administrators can download PDFs of passenger lists for reference and management purposes.
+
+## Setup Instructions
+
+1. **Clone the Repository:**
+    ```
+    git clone <repository-url>
+    ```
+
+2. **Navigate to the Project Directory:**
+    ```
+    cd BusBookingSystemFrontend
+    ```
+
+3. **Install Dependencies:**
+    ```
+    npm install
+    ```
+
+4. **Run the Application:**
+    ```
+    npm start
+    ```
+    The application will start running on `http://localhost:3001` for admin pannel and `http://localhost:3000` for frontend UI.
+
+
 # Bus Booking System Backend
 
 Welcome to the Bus Booking System Backend! This project provides the backend APIs for managing bus bookings, routes, users, and other related functionalities.
@@ -94,6 +145,4 @@ Contributions are welcome! If you'd like to contribute to the project, please fo
 Please ensure that your pull request follows the project's coding conventions and includes relevant tests if applicable.
 
 ## License
-
-This project is licensed under the [MIT License](LICENSE).
 
