@@ -10,6 +10,8 @@ import {
   faTrash,
   faEdit,
   faInfoCircle,
+  faDownload,
+  faEye
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -27,11 +29,53 @@ const ShowBuses = () => {
   const [showPassengerModal, setShowPassengerModal] = useState(false);
 
   useEffect(() => {
-    fetchUserBuses();
+    fetchBuses();
   }, []);
 
 
-  const fetchUserBuses = async () => {
+  const handleEdit = (bus) => {
+    setEditedBus(bus);
+    setEditedBusDetails({
+        from: bus.from,
+        to: bus.to,
+        cost: bus.cost,
+        duration: bus.duration
+    });
+    setShowEditModal(true);
+};
+
+const handleCloseEditModal = () => {
+    setShowEditModal(false);
+};
+
+const handleSaveEdit = async () => {
+    try {
+        const response = await axiosInst.put(`/bus/updatebus/${editedBus.id}`, editedBusDetails, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+        });
+
+        if (response.data.message === "Bus updated successfully") {
+            setBuses(prevBuses => prevBuses.map((bus) => 
+                bus.id === editedBus.id ? { ...bus, ...editedBusDetails } : bus
+            ));
+            toast.success("Bus updated successfully");
+            setShowEditModal(false);
+        }
+    } catch (error) {
+        console.error("Error updating bus:", error);
+        toast.error("Failed to update bus");
+    }
+};
+
+const handleChange = (e) => {
+    setEditedBusDetails({ ...editedBusDetails, [e.target.name]: e.target.value });
+};
+
+
+
+  const fetchBuses = async () => {
     try {
       const response = await axiosInst.get("/bus/getallbuses", {
         headers: {
@@ -132,7 +176,7 @@ const ShowBuses = () => {
       });
 
       if (response.data.body === "Bus removed successfully") {
-        fetchUserBuses();
+        fetchBuses();
         toast.success("Bus deleted successfully");
       }
     } catch (error) {
@@ -146,7 +190,7 @@ const ShowBuses = () => {
     }
   };
 
-  const handleEdit = async (bus) => {
+  const handleView = async (bus) => {
     setEditedBus(bus);
     setEditedBusDetails({
       from: bus.from,
@@ -154,7 +198,7 @@ const ShowBuses = () => {
       cost: bus.cost,
       duration: bus.duration,
     });
-
+  
     // Fetch passengers for the selected bus
     try {
       const response = await axiosInst.get(
@@ -165,16 +209,21 @@ const ShowBuses = () => {
           },
         }
       );
-      setPassengerList(response.data);
-      console.log("====================================");
-      console.log(passengerList);
-      console.log("====================================");
-      setShowPassengerModal(true);
+  
+      if (response.status === 204) {
+        // Show popup indicating no passengers in the bus
+        toast.info("No passengers in the bus.");
+      } else {
+        // Passengers are available, set the passenger list and show the modal
+        setPassengerList(response.data);
+        setShowPassengerModal(true);
+      }
     } catch (error) {
       console.error("Error fetching passengers:", error);
-      toast.error("Failed to fetch passengers");
+      toast.error("No passengers in the bus.");
     }
   };
+  
 
   const handleClosePassengerModal = () => {
     setShowPassengerModal(false);
@@ -184,7 +233,7 @@ const ShowBuses = () => {
 
   return (
     <>
-      <h2>User Buses</h2>
+      <h2>All Buses</h2>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -216,9 +265,9 @@ const ShowBuses = () => {
                   style={{ cursor: "pointer" }}
                 />
                 <FontAwesomeIcon
-                  icon={faInfoCircle}
+                  icon={faEye}
                   color="green"
-                  onClick={() => handleEdit(bus)}
+                  onClick={() => handleView(bus)}
                   style={{ cursor: "pointer", marginLeft: "5px" }}
                 />
               </td>
@@ -319,10 +368,76 @@ const ShowBuses = () => {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={handleDownload}>Download as PDF</button>
+          <button className="btn btn-success" onClick={handleDownload}><FontAwesomeIcon
+                  icon={faDownload}
+                  color="white"
+      
+                />&nbsp;PDF</button>
           </Modal.Footer>
       </Modal>
+ {/* Edit Bus Modal */}
+ <Modal show={showEditModal} onHide={handleCloseEditModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Bus</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId="formFrom">
+                            <Form.Label>From</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter origin"
+                                name="from"
+                                value={editedBusDetails.from}
+                                onChange={handleChange}
+                                disabled
+                            />
+                        </Form.Group>
 
+                        <Form.Group controlId="formTo">
+                            <Form.Label>To</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter destination"
+                                name="to"
+                                value={editedBusDetails.to}
+                                onChange={handleChange}
+                                disabled
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="formCost">
+                            <Form.Label>Cost</Form.Label>
+                            <Form.Control
+                                type="number"
+                                placeholder="Enter cost"
+                                name="cost"
+                                value={editedBusDetails.cost}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="formDuration">
+                            <Form.Label>Duration</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter duration"
+                                name="duration"
+                                value={editedBusDetails.duration}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseEditModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleSaveEdit}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
       <Toaster toastOptions={{ duration: 4000 }} />
     </>
   );

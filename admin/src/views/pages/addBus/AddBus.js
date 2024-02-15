@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { toast,Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { axiosInst } from "src/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import routes from "src/routes";
-import "./styles.css"
+import "./styles.css";
 
 const AddBus = () => {
   const [BusDetails, setBusDetails] = useState({
@@ -24,83 +24,110 @@ const AddBus = () => {
   const [endDate, setEndDate] = useState(null);
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);  
+    setSelectedDate(date);
   };
 
   const handleEndData = (endDate) => {
     setEndDate(endDate);
-  }
+  };
 
   const handleChanges = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'route') {
-        const selectedRoute = routesData.find(route => route.id === value);
-        
-        setBusDetails(prevDetails => ({
-            ...prevDetails,
-            id: value,
-        }));
-        setRouteData(prevData => ({
-            ...prevData,
-            [name]: value,
-        }));
-    } else {
-        setBusDetails(prevDetails => ({
-            ...prevDetails,
-            [name]: value,
-        }));
-    }
-};
+    if (name === "route") {
+      const selectedRoute = routesData.find((route) => route.id === value);
 
-const busData = () => {
-  if (!BusDetails.busNo || !BusDetails.totalSeats || !selectedDate || !endDate) {
+      setBusDetails((prevDetails) => ({
+        ...prevDetails,
+        id: value,
+      }));
+      setRouteData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else {
+      setBusDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: value,
+      }));
+    }
+  };
+
+  const busData = () => {
+    if (
+      !BusDetails.busNo ||
+      !BusDetails.totalSeats ||
+      !selectedDate ||
+      !endDate
+    ) {
       toast.error("Please fill in all fields.");
       return;
-  }
+    }
 
-  const startTimeISO = selectedDate.toISOString();
-  const endTimeISO = endDate.toISOString();
+    if (parseInt(BusDetails.totalSeats) <= 0) {
+      toast.error("Number of seats must be a positive integer.");
+      return;
+    }
 
-  axiosInst
-    .post(`/bus/addbus/${BusDetails.id}`, {
-      busNo: BusDetails.busNo,
-      totalSeats: BusDetails.totalSeats,
-      startTime: startTimeISO,
-      endTime: endTimeISO,
-      routeId: BusDetails.id
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      toast.success("Bus added successfully.");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("Failed to add bus.");
-    });
-};
+    // Check if the bus number follows the format XX00XX9999
+    const busNumberRegex = /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/;
+    if (!busNumberRegex.test(BusDetails.busNo)) {
+      toast.error("Bus number must be in the format XX00XX9999.");
+      return;
+    }
 
-useEffect(() => {
+    const currentTime = new Date();
+    if (selectedDate < currentTime || endDate < currentTime) {
+      toast.error("Start and end time should be after the current time.");
+      return;
+    }
+
+    const startTimeISO = selectedDate.toISOString();
+    const endTimeISO = endDate.toISOString();
+
     axiosInst
-    .get("/route/allroutes", {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      .post(
+        `/bus/addbus/${BusDetails.id}`,
+        {
+          busNo: BusDetails.busNo,
+          totalSeats: BusDetails.totalSeats,
+          startTime: startTimeISO,
+          endTime: endTimeISO,
+          routeId: BusDetails.id,
         },
-    })
-    .then((response) => {
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        toast.success("Bus added successfully.");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to add bus.");
+      });
+  };
+
+  useEffect(() => {
+    axiosInst
+      .get("/route/allroutes", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
         setRoutesData(response.data);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
         toast.error("Something went wrong.");
-    });
-}, []);
+      });
+  }, []);
 
-return (
+  return (
     <div className="container mt-5">
       <div className="row">
         <div className="col-md-6">
@@ -149,10 +176,12 @@ return (
             </div>
             <div className="form-group">
               <label htmlFor="InputDate">Start Date</label>
-              <br/>
+              <br />
               <DatePicker
                 name="startTime"
                 selected={selectedDate}
+                placeholderText="Start Time"
+                required
                 onChange={handleDateChange}
                 showTimeSelect
                 timeFormat="HH:mm:ss"
@@ -164,12 +193,14 @@ return (
             </div>
             <div className="form-group">
               <label htmlFor="InputDate">End Date</label>
-              <br/>
+              <br />
               <DatePicker
                 name="endTime"
                 selected={endDate}
                 onChange={handleEndData}
+                placeholderText="End Time"
                 showTimeSelect
+                required
                 timeFormat="HH:mm:ss"
                 timeIntervals={15}
                 dateFormat="MMMM d, yyyy h:mm aa"
@@ -177,7 +208,7 @@ return (
                 value={endDate}
               />
             </div>
-            <br/>
+            <br />
             <button
               type="button"
               onClick={busData}

@@ -14,6 +14,7 @@ public interface StationService {
 
 	boolean deleteStationById(Long stationId);
 	
+	public Station updateStation(Station station);
 //	void getStations();
 
 }

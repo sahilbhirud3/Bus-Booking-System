@@ -81,7 +81,7 @@ const WidgetsDropdown = () => {
               </span> */}
             </>
           }
-          title="Bikes On Site"
+          title="Total stations"
           // action={
           //   <CDropdown alignment="end">
           //     <CDropdownToggle color="transparent" caret={false} className="p-0">
