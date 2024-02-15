@@ -1,19 +1,12 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState, createRef } from "react";
-import classNames from "classnames";
-import { rgbToHex } from "@coreui/utils";
-import CIcon from "@coreui/icons-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
-
-import { toast, Toaster } from "react-hot-toast";
+import React, { useEffect, useState } from "react";
 import { axiosInst } from "src/axiosInstance";
-
-import { useNavigate } from "react-router-dom";
-
+import { Modal, Button } from "react-bootstrap";
+import { toast, Toaster } from "react-hot-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   CCard,
-  CCol,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -22,120 +15,139 @@ import {
   CTableRow,
 } from "@coreui/react";
 
-const ThemeView = ({ ref }) => {
-  const [color, setColor] = useState("rgb(255, 255, 255)");
+const EditStationPopup = ({ show, handleClose, stationId, stationName }) => {
+  const [editedStationName, setEditedStationName] = useState("");
 
   useEffect(() => {
-    if (ref && ref.current && ref.current.parentNode && ref.current.parentNode.firstChild) {
-      const el = ref.current.parentNode.firstChild;
-      const varColor = window.getComputedStyle(el).getPropertyValue("background-color");
-      setColor(varColor);
+    setEditedStationName(stationName);
+  }, [stationName]);
+
+  const handleUpdateStation = async () => {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      const response = await axiosInst.put(
+        `station/updatestation/${stationId}`,
+        { station_name: editedStationName },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Station updated successfully");
+        toast.success("Station updated successfully");
+        handleClose();
+      } else {
+        console.error("Failed to update station");
+        toast.error("Failed to update station");
+      }
+    } catch (error) {
+      console.error("Error updating station:", error);
+      toast.error("Error updating station. Please try again later.");
     }
-  }, [ref]);
+  };
 
   return (
-    <table className="table w-100" ref={ref}>
-      <tbody>
-        <tr>
-          <td className="text-medium-emphasis">HEX:</td>
-          <td className="font-weight-bold">{rgbToHex(color)}</td>
-        </tr>
-        <tr>
-          <td className="text-medium-emphasis">RGB:</td>
-          <td className="font-weight-bold">{color}</td>
-        </tr>
-      </tbody>
-    </table>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Station</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <input
+          type="text"
+          value={editedStationName}
+          onChange={(e) => setEditedStationName(e.target.value)}
+          placeholder="Enter station name"
+          className="form-control"
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleUpdateStation}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
-ThemeView.propTypes = {
-  ref: PropTypes.object.isRequired,
-};
-
-const ThemeColor = ({ className, children }) => {
-  const ref = createRef();
-  const classes = classNames(className, "theme-color w-75 rounded mb-3");
-
-  return (
-    <CCol xs={12} sm={6} md={4} xl={2} className="mb-4">
-      <div className={classes} style={{ paddingTop: "75%" }}></div>
-      {children}
-      <ThemeView ref={ref} />
-    </CCol>
-  );
-};
-
-ThemeColor.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
+EditStationPopup.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  stationId: PropTypes.string.isRequired,
+  stationName: PropTypes.string.isRequired,
 };
 
 const Stations = () => {
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp._seconds * 1000); // Convert seconds to milliseconds
-    return date.toLocaleString(); // Customize the format as needed
-  };
-
   const [stations, setStations] = useState([]);
-  const navigate = useNavigate();
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [selectedStationId, setSelectedStationId] = useState(null);
+  const [selectedStationName, setSelectedStationName] = useState("");
+  
 
   useEffect(() => {
-    const fetchStations = async () => {
-      try {
-        const response = await axiosInst.get("station/getstations");
-        console.log("Response:", response.data);
-        setStations(response.data);
-      } catch (error) {
-        console.error("Error fetching stations:", error);
-        // Handle errors if any
-      }
-    };
-
     fetchStations();
-  }, []);
+  }, [showEditPopup]);
+
+  const fetchStations = async () => {
+    try {
+      const response = await axiosInst.get("station/getstations");
+      setStations(response.data);
+    } catch (error) {
+      console.error("Error fetching stations:", error);
+    }
+  };
 
   const handleDelete = async (stationId) => {
     const confirmed = window.confirm("Are you sure you want to delete this station?");
-
     if (!confirmed) {
-        return;
+      return;
     }
-
     try {
-        const jwtToken = localStorage.getItem("jwtToken");
-        const response = await axiosInst.delete(`station/deletestation/${stationId}`, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+      const jwtToken = localStorage.getItem("jwtToken");
+      const response = await axiosInst.delete(`station/deletestation/${stationId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
 
-        console.log("Response:", response);
-
-        if (response.status === 200 || response.status === 204) {
-            console.log("Station deleted successfully");
-            const updatedStations = stations.filter((station) => station.id !== stationId);
-            setStations(updatedStations);
-            toast.success("Station deleted successfully");
-        } else {
-            console.error("Failed to delete station");
-            toast.error("Failed to delete station");
-        }
+      if (response.status === 200 || response.status === 204) {
+        console.log("Station deleted successfully");
+        const updatedStations = stations.filter((station) => station.id !== stationId);
+        setStations(updatedStations);
+        toast.success("Station deleted successfully");
+      } else {
+        console.error("Failed to delete station");
+        toast.error("Failed to delete station");
+      }
     } catch (error) {
-        if (error.response && error.response.status === 400) {
-            console.error("Failed to delete station: Station is in use.");
-            toast.error("Failed to delete station: Station is in use.");
-        } else {
-            console.error("Error deleting station:", error);
-            toast.error("Error deleting station. Please try again later.");
-        }
+      if (error.response && error.response.status === 400) {
+        console.error("Failed to delete station: Station is in use.");
+        toast.error("Failed to delete station: Station is in use.");
+      } else {
+        console.error("Error deleting station:", error);
+        toast.error("Error deleting station. Please try again later.");
+      }
     }
-};
+  };
+
+  const handleEdit = (stationId, stationName) => {
+    setSelectedStationId(stationId);
+    setSelectedStationName(stationName);
+    setShowEditPopup(true);
+  };
+
+  const handleCloseEditPopup = () => {
+    setShowEditPopup(false);
+  };
 
   return (
     <>
       <Toaster toastOptions={{ duration: 4000 }} />
-    
       <CCard className="mb-4">
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
@@ -154,7 +166,17 @@ const Stations = () => {
                 </CTableDataCell>
                 <CTableDataCell>
                   <span style={{ cursor: "pointer" }}>
-                    <FontAwesomeIcon icon={faTrash} color="red" onClick={() => handleDelete(item.id)} />
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      color="blue"
+                      onClick={() => handleEdit(item.id, item.station_name)}
+                      style={{ cursor: "pointer", marginRight: "5px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      color="red"
+                      onClick={() => handleDelete(item.id)}
+                    />
                   </span>
                 </CTableDataCell>
               </CTableRow>
@@ -162,6 +184,12 @@ const Stations = () => {
           </CTableBody>
         </CTable>
       </CCard>
+      <EditStationPopup
+        show={showEditPopup}
+        handleClose={handleCloseEditPopup}
+        stationId={selectedStationId}
+        stationName={selectedStationName}
+      />
     </>
   );
 };
