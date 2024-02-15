@@ -13,24 +13,30 @@
 
 .upper-left {
   
-  border: 10px solid #3bb19b;
+  border: 3px solid #3bb19b;
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 10px;
   margin: 20px;
 }
 
-.upper-left img {
-  max-width: 100px; /* Adjust based on your image size */
-}
 
 .upper-left p {
   margin: 5px 0;
 }
+.line{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.line > *{
+  flex: 1;
+  align-items: start;
+}
 
 .lower-left {
   
-  border: 10px solid #3bb19b;
+  border: 3px solid #3bb19b;
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 10px;
@@ -42,23 +48,23 @@
 .right-section {
   width: 700px; /* Set a fixed width for the right section */
   flex-shrink: 0; /* Prevent the right section from shrinking */
-  overflow: auto; /* Enable scrolling if the content overflows */
+  overflow: auto;
 }
 
 .main-card {
-  padding: 50px;
+  width:64%;
+  padding: 10px;
   background-color: #f5f5f5;
   border-radius: 10px;
-  margin: 20px;
-  
-  border: 10px solid #3bb19b;
+  margin: 20px 18%;
+  border: 3px solid #3bb19b;
 }
 
 /* Seat Layout */
 .seat-layout {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-  gap: 100px; /* Add space between the grids */
+  gap: 50px; /* Add space between the grids */
   padding: 10px;
 }
 
@@ -66,13 +72,13 @@
 .seat-layout > div {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Adjust seat width */
-  gap: 10px;
+  gap: 8px;
 }
 
 
 .bus-seat {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -99,3 +105,52 @@
 .seat-icon {
   margin-right: 5px;
 }
+
+/* Form Styles */
+.passenger-form {
+  margin-bottom: 20px;
+}
+
+.passenger-form .line {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.passenger-form input[type="text"],
+.passenger-form input[type="number"],
+.passenger-form select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.passenger-form select {
+  cursor: pointer;
+}
+
+/* Button Styles */
+button[type='submit'] {
+  background-color: #3bb19b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type='submit']:hover {
+  background-color: #2d866e;
+}
+
+/* Booking Success Message Styles */
+.booking-success-message {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+}
+

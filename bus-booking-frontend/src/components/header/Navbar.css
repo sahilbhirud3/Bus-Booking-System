@@ -26,18 +26,21 @@
 }
 
 .logo-bus {
+  font-size: 30px;
+  margin-bottom: 5px;
   color: #ff9900; /* Set bus icon color */
 }
 
 h4 {
-  margin: 0;
+  margin: 0 !important;
   font-size: 20px;
 }
 
 .dashboard-button,
 .team-button,
 .login-button,
-.logout-button {
+.logout-button,
+.bookings-button {
   text-decoration: none;
   color: #333333; /* Set button text color */
   padding: 8px 16px;
@@ -49,7 +52,8 @@ h4 {
 .dashboard-button:hover,
 .team-button:hover,
 .login-button:hover,
-.logout-button:hover {
+.logout-button:hover,
+.bookings-button:hover {
   background-color: #f0f0f0; /* Set button background color on hover */
 }
 
@@ -67,9 +71,13 @@ h4 {
   margin-left: 10px;
 }
 
-.notification-icon,
-.profile-icon {
+.notification-icon {
   font-size: 24px;
+  color: #333333; /* Set icon color */
+  transition: background-color 1s ease;
+}
+.profile-icon {
+  font-size: 30px;
   color: #333333; /* Set icon color */
   transition: background-color 1s ease;
 }

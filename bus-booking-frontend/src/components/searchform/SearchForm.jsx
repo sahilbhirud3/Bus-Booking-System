@@ -156,7 +156,7 @@ function SearchForm() {
         </div>
 
         <div className="row justify-content-center mt-3">
-          <div className="col-md-4 text-center">
+          <div className="col-md-7 text-center">
             <button
               type="button"
               className="btn btn-primary btn-lg"
@@ -164,14 +164,6 @@ function SearchForm() {
             >
               Search
             </button>
-            
-            {/* <BusDetailsCard
-                from={bus.from}
-                to={bus.to}
-                duration={bus.duration}
-                fare={bus.fare}
-                // handleBookNow={handleBookNow}
-            /> */}
             {bus.map(bus => (
                 <BusDetailsCard
                     key={bus.id}

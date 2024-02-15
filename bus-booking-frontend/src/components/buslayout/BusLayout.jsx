@@ -143,13 +143,11 @@ function BusLayout() {
         <div className="left-section">
           <div className="upper-left">
             <h2>Travel Information</h2>
-            <p>Bus Number: {travelInfo.busNo}</p>
-            <img src="bus-image-url" alt="Bus" />
-            <p>From: {travelInfo.from}</p>
-            <p>To: {travelInfo.to}</p>
-            <p>Departure Time: {travelInfo.startTime}</p>
-            <p>Completion Time: {travelInfo.endTime}</p>
-            <p>Total Time: {calculateTotalTime(travelInfo.startTime, travelInfo.endTime)}</p>
+            <p className='line'>Bus Number: {travelInfo.busNo}</p>
+            <p className='line'><p>From: {travelInfo.from} </p><p>To: {travelInfo.to}</p></p>
+            <p className='line'><p>Departure: {travelInfo.startTime}</p>
+            <p>Completion: {travelInfo.endTime}</p></p>
+            <p className='line'>Total Time: {calculateTotalTime(travelInfo.startTime, travelInfo.endTime)}</p>
           </div>
           <div className="lower-left">
             <h2>Passenger Details</h2>
@@ -158,7 +156,7 @@ function BusLayout() {
                 <div key={passenger.seatNumber}>
                   <label htmlFor={`firstName_${passenger.seatNumber}`}>Seat {passenger.seatNumber}</label>
                   <div className="passenger-form">
-                    <input
+                    <div className='line'><input
                       id={`firstName_${passenger.seatNumber}`}
                       type="text"
                       value={passenger.firstName || ''}
@@ -170,8 +168,8 @@ function BusLayout() {
                       value={passenger.lastName || ''}
                       onChange={(event) => handleInputChange(event, passenger.seatNumber, 'lastName')}
                       placeholder="Last Name"
-                    />
-                    <input
+                    /></div>
+                    <div className='line'><input
                       type="number"
                       value={passenger.age || ''}
                       onChange={(event) => handleInputChange(event, passenger.seatNumber, 'age')}
@@ -185,7 +183,7 @@ function BusLayout() {
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
-                    </select>
+                    </select></div>
                   </div>
                 </div>
               ))}
@@ -193,7 +191,7 @@ function BusLayout() {
             </form>
             {bookingSuccess && (
         <div className="booking-success-message">
-          <p>Booking Successful!</p>
+          <p>Yaay ... Booking Successful!</p>
         </div>
       )}
           </div>

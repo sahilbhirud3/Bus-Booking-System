@@ -1,15 +1,14 @@
-/* BusDetailsCard.css */
 
 .bus-details-container {
-    border: 1px solid #ccc;
+    border: 1px solid #3bb19b;
     border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
+    margin: 16px 0;
   }
   
   .bus-details-container > div {
     margin-bottom: 8px;
   }
+
   
   .bus-details-container p {
     margin: 4px 0;
@@ -20,7 +19,7 @@
   }
   
   .book-now-button {
-    background-color: #007bff;
+    background-color: #3bb19b;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -32,4 +31,14 @@
     background-color: #0056b3;
   }
   
+  .part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
+  /* Set inner elements of .part to display inline-block */
+  .part > * {
+    flex: 1;
+    align-items: start;
+  }
