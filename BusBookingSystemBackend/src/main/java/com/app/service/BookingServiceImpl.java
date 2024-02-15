@@ -192,31 +192,31 @@ public class BookingServiceImpl implements BookingService {
 		return modelMapper.map(passengerDto, Passenger.class);
 	}
 
-//
-//	@Override
-//	public ApiResponse cancelBookings(long bookingid) {
-//		Bookings b = bookingDao.findById(bookingid).orElseThrow(() -> new RuntimeException("Booking Not Found"));
-//
-//		SeatAllocation seat = seatAllocationDao.findByBooking(b);
-//		if (seat != null) {
-//			seat.setBooking(null);
-//			seat.setPassenger(null);
-//			System.out.println(seat.getSeatNo());
-//			b.removeSeat(seat);
-//			seatAllocationDao.delete(seat);
-//			System.out.println(seat.getId());
-//		}
-//
-//		BusDetails bus = busDao.findByBusNoAndDate(b.getBusNo(), b.getDate())
-//				.orElseThrow(() -> new RuntimeException("Bus Not Found"));
-//		System.out.println(bus.getId());
-//		SeatAvailability s = seatAvailabilityDao.findByBusDetailsAndDate(bus, b.getDate());
-//		System.out.println(s.getId());
-//		s.setAvailable_seats(s.getAvailable_seats() + 1);
-//		b.setUser(null);
-//		b.setPassenger(null);
-//		b.setRoutes(null);
-//		System.out.println(b.getId());
-//		return new ApiResponse("Booking Cancel");
-//	}
+
+	@Override
+	public ApiResponse cancelBookings(long bookingid) {
+		try {
+            // Retrieve booking entity by ID
+            Optional<Bookings> bookingOptional = bookingDao.findById(bookingid);
+
+            // Check if the booking exists
+            if (bookingOptional.isPresent()) {
+                Bookings booking = bookingOptional.get();
+
+                // Delete the booking and associated seat allocations
+                bookingDao.delete(booking);
+
+                return new ApiResponse("Booking deleted successfully.", HttpStatus.OK);
+            } else {
+                return new ApiResponse("Booking not found.", HttpStatus.NOT_FOUND);
+            }
+        } catch (ObjectOptimisticLockingFailureException ex) {
+            // Handle optimistic locking failure
+            return new ApiResponse(
+                    "Optimistic locking failure: Another user has updated the booking. Please try again.",
+                    HttpStatus.CONFLICT);
+        } catch (Exception ex) {
+            return new ApiResponse("Failed to delete booking.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+	}
 }

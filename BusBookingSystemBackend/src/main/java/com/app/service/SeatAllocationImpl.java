@@ -17,6 +17,7 @@ import com.app.entities.Bus;
 import com.app.entities.Passenger;
 import com.app.entities.Routes;
 import com.app.entities.SeatAllocation;
+import com.app.entities.User;
 
 @Service
 @Transactional
@@ -27,7 +28,6 @@ public class SeatAllocationImpl implements SeatAllocationService{
 	
 	@Autowired
 	private BusDao busDao;
-	
 	
 	public List<Integer> getSeatNumbersByBus(long busId) {
         // Retrieve seat numbers by bus ID from the repository
@@ -59,7 +59,9 @@ public class SeatAllocationImpl implements SeatAllocationService{
 
 	    for (SeatAllocation seatAllocation : seatAllocations) {
 	        Passenger passenger = seatAllocation.getPassenger();
+//	        passenger.setMobileNo(user.getMobile());
 	        int seatNo = seatAllocation.getSeatNo();
+	        
 	        seatNoAndPassengerDtoList.add(new SeatNoAndPassengerDto(seatNo, passenger));
 	    }
 

@@ -29,5 +29,6 @@ public class SeatAllocation extends Base {
 	
 	@ManyToOne
 	private Bus bus;
-
+	
+	
 }

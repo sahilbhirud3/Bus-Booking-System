@@ -11,5 +11,5 @@ import com.app.entities.User;
 public interface BookingsDao extends JpaRepository<Bookings, Long>{
 	
 	Optional<List<Bookings>> findByUser(User u);
-
+	void delete(Bookings id);
 }

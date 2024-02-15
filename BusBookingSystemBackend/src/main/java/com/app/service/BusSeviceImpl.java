@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import com.app.dao.BusDao;
 import com.app.dao.RouteDao;
 import com.app.dao.StationDao;
 import com.app.dto.ApiResponse;
+import com.app.dto.BusDto;
 import com.app.dto.GetBusDto;
 import com.app.dto.SendBusDto;
 import com.app.entities.Bus;
@@ -27,6 +29,7 @@ public class BusSeviceImpl implements BusService {
 	
 	@Autowired
 	private BusDao busDao;
+	
 	
 	@Autowired
 	private RouteDao routeDao;
@@ -114,9 +117,12 @@ public class BusSeviceImpl implements BusService {
 	                int cost = (int) route.getDistance() * 2;
 	                double duration = (double) route.getDistance() * 1.5;
 	                String durationString = duration >= 60 ? (duration / 60) + "hr" : duration + "min";
+	                String busNo=bus.getBusNo();
 	                String fromName = from.getStationName();
 	                String toName = to.getStationName();
-	                return new SendBusDto(bus.getId(), fromName, toName, cost, durationString);
+	                LocalDateTime startTime= bus.getStartTime();
+	                LocalDateTime endTime=bus.getEndTime();
+	                return new SendBusDto(bus.getId(),busNo, fromName, toName, cost, durationString, startTime, endTime);
 	            })
 	            .collect(Collectors.toList());
 	}
@@ -141,11 +147,14 @@ public class BusSeviceImpl implements BusService {
 	                int cost = (int) route.getDistance() * 2;
 	                double duration = (double) route.getDistance() * 1.5;
 	                String durationString = duration >= 60 ? (duration / 60) + "hr" : duration + "min";
+	                String busNo=bus.getBusNo();
 	                Station from = route.getStationIdBoarding();
 	                Station to = route.getStationIdDestination();
 	                String fromName = from != null ? from.getStationName() : "Unknown";
 	                String toName = to != null ? to.getStationName() : "Unknown";
-	                return new SendBusDto(bus.getId(), fromName, toName, cost, durationString);
+	                LocalDateTime startTime= bus.getStartTime();
+	                LocalDateTime endTime=bus.getEndTime();
+	                return new SendBusDto(bus.getId(), busNo , fromName, toName, cost, durationString, startTime, endTime  );
 	            })
 	            .collect(Collectors.toList());
 	}

@@ -1,12 +1,10 @@
 package com.app.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.app.dto.Signup;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +18,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Passenger extends Base{
 	
+
 	private String firstName;
 	private String lastName;
 	private String gender;
 	private int age;
+	
+	
+	
 	
 
 
