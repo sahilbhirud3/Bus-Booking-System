@@ -1,0 +1,72 @@
+/* Navbar.css */
+.custom-navbar {
+  background-color: #3bb19b; /* Set background color */
+  padding: 10px 20px; /* Add padding */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.custom-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.logo-bus {
+  color: #ff9900; /* Set bus icon color */
+}
+
+h4 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.dashboard-button,
+.team-button,
+.login-button {
+  text-decoration: none;
+  color: #333333; /* Set button text color */
+  padding: 8px 16px;
+  margin-left: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-button:hover,
+.team-button:hover,
+.login-button:hover {
+  background-color: #f0f0f0; /* Set button background color on hover */
+}
+
+.custom-navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.notification-button,
+.profile-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.notification-icon,
+.profile-icon {
+  font-size: 24px;
+  color: #333333; /* Set icon color */
+}
+
+.notification-button:hover,
+.profile-button:hover {
+  color: #ff9900; /* Set icon color on hover */
+}

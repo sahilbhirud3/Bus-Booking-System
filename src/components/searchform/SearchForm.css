@@ -1,0 +1,21 @@
+/* Add this CSS to your existing CSS file or create a new one */
+
+.container {
+  max-width: 960px; /* Adjust container max-width as needed */
+  margin: auto; /* Center the container */
+}
+
+.row {
+  margin-bottom: 15px; /* Add margin between rows */
+}
+
+.col-md-4 {
+  padding-right: 15px; /* Add right padding to columns */
+  padding-left: 15px; /* Add left padding to columns */
+}
+
+.form-control {
+  width: 100%; /* Make the input fields fill the entire column width */
+}
+
+

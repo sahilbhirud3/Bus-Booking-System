@@ -1,0 +1,44 @@
+.custom-carousel {
+  margin-top: 20px;
+}
+
+.carousel-inner {
+  display: flex;
+  align-items: center; /* Vertically center items */
+}
+
+.card-group {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 5px; /* Adjust spacing between cards */
+  width: 300px; /* Adjust card width as needed */
+}
+
+.card img {
+  width: 100%; /* Ensure the image fills the entire card */
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  color: #000000; /* Customize carousel control icons */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 50px; 
+  height: 50px; 
+  margin-top: auto; 
+  margin-bottom: auto; 
+  color: #000000;
+  
+  
+}

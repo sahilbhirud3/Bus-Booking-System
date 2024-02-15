@@ -1,0 +1,52 @@
+/* Footer.css */
+
+.footer {
+  background-color: #333333; /* Set background color */
+  color: #ffffff; /* Set text color */
+  padding: 30px 0; /* Add padding */
+}
+
+.footer_section {
+  margin-bottom: 20px; /* Add bottom margin */
+}
+
+.footer_section-social {
+  text-align: center; /* Center align social links */
+}
+
+.footer_social-link {
+  font-size: 24px; /* Set font size */
+  color: #ffffff; /* Set link color */
+  margin: 0 10px; /* Add margin between links */
+}
+
+.footer_social-link:hover {
+  color: #ff9900; /* Set link color on hover */
+}
+
+.footer_content-container {
+  text-align: center; /* Center align content */
+}
+
+.footer_content-heading {
+  font-size: 24px; /* Set heading font size */
+  margin-bottom: 10px; /* Add bottom margin */
+}
+
+.footer_content-paragraph {
+  font-size: 16px; /* Set paragraph font size */
+  margin-bottom: 20px; /* Add bottom margin */
+}
+
+.footer_content-link {
+  color: #ffffff; /* Set link color */
+}
+
+.footer_content-link:hover {
+  color: #ff9900; /* Set link color on hover */
+}
+
+.footer_copyright {
+  text-align: center; /* Center align copyright text */
+  font-size: 14px; /* Set font size */
+}
