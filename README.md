@@ -75,7 +75,7 @@ The Bus Booking System Backend is a crucial component of the Bus Booking System 
     mvn spring-boot:run
     ```
 
-    The application will start running on `http://localhost:8080`.
+    The application will start running on `http://localhost:7071`.
 
 ## API Documentation
 
