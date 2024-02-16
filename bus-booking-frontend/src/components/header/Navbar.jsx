@@ -86,17 +86,22 @@ import "./Navbar.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileCard from '../profileCard/ProfileCard'; // Import the ProfileCard component
+// import {useNavigate} from "react-router-dom"
 
 function Navbar() {
   const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
+  const [id, setId] = useState(localStorage.getItem('id'));
+
   const [showProfile, setShowProfile] = useState(false); // State to control profile card visibility
-  const [id,setid]=useState(localStorage.getItem('id'))
+  
   // const navigate=useNavigate();
   // Function to handle logout
   const handleLogout = () => {
     if (window.confirm("Confirm Logout!")) {
-        localStorage.removeItem('jwtToken'); // Remove token from localStorage
-        setJwtToken(null); // Update token state
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('id'); // Remove token from localStorage
+        setJwtToken(null);
+        setId(null); // Update token state
     }
   };
 
@@ -112,6 +117,11 @@ function Navbar() {
     });
   };
 
+  // const navigate=useNavigate()
+  // const handleRedirect=(id)=>{
+  //   navigate(`/bookings/${id}`);
+  // };
+
   useEffect(()=>{},[]);
 
   return (
@@ -124,7 +134,7 @@ function Navbar() {
           <h4>SPARK BUS</h4>
           <Link to="/" className="dashboard-button">Dashboard</Link>
           <Link to="/aboutus" className="team-button">Team</Link>
-          {jwtToken && (
+          {jwtToken &&  (
             <Link  to={`/bookings/${id}`} className='bookings-button'>Bookings</Link>
           )}
         </div>
@@ -139,12 +149,12 @@ function Navbar() {
           
           {/* Toggle ProfileCard visibility on click */}
           <Modal open={showProfile} onClose={() => setShowProfile(false)} center>
-            <ProfileCard />
+            <ProfileCard id={id} onClose={() => setShowProfile(false)}/>
           </Modal>
           
-          {jwtToken ? (
+          {jwtToken && id ? (
             <>
-              <button className="profile-button" onClick={() => setShowProfile(true)}>
+              <button className="profile-button" onClick={() => setShowProfile(true)} >
                 <CgProfile className='profile-icon'/>
               </button>
               <Link className="login-button" onClick={handleLogout}> Logout</Link>

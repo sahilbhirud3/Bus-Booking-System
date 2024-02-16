@@ -64,7 +64,7 @@ function BusLayout() {
         draggable: true,
     })} else {
       try {
-      
+      console.log(passengerDetails.length,".................", travelInfo.fare);
         const payload = {
           busId: id, // Assuming busId is a fixed value or it can come from state
           userId: localStorage.getItem('id'), // Assuming userId comes from localStorage or state
@@ -150,6 +150,7 @@ const calculateTotalTime = (startTime, endTime) => {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
+      console.log(res.data,"///////");
       setTravelInfo(res.data);
       totalSeats=res.data.totalSeats;
       // console.log(res.data,".............");
