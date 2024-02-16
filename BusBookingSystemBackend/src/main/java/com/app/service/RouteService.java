@@ -11,6 +11,7 @@ public interface RouteService {
 	
 	ApiResponse addRoute(AddRouteDto ard);
 	ApiResponse deleteRoute(long routeid);
+	ApiResponse updateRoute(long routeId, AddRouteDto routeDto);
 	List<GetRouteResp> getRoutes();
 
 }
