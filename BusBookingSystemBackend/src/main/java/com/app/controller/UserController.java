@@ -75,7 +75,7 @@ public class UserController {
 
 	    // Verify the old password
 	    if (!userService.verifyPassword(userId, changePasswordRequest.getOldPassword())) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect old password");
+	        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Incorrect old password");
 	    }
 
 	    // Change the password

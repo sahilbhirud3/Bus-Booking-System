@@ -82,5 +82,29 @@ public class RouteServiceImpl implements RouteService {
 		}
 		return l;
 	}
+	@Override
+	public ApiResponse updateRoute(long routeId, AddRouteDto routeDto) {
+	    // Find the route by its ID
+	    Routes existingRoute = routeDao.findById(routeId)
+	            .orElseThrow(() -> new RuntimeException("Route not found"));
+
+	    // Find the stations for the given IDs
+	    Station from = stationDao.findById(routeDto.getStationIdFrom())
+	            .orElseThrow(() -> new RuntimeException("Boarding station not found."));
+
+	    Station to = stationDao.findById(routeDto.getStationIdTo())
+	            .orElseThrow(() -> new RuntimeException("Destination station not found."));
+
+	    // Update the existing route details
+	    existingRoute.setStationIdBoarding(from);
+	    existingRoute.setStationIdDestination(to);
+	    existingRoute.setDistance(routeDto.getDistance());
+
+	    // Save the updated route
+	    Routes updatedRoute = routeDao.save(existingRoute);
+
+	    return new ApiResponse("Route updated successfully");
+	}
+
 
 }

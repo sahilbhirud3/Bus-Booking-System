@@ -240,6 +240,7 @@ function BusLayout() {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
+      console.log(res.data,"///////");
       setTravelInfo(res.data);
       totalSeats = res.data.totalSeats;
       // console.log(res.data,".............");

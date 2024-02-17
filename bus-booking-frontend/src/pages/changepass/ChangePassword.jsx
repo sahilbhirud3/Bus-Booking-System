@@ -2,13 +2,16 @@ import  { useState } from 'react';
 //import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styles from './styles.module.css'; // Import your CSS file
+import { axiosInst } from '../../service/axiosInstance';
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [message, setMessage] = useState('');
+  const id = localStorage.getItem('id');
   //const history = useHistory();
+  const jwtToken=localStorage.getItem("jwtToken");
 
   const handleOldPasswordChange = (e) => {
     setOldPassword(e.target.value);
@@ -31,10 +34,17 @@ const ChangePassword = () => {
     }
 
     try {
-      const response = await axios.post('/api/change-password', {
+      
+      const response = await axiosInst.post('/user/change-password', {
+        id,
         oldPassword,
         newPassword,
-      });
+      },{
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      }
+      );
 
       if (response.data.success) {
         setMessage('Password changed successfully.');
@@ -92,10 +102,7 @@ const ChangePassword = () => {
               Change Password
             </button>
           </form>
-          <p>
-            Remember your password?{' '}
-            <span onClick={handleLoginClick}>Login</span>
-          </p>
+          
         </div>
       </div>
     </div>

@@ -9,7 +9,6 @@ Welcome to the Bus Booking System Frontend! This web application allows users to
 - [Features](#features)
 - [Setup Instructions](#setup-instructions)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -62,6 +61,7 @@ The Bus Booking System Frontend is built using React.js, providing an intuitive 
 4. **Run the Application:**
     ```
     npm start
+    npm run dev
     ```
     The application will start running on `http://localhost:3001` for admin pannel and `http://localhost:3000` for frontend UI.
 
@@ -78,7 +78,6 @@ Welcome to the Bus Booking System Backend! This project provides the backend API
 - [Setup Instructions](#setup-instructions)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -90,7 +89,7 @@ The Bus Booking System Backend is a crucial component of the Bus Booking System 
 - Spring Boot
 - Spring Data JPA
 - Spring Security
-- PostgreSQL (or your preferred database)
+- MySQL
 - Maven
 
 ## Features
@@ -143,6 +142,4 @@ Contributions are welcome! If you'd like to contribute to the project, please fo
 5. Open a pull request.
 
 Please ensure that your pull request follows the project's coding conventions and includes relevant tests if applicable.
-
-## License
 
