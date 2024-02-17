@@ -1,9 +1,5 @@
 package com.app.dto;
 
-import java.util.List;
-
-import com.app.entities.Passenger;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

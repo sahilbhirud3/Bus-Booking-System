@@ -8,7 +8,6 @@ import com.app.dto.ApiResponse;
 import com.app.dto.GetBusDto;
 import com.app.dto.SendBusDto;
 import com.app.entities.Bus;
-import com.app.entities.SeatAllocation;
 
 
 public interface BusService {

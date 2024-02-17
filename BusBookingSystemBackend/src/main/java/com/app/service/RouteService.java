@@ -5,7 +5,6 @@ import java.util.List;
 import com.app.dto.AddRouteDto;
 import com.app.dto.ApiResponse;
 import com.app.dto.GetRouteResp;
-import com.app.entities.Routes;
 
 public interface RouteService {
 	

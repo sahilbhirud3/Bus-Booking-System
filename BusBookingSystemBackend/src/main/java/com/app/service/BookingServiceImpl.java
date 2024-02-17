@@ -71,6 +71,10 @@ public class BookingServiceImpl implements BookingService {
 
 			// Create a new booking entity
 			Bookings newBooking = new Bookings();
+			
+			newBooking.setPaymentId(booking.getPaymentId());
+			newBooking.setRazorpayOrderId(booking.getRazorpayOrderId());
+			newBooking.setRazorpaySignature(booking.getRazorpaySignature());
 			newBooking.setBookingDateTime(LocalDateTime.now());
 			newBooking.setUser(user);
 			newBooking.setBus(bus);

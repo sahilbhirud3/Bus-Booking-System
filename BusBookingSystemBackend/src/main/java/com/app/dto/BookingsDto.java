@@ -13,7 +13,9 @@ import lombok.Setter;
 
 public class BookingsDto {
 
-	
+	String paymentId;
+	String razorpayOrderId;
+	String razorpaySignature;
 	private long busId;
 	private long userId;
 	private double fare;

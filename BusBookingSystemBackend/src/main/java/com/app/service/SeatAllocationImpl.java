@@ -17,7 +17,6 @@ import com.app.entities.Bus;
 import com.app.entities.Passenger;
 import com.app.entities.Routes;
 import com.app.entities.SeatAllocation;
-import com.app.entities.User;
 
 @Service
 @Transactional

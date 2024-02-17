@@ -24,6 +24,11 @@ import lombok.ToString;
 @ToString
 public class Bookings extends Base {
 
+	String paymentId;
+	String razorpayOrderId;
+	String razorpaySignature;
+	
+	
 	
 	@Version
     private int version;//used for optimistic locking
