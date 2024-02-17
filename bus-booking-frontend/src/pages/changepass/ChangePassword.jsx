@@ -1,6 +1,4 @@
 import  { useState } from 'react';
-//import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import styles from './styles.module.css'; // Import your CSS file
 import { axiosInst } from '../../service/axiosInstance';
 
@@ -59,9 +57,6 @@ const ChangePassword = () => {
     }
   };
 
-  const handleLoginClick = () => {
-   // history.push('/login');
-  };
 
   return (
     <div className={styles.change_password_container}>

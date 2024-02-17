@@ -1,8 +1,8 @@
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
-import {axiosInst} from "../../service/axiosInstance"
+import {axiosInst} from "../../service/axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
@@ -29,11 +29,15 @@ const Login = () => {
 			) {
 				setError(error.response.data.message);
 			}
+      toast.warning(
+        "Oops! Could not login, Please re-check the id and password"
+      );
 		}
 	};
  
   return (
     <>
+    <ToastContainer />
       <div className={styles.login_container}>
         <div className={styles.login_form_container}>
           <div className={styles.left}>
