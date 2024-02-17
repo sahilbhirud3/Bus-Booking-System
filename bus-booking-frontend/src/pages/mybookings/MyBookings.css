@@ -1,31 +1,4 @@
-/* 
-.map_table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .map_table th,
-  .map_table td {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .map_table th {
-    background-color: #f2f2f2;
-  }
-  
-  .map_table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .map_table tr:hover {
-    background-color: #f2f2f2;
-  }
-   */
-
-   .login_container {
+.login_container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,17 +21,8 @@
     padding: 20px;
   }
   
-  .right {
-    flex: 1;
-    background-color: #e0e0e0;
-    border-radius: 0 10px 10px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
   .form_container {
-    max-width: 600px;
+    max-width: 900px;
     margin: 0 auto;
   }
   
@@ -70,6 +34,7 @@
   .map_table {
     width: 100%;
     border-collapse: collapse;
+    border: 1px solid #3bb19b;
   }
   
   .map_table th,

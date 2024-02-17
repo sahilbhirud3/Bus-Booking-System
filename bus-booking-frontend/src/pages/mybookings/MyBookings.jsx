@@ -2,7 +2,17 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import "./MyBookings.css";
 import { axiosInst } from '../../service/axiosInstance';
+import Ticket from '../../components/ticket/Ticket';
 
+
+function formatDateTime(dateTimeString) {
+  const date = new Date(dateTimeString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${day}/${month} ${hours}:${minutes}`;
+}
 
 function MyBookings() {
   
@@ -55,18 +65,20 @@ function MyBookings() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map(location => (
+                   {data.map(location => (
                     <tr key={location.id}>
                       <td>{location.busNo}</td>
-                      <td>{location.from}</td>
-                      <td>{location.to}</td>
+                      <td>{location.from} at {formatDateTime(location.startTime)}</td>
+                      <td>{location.to} at {formatDateTime(location.endTime)}</td>
                       <td>{formatDate(location.bookingDateTime)}</td>
                       <td>{location.totalFare}</td>
                       <td>
-                        <Link to={`/ticket/${location.id}`} className="view-ticket-button">View Ticket</Link>
+                        {/* <Link to={`/ticket/${location.id}`} className="view-ticket-button">View Ticket</Link> */}
+                        <Ticket bookingId={2}/>
                       </td>
                     </tr>
                   ))}
+                  <tr></tr>
                 </tbody>
               </table>
             </div>

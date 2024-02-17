@@ -86,3 +86,7 @@ h4 {
 .profile-button:hover {
   background-color: #f0f0f0; /* Set icon color on hover */
 }
+
+.ProfileCard{
+  background-color: transparent;
+}
