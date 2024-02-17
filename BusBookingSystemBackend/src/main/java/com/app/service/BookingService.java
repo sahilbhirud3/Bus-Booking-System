@@ -6,12 +6,13 @@ import com.app.dto.ApiResponse;
 import com.app.dto.BookingDetailsDto;
 import com.app.dto.BookingsDto;
 import com.app.dto.GetBookingDto;
+import com.app.dto.GetBookings;
 
 public interface BookingService {
 	
-	public ApiResponse addBooking(BookingsDto booking);
+	 ApiResponse addBooking(BookingsDto booking);
 	BookingDetailsDto getBookingDetails(long bookingId);
-	List<GetBookingDto> getAllBookings(long userid);
-	public ApiResponse cancelBookings(long bookingid);
-
+	List<GetBookingDto> getAllUserBookings(long userid);
+	 ApiResponse cancelBookings(long bookingid);
+	List<GetBookings> getAllBookings();
 }

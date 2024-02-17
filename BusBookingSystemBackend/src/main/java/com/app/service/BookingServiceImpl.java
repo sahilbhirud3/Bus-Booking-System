@@ -25,6 +25,7 @@ import com.app.dto.ApiResponse;
 import com.app.dto.BookingDetailsDto;
 import com.app.dto.BookingsDto;
 import com.app.dto.GetBookingDto;
+import com.app.dto.GetBookings;
 import com.app.dto.PassengerDto;
 import com.app.dto.SeatPassengerDto;
 import com.app.entities.Bookings;
@@ -123,7 +124,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<GetBookingDto> getAllBookings(long userid) throws RuntimeException {
+	public List<GetBookingDto> getAllUserBookings(long userid) throws RuntimeException {
 		User user = userDao.findById(userid).orElseThrow(() -> new RuntimeException("User Not Found"));
 		List<Bookings> bookinglist = bookingDao.findByUser(user)
 				.orElseThrow(() -> new RuntimeException("No Bookings found"));
@@ -197,6 +198,37 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 
+	
+	
+	 public List<GetBookings> getAllBookings() {
+	        List<Bookings> bookings = bookingDao.findAll();
+	        return mapToGetBookings(bookings);
+	    }
+
+	 public List<GetBookings> mapToGetBookings(List<Bookings> bookings) {
+	        return bookings.stream().map(this::mapToGetBooking).collect(Collectors.toList());
+	    }
+
+	    private GetBookings mapToGetBooking(Bookings booking) {
+	        GetBookings getBookings = new GetBookings();
+	        getBookings.setBookingId(booking.getId());
+	        getBookings.setPaymentId(booking.getPaymentId());
+	        getBookings.setRazorpayOrderId(booking.getRazorpayOrderId());
+	        getBookings.setRazorpaySignature(booking.getRazorpaySignature());
+	        getBookings.setBusNo(booking.getBus().getBusNo());
+	        getBookings.setBusId(booking.getBus().getId());
+	        getBookings.setTotalFare(booking.getFare());
+	        getBookings.setUserId(booking.getUser().getId());
+	        getBookings.setUserName(booking.getUser().getEmail());
+	        getBookings.setBookingDateTime(booking.getBookingDateTime());
+	        getBookings.setNoOfSeats(booking.getSeatList().size());
+	        return getBookings;
+	    }
+	
+	
+	
+	
+	
 	@Override
 	public ApiResponse cancelBookings(long bookingid) {
 		try {

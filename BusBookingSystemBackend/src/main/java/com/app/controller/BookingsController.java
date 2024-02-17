@@ -1,8 +1,13 @@
 package com.app.controller;
 
+import java.util.List;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.ApiResponse;
 import com.app.dto.BookingDetailsDto;
 import com.app.dto.BookingsDto;
+import com.app.dto.GetBookings;
 import com.app.service.BookingService;
 
 @RestController
@@ -38,7 +44,7 @@ public class BookingsController {
     @GetMapping("/getbookings/{userid}")
     public ResponseEntity<?> getAllBookings(@PathVariable long userid){
 //    	System.out.println("INside booking"+userid);
-    	return ResponseEntity.ok(bookingService.getAllBookings(userid));
+    	return ResponseEntity.ok(bookingService.getAllUserBookings(userid));
     }
     
     
@@ -63,6 +69,24 @@ public class BookingsController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getbookings")
+    public ResponseEntity<?> getAllBookings() {
+        try {
+            // Retrieve all bookings
+            List<GetBookings> allBookings = bookingService.getAllBookings();
+            
+            // Check if bookings are found
+            if (!allBookings.isEmpty()) {
+                return ResponseEntity.ok(allBookings);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Handle exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve bookings.");
+        }
+    }
  
     @DeleteMapping("/cancelbooking/{bookingid}")
     public  ApiResponse cancelBooking(@PathVariable long bookingid)
