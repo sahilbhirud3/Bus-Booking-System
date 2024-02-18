@@ -1,6 +1,8 @@
 package com.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -21,10 +23,10 @@ public class SeatServiceImpl implements SeatService {
 	@Override
 	public boolean lockSeat(Seat seat) {
 		try {
-			 // Generate a session ID or retrieve it from the session object if available
+			// Generate a session ID or retrieve it from the session object if available
 //	        String sessionId = 
 
-	        // Set the sessionId in the Seat object
+			// Set the sessionId in the Seat object
 //	        seat.setSessionId(sessionId);
 			Seat newSeat = seatDao.save(seat);
 			if (newSeat != null)
@@ -36,35 +38,38 @@ public class SeatServiceImpl implements SeatService {
 			return false;
 		}
 	}
+
 	@Override
 	public List<Integer> getAllSeatsForBus(Long busId) {
-	    // Assuming seatRepository is an instance of your Seat repository or data access object
-	    // and it has a method to fetch seat numbers for a given bus ID
-	    return seatDao.findSeatNumbersByBusId(busId);
+		// Assuming seatRepository is an instance of your Seat repository or data access
+		// object
+		// and it has a method to fetch seat numbers for a given bus ID
+		List<Seat> seats = seatDao.findSeatByBusId(busId);
+		List<Integer> seatNumbers = new ArrayList<>();
+		for (Seat seat : seats) {
+			seatNumbers.addAll(seat.getSeatNos());
+		}
+		return seatNumbers;
+
 	}
+
 	@Override
 	public boolean unlockSeat(SeatDto seatDto) {
 		try {
+			Seat seat = seatDao.findByBusId(seatDto.getBusId());
+			if (seat != null) {
+				List<Integer> updatedSeatNos = seat.getSeatNos().stream()
+						.filter(seatNo -> !seatDto.getSeatNos().contains(seatNo)).collect(Collectors.toList());
 
-			 List<Seat> seats = seatDao.findByBusIdAndSeatNosIn(seatDto.getBusId(), seatDto.getSeatNos());
-		        
-		        if (!seats.isEmpty()) {
-		            // Delete all retrieved seat entities
-		            seatDao.deleteAll(seats);
-		            return true;
-		        } else {
-		            // No matching seat entries found
-		            return false;
-		        }
-			
+				seat.setSeatNos(updatedSeatNos);
+				seatDao.save(seat);
+				return true;
+			} else {
+				return false; // No seat entry found for the provided busId
+			}
 		} catch (Exception e) {
-			// Handle exceptions
 			e.printStackTrace();
-			return false;
+			return false; // Handle exceptions
 		}
 	}
-	
-	
-	
-
 }
