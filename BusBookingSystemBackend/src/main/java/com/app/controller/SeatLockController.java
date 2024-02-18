@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.SeatDto;
 import com.app.entities.Seat;
 import com.app.service.SeatService;
 
@@ -20,20 +21,20 @@ public class SeatLockController {
 	
 	
 	@PostMapping("/lock")
-	public ResponseEntity<String> reserveSeat(@RequestBody Seat seat ) {
-		if (seatService.reserveSeat(seat)) {
-			return ResponseEntity.ok("Seats reserved successfully");
+	public ResponseEntity<String> lockSeat(@RequestBody Seat seat ) {
+		if (seatService.lockSeat(seat)) {
+			return ResponseEntity.ok("Seats lock successfully");
 		} else {
-			return ResponseEntity.badRequest().body("Seats is not available or already reserved");
+			return ResponseEntity.badRequest().body("unsuccessfull");
 		}
 	}
 
-//	@PostMapping("/seats/{seatId}/cancel-reservation")
-//	public ResponseEntity<String> cancelReservation(@PathVariable Long seatId) {
-//		if (seatService.cancelReservation(seatId)) {
-//			return ResponseEntity.ok("Seat reservation canceled successfully");
-//		} else {
-//			return ResponseEntity.badRequest().body("Seat was not reserved");
-//		}
-//	}
+	@PostMapping("/unlock")
+	public ResponseEntity<String> unlockSeat(@RequestBody SeatDto seat) {
+		if (seatService.unlockSeat(seat)) {
+			return ResponseEntity.ok("Seat reservation canceled successfully");
+		} else {
+			return ResponseEntity.badRequest().body("Seat was not reserved");
+		}
+	}
 }

@@ -1,12 +1,9 @@
 import React from 'react'
 import { useEffect,useState } from 'react'
+import { axiosInst } from "src/axiosInstance";
 import {
   CRow,
   CCol,
-  CDropdown,
-  CDropdownMenu,
-  CDropdownItem,
-  CDropdownToggle,
   CWidgetStatsA,
 } from '@coreui/react'
 import { getStyle } from '@coreui/utils'
@@ -15,58 +12,59 @@ import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
 
 const WidgetsDropdown = () => {
-  const [BikeCount, setBikeCount] = useState(0);
+  const [stationCount, setstationCount] = useState(0);
   const [bookings, setBookings] = useState([]);
-  const [contact, setContact] = useState([]);
-  
+  const [routes, setroutes] = useState([]);
+
   useEffect(() => {
-    const fetchBikeCount = async () => {
+    const fetchstationCount = async () => {
       try {
-        const response = await fetch("http://localhost:4000/Bikescount");
-        const data = await response.json();
-        setBikeCount(data);
+        const response = await axiosInst.get("/station/getstations", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
+        setstationCount(response.data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching station count:", error);
       }
     };
+
     const fetchBookings = async () => {
       try {
-        const response = await fetch("http://localhost:4000/allbookings");
-        if (response.ok) {
-          const data = await response.json();
-          setBookings(data);
-        } else {
-          console.error("Failed to fetch bookings");
-        }
+        const response = await axiosInst.get("/bookings/getbookings", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
+        setBookings(response.data);
+        
       } catch (error) {
         console.error("Error fetching bookings:", error);
       }
     };
-    const fetchContact = async () => {
+
+    const fetchroutes = async () => {
       try {
-        const response = await fetch("http://localhost:4000/fetchContact");
-        if(response.ok) {
-          const data = await response.json();
-          setContact(data);
-        } else {
-          console.error("Failed to fetch Contacts");
-        }
+        const response = await axiosInst.get("route/allroutes", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
+        setroutes(response.data);
       } catch (error) {
-        console.error("Error fetching Contacts:", error);
+        console.error("Error fetching routes:", error);
       }
     };
 
-    fetchBikeCount();
-   
+    fetchstationCount();
     fetchBookings();
-    fetchContact();
-   
+    fetchroutes();
   }, []);
 
-  const totalAmount = bookings.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
-    console.log(parseInt(totalAmount))
+  const totalAmount = bookings.reduce((acc, item) => acc + Number(item.totalFare), 0);
   const totalBooking = bookings.length;
-  const totalContact = contact.length;
+  const totalroutes= routes.length;
   return (
     <CRow>
       <CCol sm={6} lg={3}>
@@ -75,7 +73,7 @@ const WidgetsDropdown = () => {
           color="primary"
           value={
             <>
-              {BikeCount}{' '}
+              {stationCount.length}{' '}
               {/* <span className="fs-6 fw-normal">
                 (-12.4% <CIcon icon={cilArrowBottom} />)
               </span> */}
@@ -321,13 +319,13 @@ const WidgetsDropdown = () => {
           color="danger"
           value={
             <>
-              {totalContact}{' '}
+              {totalroutes}{' '}
               <span className="fs-6 fw-normal">
                  <CIcon icon={cilArrowTop} />
               </span>
             </>
           }
-          title="Total Contacts"
+          title="Total routes"
           // action={
           //   <CDropdown alignment="end">
           //     <CDropdownToggle color="transparent" caret={false} className="p-0">
