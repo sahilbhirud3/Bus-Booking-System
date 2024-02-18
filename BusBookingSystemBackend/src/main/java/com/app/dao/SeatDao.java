@@ -9,4 +9,5 @@ import com.app.entities.Seat;
 public interface SeatDao extends JpaRepository<Seat, Long> {
 
 	List<Seat> findByBusIdAndSeatNosIn(long busId, List<Integer> seatNos);
+	List<Integer> findSeatNumbersByBusId(Long busId);
 }

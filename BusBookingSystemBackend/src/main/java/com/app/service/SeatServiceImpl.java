@@ -36,7 +36,12 @@ public class SeatServiceImpl implements SeatService {
 			return false;
 		}
 	}
-	
+	@Override
+	public List<Integer> getAllSeatsForBus(Long busId) {
+	    // Assuming seatRepository is an instance of your Seat repository or data access object
+	    // and it has a method to fetch seat numbers for a given bus ID
+	    return seatDao.findSeatNumbersByBusId(busId);
+	}
 	@Override
 	public boolean unlockSeat(SeatDto seatDto) {
 		try {

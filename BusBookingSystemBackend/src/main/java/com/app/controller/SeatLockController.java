@@ -1,7 +1,10 @@
 package com.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +31,19 @@ public class SeatLockController {
 			return ResponseEntity.badRequest().body("unsuccessfull");
 		}
 	}
+	@GetMapping("/{busId}")
+	public ResponseEntity<List<Integer>> getAllSeatsForBus(@PathVariable("busId") Long busId) {
+	    List<Integer> seats = seatService.getAllSeatsForBus(busId);
+	    
+	    if (!seats.isEmpty()) {
+	        return ResponseEntity.ok(seats);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
+	}
 
+
+	
 	@PostMapping("/unlock")
 	public ResponseEntity<String> unlockSeat(@RequestBody SeatDto seat) {
 		if (seatService.unlockSeat(seat)) {
