@@ -54,7 +54,7 @@ public class SecurityConfig {
 						"/passenger/bus/{busId}/seat-list",
 						//backendstatuscheck
 						"/check-backend-status",
-						"/payment/razorpay","/payment/verify-payment",
+						"/payment/razorpay","/payment/verify-payment","/payment/refund",
 						//other
 						"/v*/api-doc*/**", "/swagger-ui/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().antMatchers("/products/add").hasRole("ADMIN")

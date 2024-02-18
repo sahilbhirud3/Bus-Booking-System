@@ -150,7 +150,7 @@ function BusLayout() {
                   setBookingSuccess(true); // Set booking success state to true
                 } else {
                   setVerificationResult("Payment is not successful");
-                  toast.error("Payment Failed");
+                  toast.error(data.message);
                 }
               } catch (error) {
                 console.error("Payment Verification Error:", error);
