@@ -76,6 +76,8 @@ public class RouteServiceImpl implements RouteService {
 			Station destination=stationDao.findById(a.getStationIdDestination().getId()).orElseThrow(()->new RuntimeException("Station Destination Not Found"));
             g.setFrom(boarding.getStationName());
             g.setTo(destination.getStationName());
+            g.setFromId(boarding.getId());
+            g.setToId(destination.getId());
             l.add(g);
 
 			//l.add(mapper.map(a, GetRouteResp.class));

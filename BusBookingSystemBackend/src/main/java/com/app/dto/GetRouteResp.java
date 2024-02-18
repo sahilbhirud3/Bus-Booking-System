@@ -15,6 +15,8 @@ public class GetRouteResp {
 	double distance;
 	String from;
 	String to;
+	long fromId;
+	long toId;
 
 
 }
