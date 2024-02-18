@@ -74,7 +74,7 @@ function SearchForm() {
         if (response.data.length === 0) {
           setNoBusesFound(true);
           toast.warning(
-            "Oops! You can try searching for another date..."
+            "Oops! Bus Not found for Date or Route"
           );
         } else {
           setNoBusesFound(false);
@@ -87,7 +87,6 @@ function SearchForm() {
   };
   
   const handleBookNow=(id)=>{
-//  console.log(id,"//////////");
   navigate(`/buslayout/${id}`)
  
   }
@@ -167,7 +166,7 @@ function SearchForm() {
         </div>
 
         <div className="row justify-content-center mt-3">
-          <div className="col-md-7 text-center">
+          <div className="col-md-8 text-center">
             <button
               type="button"
               className="btn btn-primary btn-lg"
@@ -179,8 +178,11 @@ function SearchForm() {
             {bus.map(bus => (
                 <BusDetailsCard
                     key={bus.id}
+                    busNo={bus.busNo}
                     from={bus.from}
                     to={bus.to}
+                    startTime={bus.startTime}
+                    endTime={bus.endTime}
                     duration={bus.duration}
                     fare={bus.cost}
                     handleBookNow={() => handleBookNow(bus.id)}
@@ -188,7 +190,6 @@ function SearchForm() {
             ))}
             <div className="container mt-5">
       <ToastContainer />
-      {/* Rest of your component */}
     </div>
           </div>
         </div>

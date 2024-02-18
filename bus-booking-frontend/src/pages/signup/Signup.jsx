@@ -29,23 +29,18 @@ const Signup = () => {
     e.preventDefault();
     console.log(data);
     try {
-      // const url = "https://localhost:7071/user/signup";
-      // const response = await axios.post(url, data);
-
       const res = await axiosInst.post('user/signup', data);
-
-      // Assuming response.data contains the response body 
       console.log(res.data.message);
       setMsg(res.data.message);
       toast.success("user added successfully.");
       alert("submitted successfully")
     } catch (error) {
+      // handle errors 
       if (
         error.response &&
         error.response.status >= 400 &&
         error.response.status <= 500
       ) {
-        // Handle client errors (4xx)
         console.error("Client Error:", error.response.data);
         setError(error.response.data.message);
       } else if (
@@ -53,18 +48,16 @@ const Signup = () => {
         error.response.status >= 500 &&
         error.response.status <= 599
       ) {
-        // Handle server errors (5xx)
         console.error("Server Error:", error.response.data);
-        setError("Internal Server Error. Please try again later.");
+        // setError("Internal Server Error. Please try again later.");
+        toast.error("Internal Server Error. Please try again later.")
       } else {
         // Handle other types of errors
         console.error("Error:", error.message);
-        setError("An unexpected error occurred. Please try again later.");
+        // setError("An unexpected error occurred. Please try again later.");
+        toast.error("Unexpected Error");
       }
-       toast.error("invalid options")
     }
- 
-     toast.success("user added successfully.");
   };
 
   return (

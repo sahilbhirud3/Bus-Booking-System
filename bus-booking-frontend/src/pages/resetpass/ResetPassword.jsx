@@ -33,7 +33,7 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      setMessage('Passwords do not match.');
+      toast.warn('Passwords do not match.');
       return;
     }
 

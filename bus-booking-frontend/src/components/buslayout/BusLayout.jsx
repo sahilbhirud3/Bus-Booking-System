@@ -335,6 +335,7 @@ function BusLayout() {
                           handleInputChange(event, passenger.seatNumber, "age")
                         }
                         placeholder="Age"
+                        min="0"
                       />
                       <select
                         value={passenger.gender || ""}

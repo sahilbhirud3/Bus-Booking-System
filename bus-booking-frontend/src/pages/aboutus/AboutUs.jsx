@@ -1,6 +1,8 @@
 import "./AboutUs.css";
 import PersonCard from "../../components/PersonCard" ;// Import the PersonCard component
 import sahil from "../../assets/images/sahil.jpg";
+import raaj from "../../assets/images/raaj.jpg";
+import pranav from "../../assets/images/pranav.jpg"
 
 function AboutUs() {
   return (
@@ -18,7 +20,7 @@ function AboutUs() {
           <PersonCard
             name="Pranav Chaudhari"
             role="Software Engineer"
-            imageSrc={sahil}
+            imageSrc={pranav}
             linkedinLink="https://www.linkedin.com/in/sahilbhirud/"
           />
           <PersonCard
@@ -30,7 +32,7 @@ function AboutUs() {
           <PersonCard
             name="Raaj Chimulkar"
             role="Software Engineer"
-            imageSrc={sahil}
+            imageSrc={raaj}
             linkedinLink="https://www.linkedin.com/in/sahilbhirud/"
           />
           <PersonCard

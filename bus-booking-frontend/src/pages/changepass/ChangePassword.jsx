@@ -1,8 +1,7 @@
 import  { useState } from 'react';
-//import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import styles from './styles.module.css'; // Import your CSS file
 import { axiosInst } from '../../service/axiosInstance';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
@@ -29,7 +28,7 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      setMessage('Passwords do not match.');
+      toast.warn('Passwords do not match.');
       return;
     }
 
@@ -47,7 +46,7 @@ const ChangePassword = () => {
       );
 
       if (response.data.success) {
-        setMessage('Password changed successfully.');
+        toast.success('Password changed successfully.');
         // Redirect to login or another page
         // history.push('/login');
       } else {
@@ -55,13 +54,10 @@ const ChangePassword = () => {
       }
     } catch (error) {
       console.error('Error:', error);
-      setMessage('An error occurred while processing your request.');
+      toast.error('An error occurred while processing your request.');
     }
   };
 
-  const handleLoginClick = () => {
-   // history.push('/login');
-  };
 
   return (
     <div className={styles.change_password_container}>
@@ -88,7 +84,7 @@ const ChangePassword = () => {
               onChange={handleNewPasswordChange}
               required
               className={styles.change_password_input}
-            />
+              />
             <label>Confirm New Password:</label>
             <input
               type="password"
@@ -96,7 +92,7 @@ const ChangePassword = () => {
               onChange={handleConfirmNewPasswordChange}
               required
               className={styles.change_password_input}
-            />
+              />
             {message && <div className={styles.change_password_error_msg}>{message}</div>}
             <button type="submit" className={styles.change_password_green_btn}>
               Change Password
@@ -105,6 +101,7 @@ const ChangePassword = () => {
           
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };
