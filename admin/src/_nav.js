@@ -5,23 +5,14 @@ import { faCity } from '@fortawesome/free-solid-svg-icons';
 import { faBus } from '@fortawesome/free-solid-svg-icons';
 import { faRoute } from '@fortawesome/free-solid-svg-icons';
 import {
-  cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilCursor,
-  cilDescription,
-  cilDrop,
-  cilNotes,
+
   cilPencil,
-  cilPuzzle,
+
   cilSpeedometer,
-  cilStar,
-  cilBus,
   cilBank,
-  cilBook,
-  cilTask
+
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import {  CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
@@ -98,13 +89,7 @@ const _nav = [
     name: 'Payments',
     to: '/pages/payments',
     icon: <CIcon icon={cilBank} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Contact',
-    to: '/pages/contact',
-    icon: <CIcon icon={cilTask} customClassName="nav-icon" />,
-  },
+  }
   
 ]
 

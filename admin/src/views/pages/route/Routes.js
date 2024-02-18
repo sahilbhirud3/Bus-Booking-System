@@ -10,13 +10,36 @@ function AllRoutes() {
     const [routes, setRoutes] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editedRoute, setEditedRoute] = useState({});
+    const [stations, setStations] = useState([]);
     const [editedRouteDetails, setEditedRouteDetails] = useState({
         distance: "",
-        from: "",
-        to: ""
+        stationIdFrom: "",
+        stationIdTo: ""
     });
 
     useEffect(() => {
+        // Fetch all stations
+        axiosInst
+            .get("/station/getstations", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+                }
+            })
+            .then((res) => {
+                console.log('====================================');
+                console.log(res.data);
+                console.log('====================================');
+                setStations(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+   fetchroute();
+        // Fetch all routes
+        
+    }, []);
+
+    const fetchroute=()=>{
         axiosInst
             .get("/route/allroutes", {
                 headers: {
@@ -29,8 +52,8 @@ function AllRoutes() {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
 
+    }
     const handleDelete = async (routeId) => {
         const confirmed = window.confirm("Are you sure you want to delete this route?");
 
@@ -63,8 +86,8 @@ function AllRoutes() {
         setEditedRoute(route);
         setEditedRouteDetails({
             distance: route.distance,
-            from: route.from,
-            to: route.to
+            stationIdFrom: route.fromId,
+            stationIdTo: route.toId
         });
         setShowEditModal(true);
     };
@@ -85,6 +108,7 @@ function AllRoutes() {
             ));
             setShowEditModal(false);
             console.log("Route updated successfully.");
+            fetchroute();
         } catch (error) {
             console.log(error);
         }
@@ -92,98 +116,109 @@ function AllRoutes() {
 
     const handleChange = (e) => {
         setEditedRouteDetails({ ...editedRouteDetails, [e.target.name]: e.target.value });
+        // console.log(JSON.stringify(editedRouteDetails));
     };
 
     return (
         <div>
-            <h2>All Routes</h2>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Route Id</th>
-                        <th>Distance</th>
-                        <th>Boarding</th>
-                        <th>Destination</th>
-                        <th>Action</th>
+        <h2>All Routes</h2>
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                    <th>Route Id</th>
+                    <th>Distance</th>
+                    <th>Boarding</th>
+                    <th>Destination</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {routes.map((route) => (
+                    <tr key={route.id}>
+                        <td>{route.id}</td>
+                        <td>{route.distance}</td>
+                        <td>{route.from}</td>
+                        <td>{route.to}</td>
+                        <td>
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                color="blue"
+                                onClick={() => handleEdit(route)}
+                                style={{ cursor: "pointer", marginRight: "5px" }}
+                            />
+                            <FontAwesomeIcon
+                                icon={faTrash}
+                                color="red"
+                                onClick={() => handleDelete(route.id)}
+                                style={{ cursor: "pointer" }}
+                            />
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {routes.map((route) => (
-                        <tr key={route.id}>
-                            <td>{route.id}</td>
-                            <td>{route.distance}</td>
-                            <td>{route.from}</td>
-                            <td>{route.to}</td>
-                            <td>
-                                <FontAwesomeIcon
-                                    icon={faEdit}
-                                    color="blue"
-                                    onClick={() => handleEdit(route)}
-                                    style={{ cursor: "pointer", marginRight: "5px" }}
-                                />
-                                <FontAwesomeIcon
-                                    icon={faTrash}
-                                    color="red"
-                                    onClick={() => handleDelete(route.id)}
-                                    style={{ cursor: "pointer" }}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+                ))}
+            </tbody>
+        </Table>
 
-            <Modal show={showEditModal} onHide={handleCloseEditModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Route</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="formDistance">
-                            <Form.Label>Distance</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter distance"
-                                name="distance"
-                                value={editedRouteDetails.distance}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
+        <Modal show={showEditModal} onHide={handleCloseEditModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>Edit Route</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group controlId="formDistance">
+                        <Form.Label>Distance</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter distance"
+                            name="distance"
+                            value={editedRouteDetails.distance}
+                            onChange={handleChange}
+                        />
+                    </Form.Group>
 
-                        <Form.Group controlId="formFrom">
-                            <Form.Label>Boarding</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter boarding point"
-                                name="from"
-                                value={editedRouteDetails.from}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
+                    <Form.Group controlId="formFrom">
+                        <Form.Label>Boarding</Form.Label>
+                        <Form.Control
+                            as="select"
+                            name="stationIdFrom"
+                            value={editedRouteDetails.stationIdFrom} 
+                            onChange={handleChange}
+                        >
+                            {stations.map((station) => (
+                                <option key={station.id} value={station.id}>
+                                    {station.station_name}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>   
 
-                        <Form.Group controlId="formTo">
-                            <Form.Label>Destination</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter destination point"
-                                name="to"
-                                value={editedRouteDetails.to}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseEditModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveEdit}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            <Toaster toastOptions={{ duration: 4000 }} />
-        </div>
+                    <Form.Group controlId="formTo">
+                        <Form.Label>Destination</Form.Label>
+                        <Form.Control
+                            as="select"
+                            name="stationIdTo"
+                            value={editedRouteDetails.stationIdTo}
+                            onChange={handleChange}
+                        >
+                            {stations.map((station) => (
+                                <option key={station.id} value={station.id}>
+                                    {station.station_name}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseEditModal}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={handleSaveEdit}>
+                    Save Changes
+                </Button>
+            </Modal.Footer>
+        </Modal>
+        <Toaster toastOptions={{ duration: 4000 }} />
+    </div>
     );
 }
 
