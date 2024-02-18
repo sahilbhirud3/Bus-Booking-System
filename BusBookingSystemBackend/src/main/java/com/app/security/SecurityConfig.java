@@ -47,6 +47,7 @@ public class SecurityConfig {
 						"/bus/getbuses","/bus/getallbuses", 
 						//seats
 						"/seats/bus/{busId}",
+						"/seat/lock","/seat/unlock",
 						//bookings
 						"/bookings/book","/bookings/getbookings/{userid}","/bookings/getbooking/{bookingId}","/bookings/getbookings",
 						//seatAllocation
