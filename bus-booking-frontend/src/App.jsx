@@ -1,4 +1,3 @@
-
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import Login from "./pages/login/Login";
@@ -10,6 +9,7 @@ import ForgotPassword from './pages/forgotpass/ForgotPassword';
 import ChangePassword from './pages/changepass/ChangePassword';
 import ResetPassword from './pages/resetpass/ResetPassword';
 import MyBookings from './pages/mybookings/MyBookings';
+import Ticket from './components/ticket/Ticket';
 function App() {
   
   return (
@@ -26,6 +26,8 @@ function App() {
         <Route path='/change-password' element={<ChangePassword/>}/>
         <Route path='/reset-password' element={<ResetPassword/>}/>
         <Route  path="/bookings/:id" element={<MyBookings/>}/>
+        
+        <Route path='/ticket/print/:bookingId' element={<Ticket />} />
         {/* <Route path='/seatselection' element={<BusSeats />} /> */}
         {/* Add more routes here */}
         </Route>
