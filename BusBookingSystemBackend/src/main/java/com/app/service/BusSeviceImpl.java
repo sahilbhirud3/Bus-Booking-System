@@ -16,6 +16,7 @@ import com.app.dao.BusDao;
 import com.app.dao.RouteDao;
 import com.app.dao.StationDao;
 import com.app.dto.ApiResponse;
+import com.app.dto.BusDto2;
 import com.app.dto.GetBusDto;
 import com.app.dto.SendBusDto;
 import com.app.entities.Bus;
@@ -156,6 +157,33 @@ public class BusSeviceImpl implements BusService {
 	                return new SendBusDto(bus.getId(), busNo , fromName, toName, cost, durationString, startTime, endTime  );
 	            })
 	            .collect(Collectors.toList());
+	}
+
+
+	@Override
+	public boolean updateBus(long busId, BusDto2 bus) {
+		
+		 // Retrieve the existing Bus entity from the database
+        Optional<Bus> optionalBus = busDao.findById(busId);
+
+        // Check if the Bus entity exists
+        if (optionalBus.isPresent()) {
+            Bus existingBus = optionalBus.get();
+
+            // Update the Bus entity attributes with values from BusDto2
+            existingBus.setBusNo(bus.getBusNo());
+           
+            // Update other attributes as needed
+
+            // Save the updated Bus entity
+            busDao.save(existingBus);
+
+            // Return true to indicate successful update
+            return true;
+        } else {
+            // Return false if the Bus entity does not exist
+            return false;
+        }
 	}
 
 	
