@@ -28,8 +28,6 @@ public class Bookings extends Base {
 	String razorpayOrderId;
 	String razorpaySignature;
 	
-	
-	
 	@Version
     private int version;//used for optimistic locking
  
@@ -49,8 +47,7 @@ public class Bookings extends Base {
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatAllocation> seatList = new ArrayList<>();
 
-    
-    
+      
     
     public void addSeat(SeatAllocation s) {
         seatList.add(s); // Parent to child

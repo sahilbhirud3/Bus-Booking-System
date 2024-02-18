@@ -51,7 +51,7 @@ public class BookingControllerConcurrencyTest {
                     // Send a POST request to simulate concurrent booking attempts for the same seat
                     mockMvc.perform(MockMvcRequestBuilders.post("/bookings/book")
                             .contentType("application/json")
-                            .content("{\"userId\":1,\"busId\":1,\"fare\":50,\"seatPassengerList\":[{\"seatNo\":" + seatNo + ",\"passenger\":{\"name\":\"John\"}}]}"))
+                            .content("{\"userId\":1,\"busId\":1,\"fare\":50,\"seatPassengerList\":[{\"seatNo\":" + seatNo + ",\"passenger\":{\"name\":\"sahil\"}}]}"))
                             .andExpect(result -> {
                                 // Log the response status and content
                                 System.out.println("Status: " + result.getResponse().getStatus());
