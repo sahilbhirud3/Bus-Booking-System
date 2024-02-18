@@ -1,86 +1,30 @@
-import PropTypes from "prop-types";
-import React, { useEffect, useState, createRef } from "react";
-import classNames from "classnames";
-import { rgbToHex } from "@coreui/utils";
-import CIcon from "@coreui/icons-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faEye } from "@fortawesome/free-solid-svg-icons";
-import { toast, Toaster } from "react-hot-toast";
-
+import React, { useState, useEffect } from "react";
+import { CCard, CTable, CTableBody, CTableHead, CTableHeaderCell, CTableRow, CTableDataCell } from "@coreui/react";
 import { useNavigate } from "react-router-dom";
-
-import {
-  CCard,
-  CCol,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
-} from "@coreui/react";
-
-
-
-const ThemeView = () => {
-  const [color, setColor] = useState("rgb(255, 255, 255)");
-  const ref = createRef();
-
-  useEffect(() => {
-    const el = ref.current.parentNode.firstChild;
-    const varColor = window
-      .getComputedStyle(el)
-      .getPropertyValue("background-color");
-    setColor(varColor);
-  }, [ref]);
-
-  return (
-    <table className="table w-100" ref={ref}>
-      <tbody>
-        <tr>
-          <td className="text-medium-emphasis">HEX:</td>
-          <td className="font-weight-bold">{rgbToHex(color)}</td>
-        </tr>
-        <tr>
-          <td className="text-medium-emphasis">RGB:</td>
-          <td className="font-weight-bold">{color}</td>
-        </tr>
-      </tbody>
-    </table>
-  );
-};
-
-const ThemeColor = ({ className, children }) => {
-  const classes = classNames(className, "theme-color w-75 rounded mb-3");
-  return (
-    <CCol xs={12} sm={6} md={4} xl={2} className="mb-4">
-      <div className={classes} style={{ paddingTop: "75%" }}></div>
-      {children}
-      <ThemeView />
-    </CCol>
-  );
-};
-
-ThemeColor.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
+import { toast, Toaster } from "react-hot-toast";
+import { axiosInst } from "src/axiosInstance";
 
 const Payments = () => {
-    let total=0;
-    const formatTimestamp = (timestamp) => {
-        const date = new Date(timestamp._seconds * 1000); // Convert seconds to milliseconds
-        return date.toLocaleString(); // Customize the format as needed
-      };
-      
-    const [bookings, setBookings] = useState([]);
-    useEffect(() => {
+  const navigate = useNavigate();
+  const [bookings, setBookings] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch("http://localhost:4000/allbookings");
-        if (response.ok) {
-          const data = await response.json();
-          setBookings(data);
+        const response = await axiosInst.get("/bookings/getbookings", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
+        if (response && response.data) {
+          setBookings(response.data);
+          console.log('====================================');
+          console.log(response.data);
+          console.log('====================================');
+          const totalAmount = response.data.reduce((acc, booking) => acc + booking.totalFare, 0);
+          setTotalAmount(totalAmount);
+
         } else {
           console.error("Failed to fetch bookings");
         }
@@ -92,16 +36,16 @@ const Payments = () => {
     fetchBookings();
   }, []);
 
-const navigate=useNavigate()
-
-const totalAmount = bookings.reduce((accumulator, item) => accumulator + item.amount, 0);
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp * 1000); 
+    return date.toLocaleString();
+  };
 
   return (
     <>
       <Toaster toastOptions={{ duration: 4000 }} />
-      <h5 style={{textAlign:"right"}}>Total Amount:{totalAmount}</h5>
+      <h5 style={{ textAlign: "right" }}>Total Amount: {totalAmount}</h5>
       <CCard className="mb-4">
-        
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
             <CTableRow>
@@ -111,45 +55,26 @@ const totalAmount = bookings.reduce((accumulator, item) => accumulator + item.am
               <CTableHeaderCell>Payment ID</CTableHeaderCell>
               <CTableHeaderCell>Amount</CTableHeaderCell>
               <CTableHeaderCell>Timestamp</CTableHeaderCell>
-              
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {bookings.map((item, index) => (
-              
-              <CTableRow v-for="item in tableItems" key={index}>
-                <CTableDataCell className="text-center">
-                {index+1}
-                </CTableDataCell>
-                <CTableDataCell>
-                  <div>{item.razorpayOrderId}</div>
-                  
-                </CTableDataCell>
-
-                <CTableDataCell>
-                  <span>{item.userId}</span>
-                </CTableDataCell>
-                <CTableDataCell>
-                  <span>{item.paymentId}</span>
-                </CTableDataCell>
+            {bookings.map((booking, index) => (
+              <CTableRow key={index}>
+                <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
+                <CTableDataCell>{booking.razorpayOrderId}</CTableDataCell>
+                <CTableDataCell>{booking.userId}</CTableDataCell>
+                <CTableDataCell>{booking.paymentId}</CTableDataCell>
                 <CTableDataCell>
                   <div className="clearfix">
                     <div className="float-start">
                       <div>
                         <span>&#8377;</span>
-                        {item.amount}
+                        {booking.totalFare}
                       </div>
                     </div>
                   </div>
                 </CTableDataCell>
-                <CTableDataCell>
-                  <span>{formatTimestamp(item.timestamp)}</span>
-                </CTableDataCell>
-                
-
-                
-
-                
+                <CTableDataCell>{booking.bookingDateTime}</CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>

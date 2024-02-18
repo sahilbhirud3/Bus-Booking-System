@@ -10,7 +10,7 @@ const AddBus = React.lazy(() => import('./views/pages/addBus/AddBus'))
 
 const Payments = React.lazy(() => import('./views/pages/payments/Payments'))
 const ViewBooking = React.lazy(() => import('./views/pages/viewBooking/ViewBooking'))
-const Contact = React.lazy(() => import('./views/pages/contact/Contact'))
+
 
 
 
@@ -32,7 +32,7 @@ const routes = [
 
   { path: '/pages/payments', name: 'Payments', element: Payments },
   { path: '/pages/viewBooking', name: 'ViewBooking', element: ViewBooking },
-  { path: '/pages/contact', name: 'Contact', element: Contact },
+
 ]
 
 export default routes

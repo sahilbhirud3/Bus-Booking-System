@@ -81,9 +81,16 @@ const AddBus = () => {
       toast.error("Start and end time should be after the current time.");
       return;
     }
+    
+    
+    const date = new Date(selectedDate);
+    console.log(date.toISOString(),"................",selectedDate.toLocaleDateString("en-CA"));
 
     const startTimeISO = selectedDate.toISOString();
     const endTimeISO = endDate.toISOString();
+    console.log('====================================');
+    console.log(startTimeISO,endTimeISO)
+    // console.log('====================================');
 
     axiosInst
       .post(
