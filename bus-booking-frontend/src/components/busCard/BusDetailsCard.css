@@ -7,17 +7,18 @@
     display: flex;
   }
   
-  .right{
-    flex: 1;
-  }
-  .left{
-    flex: 3;
-  }
-  .bus-details-container > div {
+  /* .bus-details-container > div {
     margin-bottom: 8px;
+  } */
+
+  .left{
+    width: 75%;
+  }
+  .right{
+    width: 25%;
+    margin: auto 0;
   }
 
-  
   .bus-details-container p {
     margin: 4px 0;
     display: flex;
@@ -60,4 +61,10 @@
   /* .bus-details-container .right {
     justify-content: center;
   } */
+
+
   
+  img {
+    height: auto;
+    width: 100%;
+  }
