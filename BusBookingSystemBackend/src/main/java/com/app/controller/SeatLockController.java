@@ -25,7 +25,7 @@ public class SeatLockController {
 	
 	
 	@PostMapping("/lock")
-	public ResponseEntity<String> lockSeat(@RequestBody Seat seat ) {
+	public ResponseEntity<String> lockSeat(@RequestBody SeatDto seat ) {
 		if (seatService.lockSeat(seat)) {
 			return ResponseEntity.ok("Seats lock successfully");
 		} else {
@@ -46,9 +46,9 @@ public class SeatLockController {
 	@PostMapping("/unlock")
 	public ResponseEntity<String> unlockSeat(@RequestBody SeatDto seat) {
 		if (seatService.unlockSeat(seat)) {
-			return ResponseEntity.ok("Seat reservation canceled successfully");
+			return ResponseEntity.ok("Seat unlock successfully");
 		} else {
-			return ResponseEntity.badRequest().body("Seat was not reserved");
+			return ResponseEntity.badRequest().body("unsuccessfull");
 		}
 	}
 }

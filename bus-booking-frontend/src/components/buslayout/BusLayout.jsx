@@ -46,14 +46,14 @@ function BusLayout() {
   const bookSeatConcurrency = async () => {
     try {
       console.log("bus id", id);
-      console.log("user id ", localStorage.get("id"));
+      console.log("user id ", localStorage.getItem("id"));
       console.log("seat no", selectedSeats);
 
       const res = await axiosInst.post(
         `/seat/lock`,
         {
-          userId: localStorage.get("id"),
-          busId: { id },
+          userId: localStorage.getItem("id"),
+          busId: id ,
           seatNos: selectedSeats,
         },
         {
@@ -96,7 +96,13 @@ function BusLayout() {
   };
 
   const handleConfirm = async () => {
-    console.log("hello");
+
+    bookSeatConcurrency();
+
+
+
+
+   
     const scriptLoaded = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -120,7 +126,16 @@ function BusLayout() {
           order_id: data.id,
           theme: {
             color: "#3bb19b",
-          },
+          }
+          ,
+          modal: {
+            "ondismiss": function(){
+              delSecondDb();
+
+              clearTimeout(timeoutID);
+                console.log('Checkout form closed');
+            }
+        },
           handler: async function (response) {
             const payload = {
               paymentId: response.razorpay_payment_id,
@@ -165,9 +180,18 @@ function BusLayout() {
         };
 
         var rzp1 = new Razorpay(options);
-        rzp1.open();
+        var modal = rzp1.open();
 
-        delSecondDb();
+        // Close Razorpay window after 2 minutes
+        const timeoutID=setTimeout(() => {
+          delSecondDb();
+         //close razorpay
+        window.location.reload();
+      
+      
+          
+      }, 1 * 60 * 1000);// 2 min
+        
       } catch (error) {
         console.log("Failed to load Razorpay script.", error);
       }
@@ -176,16 +200,11 @@ function BusLayout() {
     }
   };
 
-  const ticketSessionDelete = () => {
-    setTimeout(() => {
-      delSecondDb();
-    }, 100000);//and close razor pay window //refresh data
-  };
-
+  
   const delSecondDb = async () => {
     try {
       const tempDelete = await axiosInst.post("/seat/unlock", {
-        busId: { id },
+        busId:  id ,
         seatNos: selectedSeats,
       });
       // const data2=tempDelete.data;
@@ -262,9 +281,10 @@ function BusLayout() {
         draggable: true,
       });
     } else {
-      if (seatCheck()) {
-        console.log("seat check");
-      }
+      setShowConfirmation(true)
+      // if (seatCheck()) {
+      //   console.log("seat check");
+      // }
 
       console.log(confirmObject);
     }
@@ -363,7 +383,7 @@ function BusLayout() {
   useEffect(() => {
     fetchBusById();
     getSeatsSecondDb();
-    ticketSessionDelete();
+    
   }, []);
 
   return (
@@ -457,7 +477,7 @@ function BusLayout() {
                 </div>
               ))}
               <button
-                onClick={() => setShowConfirmation(true)}
+                // onClick={() => setShowConfirmation(true)}
                 disabled={selectedSeats.length === 0}
               >
                 Book Ticket

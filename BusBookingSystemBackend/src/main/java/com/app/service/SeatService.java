@@ -7,7 +7,7 @@ import com.app.entities.Seat;
 
 public interface SeatService {
 
-	boolean lockSeat(Seat seat);
+	boolean lockSeat(SeatDto seat);
 	List<Integer> getAllSeatsForBus(Long busId);
 	boolean unlockSeat(SeatDto seat );
 }

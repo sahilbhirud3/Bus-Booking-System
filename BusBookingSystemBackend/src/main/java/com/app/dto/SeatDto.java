@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SeatDto extends Base{
+public class SeatDto {
 
 	
 	private long busId;

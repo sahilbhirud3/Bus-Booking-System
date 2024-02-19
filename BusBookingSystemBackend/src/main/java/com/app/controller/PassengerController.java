@@ -12,7 +12,6 @@ import com.app.dto.BusSeatBookings;
 import com.app.service.SeatAllocationService;
 
 @RestController
-@Secured("ROLE_USER")
 @RequestMapping("/passenger")
 public class PassengerController {
 

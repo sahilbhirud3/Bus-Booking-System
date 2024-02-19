@@ -9,8 +9,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.dao.BusDao;
 import com.app.dao.SeatDao;
 import com.app.dto.SeatDto;
+import com.app.entities.Bus;
 import com.app.entities.Seat;
 
 @Service
@@ -19,19 +21,36 @@ public class SeatServiceImpl implements SeatService {
 
 	@Autowired
 	private SeatDao seatDao;
+	@Autowired
+	private BusDao busDao;
 
 	@Override
-	public boolean lockSeat(Seat seat) {
+	public boolean lockSeat(SeatDto seat) {
 		try {
-			// Generate a session ID or retrieve it from the session object if available
-//	        String sessionId = 
 
-			// Set the sessionId in the Seat object
-//	        seat.setSessionId(sessionId);
-			Seat newSeat = seatDao.save(seat);
-			if (newSeat != null)
+			Bus bus=busDao.findById(seat.getBusId()).orElseThrow(()->new RuntimeException("Bus Not Found"));
+			
+			Seat existingSeat=seatDao.findByBusId(seat.getBusId());
+			if(existingSeat!=null)
+			{
+				existingSeat.getSeatNos().addAll(seat.getSeatNos());
+				
+				if(seatDao.save(existingSeat)!=null)
+					return true;
+				
+					return false;
+				
+			}
+			else {
+			Seat newSeat = new Seat();
+			newSeat.setBus(bus);
+			newSeat.setSeatNos(seat.getSeatNos());
+			Seat savedSeat=seatDao.save(newSeat);
+			if (savedSeat != null)
 				return true;
 			return false;
+			}
+			
 		} catch (Exception e) {
 			// Handle exceptions
 			e.printStackTrace();
