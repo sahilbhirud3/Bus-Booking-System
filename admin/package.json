@@ -1,7 +1,7 @@
 {
-  "name": "spark Bike booking admin",
+  "name": "spark Bus booking admin",
   "version": "4.5.0",
-  "description": "spark Bike booking admin",
+  "description": "spark Bus booking admin",
   "homepage": ".",
   "license": "MIT",
   "scripts": {

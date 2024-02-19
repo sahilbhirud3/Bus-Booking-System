@@ -1,0 +1,36 @@
+.app-footer {
+  background-color: #3bb19b; /* Apply the desired background color */
+  color: #ffffff; /* Set text color to white for better contrast */
+  padding: 20px; /* Add padding for better spacing */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+
+.footer-divider {
+  margin: 0 5px;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.powered-by {
+  margin-right: 5px;
+}
+
+.app-link {
+  color: #ffffff; /* Set link color to white */
+  text-decoration: none;
+}
+
+.app-link:hover {
+  text-decoration: underline;
+}
