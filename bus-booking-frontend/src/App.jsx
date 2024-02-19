@@ -26,8 +26,9 @@ function App() {
         <Route path='/change-password' element={<ChangePassword/>}/>
         <Route path='/reset-password' element={<ResetPassword/>}/>
         <Route  path="/bookings/:id" element={<MyBookings/>}/>
+        {/* <Route path='/bookings/getbooking/:bookingId' element={<Ticket/>}/> */}
         
-        <Route path='/ticket/print/:bookingId' element={<Ticket />} />
+        {/* <Route path='/ticket/print/:bookingId' element={<Ticket />} /> */}
         {/* <Route path='/seatselection' element={<BusSeats />} /> */}
         {/* Add more routes here */}
         </Route>
