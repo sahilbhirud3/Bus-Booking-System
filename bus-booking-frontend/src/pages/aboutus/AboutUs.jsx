@@ -3,6 +3,7 @@ import PersonCard from "../../components/PersonCard" ;// Import the PersonCard c
 import sahil from "../../assets/images/sahil.jpg";
 import raaj from "../../assets/images/raaj.jpg";
 import pranav from "../../assets/images/pranav.jpg"
+import krishna from "../../assets/images/krishna.jpg"
 
 function AboutUs() {
   return (
@@ -38,7 +39,7 @@ function AboutUs() {
           <PersonCard
             name="Krishna Gite"
             role="Software Engineer"
-            imageSrc={sahil}
+            imageSrc={krishna}
             linkedinLink="https://www.linkedin.com/in/sahilbhirud/"
           />
         </div>
