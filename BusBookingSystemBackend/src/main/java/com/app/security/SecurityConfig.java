@@ -38,7 +38,7 @@ public class SecurityConfig {
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(authEntry).and()
 				.authorizeRequests().antMatchers(
 						// user
-						"/user/signup", "/user/signin", "/password-reset/reset", "/password-reset/request",
+						"/user/signup", "/user/signin", "/password-reset/reset", "/password-reset/request","/user/{userId}",
 						// station
 						"/station/getstations", "/station/deletestation",
 						//route

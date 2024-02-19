@@ -98,11 +98,6 @@ function BusLayout() {
   const handleConfirm = async () => {
 
     bookSeatConcurrency();
-
-
-
-
-   
     const scriptLoaded = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
