@@ -10,4 +10,5 @@ public interface UserService {
 	User findByEmail(String email);
 	boolean verifyPassword(Long userId, String oldPassword);
 	void changePassword(Long userId, String newPassword);
+	User getUserById(Long userId);
 }

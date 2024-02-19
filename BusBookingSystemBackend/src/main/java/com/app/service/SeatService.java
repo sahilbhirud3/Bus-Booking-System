@@ -10,4 +10,5 @@ public interface SeatService {
 	boolean lockSeat(SeatDto seat);
 	List<Integer> getAllSeatsForBus(Long busId);
 	boolean unlockSeat(SeatDto seat );
+	void seatCleanup();
 }

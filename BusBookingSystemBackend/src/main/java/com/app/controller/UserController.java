@@ -9,15 +9,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ChangePasswordRequest;
+import com.app.dto.GetUserDto;
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.Signup;
+import com.app.entities.User;
 import com.app.security.CustomUserDetails;
 import com.app.security.JwtUtils;
 import com.app.service.UserService;
@@ -70,23 +74,41 @@ public class UserController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-	    // Get the authenticated user details using userId
-	    Long userId = changePasswordRequest.getId(); // Fetch the userId from the request or any other secure means
+		// Get the authenticated user details using userId
+		Long userId = changePasswordRequest.getId(); // Fetch the userId from the request or any other secure means
 
-	    // Verify the old password
-	    if (!userService.verifyPassword(userId, changePasswordRequest.getOldPassword())) {
-	        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Incorrect old password");
-	    }
+		// Verify the old password
+		if (!userService.verifyPassword(userId, changePasswordRequest.getOldPassword())) {
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Incorrect old password");
+		}
 
-	    // Change the password
-	    userService.changePassword(userId, changePasswordRequest.getNewPassword());
+		// Change the password
+		userService.changePassword(userId, changePasswordRequest.getNewPassword());
 
-	    return ResponseEntity.ok("Password changed successfully");
+		return ResponseEntity.ok("Password changed successfully");
 	}
+
+	@GetMapping("/{userId}")
+	public ResponseEntity<GetUserDto> getUserById(@PathVariable Long userId) {
+		User user = userService.getUserById(userId);
+		if (user != null) {
+			GetUserDto userdto=new GetUserDto();
+			userdto.setAge(user.getAge());
+			userdto.setEmail(user.getEmail());
+			userdto.setFirstName(user.getFirstName());
+			userdto.setLastName(user.getLastName());
+			userdto.setGender(user.getGender());
+			userdto.setMobile(user.getMobile());
+			return ResponseEntity.ok(userdto);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+
 //	
 //	@PutMapping("/updateprofile/{userid}")
 //	public UpdateUserDto updateEmpDetails(@PathVariable long userid,@RequestBody UpdateUserDto user) {
 //		return userService.updateEmpDetails(user,userid);
 //	}
 
+	}
 }

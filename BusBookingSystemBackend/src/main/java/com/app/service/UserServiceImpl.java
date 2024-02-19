@@ -71,4 +71,8 @@ public class UserServiceImpl implements UserService {
             userDao.save(user);
         }
     }
+    
+    public User getUserById(Long userId) {
+        return userDao.findById(userId).orElse(null);
+    }
 }

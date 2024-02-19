@@ -1,6 +1,8 @@
 package com.app.controller;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.ApiResponse;
 import com.app.dto.BookingsDto;
 import com.app.dto.OrderRequest;
-import com.app.dto.RefundRequest;
+import com.app.dto.SeatDto;
 import com.app.service.BookingService;
 import com.app.service.PaymentService;
+import com.app.service.SeatService;
 import com.razorpay.Order;
 import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
@@ -32,6 +35,8 @@ public class PaymentController {
 	private BookingService bookingService;
 	@Autowired
 	private PaymentService paymentService;
+	@Autowired
+	private SeatService seatService;
 	@Value("${razorpay.key.id}")
 	private String RAZORPAY_KEY_ID;
 	@Value("${razorpay.key.secret}")
@@ -57,37 +62,46 @@ public class PaymentController {
 
 	@PostMapping("/verify-payment")
 	public ResponseEntity<?> verifyPayment(@RequestBody BookingsDto requestBody) {
-	    try {
-	        boolean paymentCaptured = verifyPaymentStatus(requestBody.getPaymentId());
-	        if (paymentCaptured) {
-	            // Payment is successful, proceed with storing data
-	            ApiResponse response = bookingService.addBooking(requestBody);
-	            if (response.getStatus() == HttpStatus.CREATED) {
-	                // Booking is successful
-	                return ResponseEntity.ok().body(Map.of("success", true));
-	            } else {
-	                // Booking failed, initiate refund
-	                boolean refundInitiated = paymentService.initiateRefund(requestBody.getPaymentId(), requestBody.getFare(), "Booking failed");
-	                if (refundInitiated) {
-	                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                            .body(Map.of("success", false, "message", "Booking failed. Refund initiated."));
-	                } else {
-	                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                            .body(Map.of("success", false, "message", "Booking failed. Refund initiation failed."));
-	                }
-	            }
-	        } else {
-	            // Payment is not successful
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false));
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body(Map.of("error", "Payment verification failed"));
-	    }
+		try {
+			boolean paymentCaptured = verifyPaymentStatus(requestBody.getPaymentId());
+			if (paymentCaptured) {
+				// Payment is successful, proceed with storing data
+				ApiResponse response = bookingService.addBooking(requestBody);
+
+				List<Integer> seatNos = requestBody.getSeatPassengerList().stream().map(i -> i.getSeatNo())
+						.collect(Collectors.toList());
+				// remove from seat(temporary lock db)
+				SeatDto seatDto = new SeatDto();
+				seatDto.setBusId(requestBody.getBusId());
+				seatDto.setSeatNos(seatNos);
+				if (seatService.unlockSeat(seatDto))
+					System.out.println("seat unlocked successfully ");
+				if (response.getStatus() == HttpStatus.CREATED) {
+					// Booking is successful
+					return ResponseEntity.ok().body(Map.of("success", true));
+				} else {
+					// Booking failed, initiate refund
+					boolean refundInitiated = paymentService.initiateRefund(requestBody.getPaymentId(),
+							requestBody.getFare(), "Booking failed");
+					if (refundInitiated) {
+						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+								.body(Map.of("success", false, "message", "Booking failed. Refund initiated."));
+					} else {
+						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+								.body(Map.of("success", false, "message", "Booking failed. Refund initiation failed."));
+					}
+				}
+			} else {
+				// Payment is not successful
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("error", "Payment verification failed"));
+		}
 	}
 
-	
 //	@PostMapping("/refund")
 //    public ResponseEntity<?> initiateRefund(@RequestBody RefundRequest request) {
 //        try {

@@ -2,10 +2,10 @@ package com.app.entities;
 
 import java.util.List;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Seat extends Base{
 	@ManyToOne
 	private Bus bus;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<Integer> seatNos;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<SeatWithTimeStamp> seats;
 	
 }
