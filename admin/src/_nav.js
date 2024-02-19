@@ -80,7 +80,7 @@ const _nav = [
 
   {
     component: CNavTitle,
-    name: 'Bus ',
+    name: 'Payment ',
   },
   
   
