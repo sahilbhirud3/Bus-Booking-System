@@ -45,6 +45,14 @@ function Navbar() {
   //   navigate(`/bookings/${id}`);
   // };
 
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem('loggedIn');
+  //   if (isLoggedIn) {
+  //     toast.success('You have already logged in!');
+  //     localStorage.removeItem('loggedIn'); // Clear the flag after displaying the toast
+  //   }
+  // }, []);
+
   useEffect(()=>{},[]);
 
   return (

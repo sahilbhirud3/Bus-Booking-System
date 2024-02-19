@@ -30,74 +30,30 @@ function MyBookings() {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchBusById = async () => {
-      try {
-        const res = await axiosInst.get(`/bookings/getbookings/${id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-          },
-        });
-        setData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    const jwtToken = localStorage.getItem("jwtToken");
+    const storedId = localStorage.getItem("id");
 
-    fetchBusById();
-  }, [id]);
+    if (!jwtToken) {
+      window.location = "/login";
+    } else if (id !== storedId) {
+      window.location =`/bookings/${storedId}`;
+    } else {
+      fetchData();
+    }
+  }, []);
 
-  // const downloadTicket = async (ticketid) => {
-  //   try {
-  //     const response = await axiosInst.get(`/bookings/getbooking/${ticketid}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //       },
-  //     });
-  
-  //     const ticketDetails = response.data;
-  
-  //     const doc = new jsPDF();
-  //     let yPosition = 20;
-  
-  //     doc.text(`Ticket Details for Booking ID ${ticketid}`, 10, yPosition);
-  //     yPosition += 10;
-  
-  //     doc.text(`Bus No: ${ticketDetails.busNo}`, 10, yPosition);
-  //     yPosition += 10;
-  
-  //     doc.text(`From: ${ticketDetails.from} at ${formatDateTime(ticketDetails.startTime)}`, 10, yPosition);
-  //     yPosition += 10;
-  
-  //     doc.text(`To: ${ticketDetails.to} at ${formatDateTime(ticketDetails.endTime)}`, 10, yPosition);
-  //     yPosition += 10;
-  
-  //     doc.text(`Booking Date: ${formatDate(ticketDetails.bookingDateTime)}`, 10, yPosition);
-  //     yPosition += 10;
-  
-  //     doc.text(`Total Fare: ${ticketDetails.totalFare}`, 10, yPosition);
-  //     yPosition += 10;
-  
-  //     // Add seat passenger list
-  //     yPosition += 10; // Add spacing before seat passenger list
-  //     doc.text('Seat Passenger List:', 10, yPosition);
-  //     yPosition += 10;
-  
-  //     ticketDetails.seatPassengerList.forEach((seatPassenger, index) => {
-  //       doc.text(`Seat No: ${seatPassenger.seatNo}`, 10, yPosition);
-  //       yPosition += 10;
-  //       doc.text(`Passenger Name: ${seatPassenger.passenger.firstName} ${seatPassenger.passenger.lastName}`, 10, yPosition);
-  //       yPosition += 10;
-  //       doc.text(`Gender: ${seatPassenger.passenger.gender}`, 10, yPosition);
-  //       yPosition += 10;
-  //       doc.text(`Age: ${seatPassenger.passenger.age}`, 10, yPosition);
-  //       yPosition += 20; // Add space between passengers
-  //     });
-  
-  //     doc.save(`ticket_${ticketid}.pdf`);
-  //   } catch (error) {
-  //     console.error("Error downloading ticket:", error);
-  //   }
-  // };
+  const fetchData = async () => {
+    try {
+      const res = await axiosInst.get(`/bookings/getbookings/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const downloadTicket = async (ticketid) => {
     try {
@@ -218,11 +174,11 @@ function MyBookings() {
                   <th>To</th>
                   <th>Booking Date</th>
                   <th>Fare</th>
-                  <th>Actions</th>
+                  <th>Download Ticket</th>
                 </tr>
               </thead>
               <tbody>
-                {data.map(location => (
+                {data.slice().reverse().map(location => (
                   <tr key={location.id}>
                     <td>{location.busNo}</td>
                     <td>{location.from} at {formatDateTime(location.startTime)}</td>
@@ -230,7 +186,7 @@ function MyBookings() {
                     <td>{formatDate(location.bookingDateTime)}</td>
                     <td>{location.totalFare}</td>
                     <td>
-                      <button onClick={() => downloadTicket(location.id)}>Download Ticket</button>
+                      <button className='button download' onClick={() => downloadTicket(location.id)}>Download Ticket</button>
                     </td>
                   </tr>
                 ))}
