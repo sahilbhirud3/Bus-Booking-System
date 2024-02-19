@@ -78,7 +78,7 @@ public class PaymentController {
 					System.out.println("seat unlocked successfully ");
 				if (response.getStatus() == HttpStatus.CREATED) {
 					// Booking is successful
-					return ResponseEntity.ok().body(Map.of("success", true));
+					return ResponseEntity.ok().body(Map.of("success", true,"id", response.getId()));
 				} else {
 					// Booking failed, initiate refund
 					boolean refundInitiated = paymentService.initiateRefund(requestBody.getPaymentId(),

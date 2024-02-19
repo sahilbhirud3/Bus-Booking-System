@@ -50,6 +50,7 @@ function MyBookings() {
         },
       });
       setData(res.data);
+      console.log("comment",res.data);
     } catch (error) {
       console.log(error);
     }
