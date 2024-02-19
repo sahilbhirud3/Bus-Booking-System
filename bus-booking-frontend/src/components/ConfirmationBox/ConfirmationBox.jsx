@@ -8,9 +8,6 @@ function ConfirmationBox({ onClose, handleConfirm, confirmObject }) {
     onClose();
   };
 
-  useEffect(() => {
-    console.log(confirmObject);
-  }, [confirmObject]);
 
   return (
     <div className="confirmation-box">

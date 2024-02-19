@@ -70,23 +70,22 @@
 
 // export default Ticket;
 
-
 import { useEffect, useState } from 'react';
 import jsPDF from 'jspdf';
 import PropTypes from 'prop-types';
 import { axiosInst } from '../../service/axiosInstance';
 import { useParams } from 'react-router-dom';
-import "./Ticket.css";
+// import "./Ticket.css";
 
-function Ticket() {
-    const [ticketData, setTicketData] = useState(null);
-    const [pdfContent, setPdfContent] = useState('');
-    const { bookingId } = useParams();
-  
-    // Function to fetch ticket data from the backend
-    const fetchTicketData = async () => {
-      try {      const response = await axiosInst.get(`/bookings/getbooking/${bookingId}`);
-      const data = await response.data;
+function Ticket({ bookingId }) {
+  const [ticketData, setTicketData] = useState(null);
+  const [pdfContent, setPdfContent] = useState('');
+
+  // Function to fetch ticket data from the backend
+  const fetchTicketData = async () => {
+    try {
+      const response = await axiosInst.get(`/bookings/getbooking/${bookingId}`);
+      const data = response.data;
       console.log(data);
       setTicketData(data);
     } catch (error) {
@@ -128,15 +127,21 @@ function Ticket() {
     `;
 
     // Create PDF document
-
-function Ticket({ bookingId }) {
+    const doc = new jsPDF();
+    doc.html(ticketContent, {
+      callback: function (pdf) {
+        pdf.save("ticket.pdf");
+        setPdfContent(pdf.output('datauristring'));
+      }
+    });
   };
 
-  return (    <div className="ticket-container">
-  <button onClick={fetchTicketData}>Fetch Ticket Data</button>
-  {ticketData && (
-    <>
-              <div className="ticket-details">
+  return (
+    <div className="ticket-container">
+      <button onClick={fetchTicketData}>Fetch Ticket Data</button>
+      {ticketData && (
+        <>
+          <div className="ticket-details">
             <h2>Ticket Details</h2>
             <p>Bus No: {ticketData.busNo}</p>
             <p>From: {ticketData.from}</p>
@@ -160,17 +165,18 @@ function Ticket({ bookingId }) {
         </>
       )}
       {pdfContent && (
-                <div className="pdf-container">
-                <h2>Your Ticket</h2>
-                <embed className="pdf-embed" src={pdfContent} type="application/pdf" width="600" height="400" />
+        <div className="pdf-container">
+          <h2>Your Ticket</h2>
+          <embed className="pdf-embed" src={pdfContent} type="application/pdf" width="600" height="400" />
           <a className="download-link" href={pdfContent} download="ticket.pdf">Download Ticket</a>
         </div>
       )}
     </div>
   );
 }
+
 Ticket.propTypes = {
-    bookingId: PropTypes.string.isRequired
-  };
-  
-  export default Ticket;
+  bookingId: PropTypes.string.isRequired
+};
+
+export default Ticket;
