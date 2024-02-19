@@ -21,6 +21,7 @@ function BusLayout() {
   const [verificationResult, setVerificationResult] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [secondDb, setSecondDb] = useState([]);
+  const[status,setStatus]=useState(false)
   const [confirmObject, setConfirmObject] = useState({
     busNo: "",
     noOfTickets: 0,
@@ -91,9 +92,9 @@ function BusLayout() {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
-      // console.log(res.data);
+      console.log("api data *********",res.data);
       // console.log(selectedSeats);
-      console.log(selectedSeats.some((seat) => res.data.includes(seat)));
+      console.log("api response ********",selectedSeats.some((seat) => res.data.includes(seat)));
       return selectedSeats.some((seat) => res.data.includes(seat));
     } catch (error) {
       console.log(error);
@@ -114,8 +115,8 @@ function BusLayout() {
   };
 
   const handleConfirm = async () => {
-    if (!confirmCheck()) {
-      toast.error("Seats already booked..........", {
+    if (await confirmCheck()) {
+      toast.error("Seats Currently Unavailable..........Please Try Again!", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -123,6 +124,7 @@ function BusLayout() {
         pauseOnHover: true,
         draggable: true,
       });
+      setStatus(true)
       return false;
     }
 
@@ -402,9 +404,11 @@ function BusLayout() {
   }, [passengerDetails]);
 
   useEffect(() => {
+   array = [];
+
     getSeatsSecondDb();
     fetchBusById();
-  }, []);
+  }, [status]);
 
   return (
     <>
