@@ -80,10 +80,7 @@ public class BusController {
 	}
 
 	private Bus convertToBusEntity(BusDto busDto) {
-		// Implement the conversion logic from BusDto to Bus entity
-		// For simplicity, you can create a method in BusService or use a mapper
-		// library.
-		// Example:
+	
 		Bus bus = new Bus();
 		bus.setBusNo(busDto.getBusNo());
 		bus.setTotalSeats(busDto.getTotalSeats());
