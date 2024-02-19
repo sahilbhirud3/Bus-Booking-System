@@ -1,5 +1,5 @@
 // Import necessary dependencies
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import  "./forgotpass.css";
 import { toast, ToastContainer } from 'react-toastify';
@@ -27,7 +27,15 @@ const ForgotPassword = () => {
     
   };
 
- 
+  useEffect(() => {
+    // Check if jwtToken exists in localStorage
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (jwtToken) {
+      // Redirect user to the main page
+      window.location = "/";
+    }
+  }, []);
+
 
   return (
     

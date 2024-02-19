@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import styles from './styles.module.css'; // Import your CSS file
 import { axiosInst } from '../../service/axiosInstance';
 import { ToastContainer, toast } from 'react-toastify';
@@ -57,6 +57,17 @@ const ChangePassword = () => {
       toast.error('An error occurred while processing your request.');
     }
   };
+
+
+  useEffect(() => {
+    // Check if jwtToken exists in localStorage
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) {
+      // Redirect user to the main page
+      window.location = "/login";
+    }
+  }, []);
+
 
 
   return (

@@ -30,6 +30,7 @@ function BusLayout() {
   });
   let totalSeats = 30;
   const { id } = useParams();
+  let array = [];
 
   useEffect(() => {
     if (travelInfo && selectedSeats.length > 0) {
@@ -45,15 +46,15 @@ function BusLayout() {
 
   const bookSeatConcurrency = async () => {
     try {
-      console.log("bus id", id);
-      console.log("user id ", localStorage.getItem("id"));
-      console.log("seat no", selectedSeats);
+      // console.log("bus id", id);
+      // console.log("user id ", localStorage.getItem("id"));
+      // console.log("seat no", selectedSeats);
 
       const res = await axiosInst.post(
         `/seat/lock`,
         {
           userId: localStorage.getItem("id"),
-          busId: id ,
+          busId: id,
           seatNos: selectedSeats,
         },
         {
@@ -74,18 +75,35 @@ function BusLayout() {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
-      setSecondDb(res.data);
+      // setSeats([...seats, ...res.data]);
+      array = [...array, ...res.data];
+      // console.log("sec",array);
+      setSeats(array);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const confirmCheck = async () => {
+    try {
+      const res = await axiosInst.get(`/seat/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      // console.log(res.data);
+      // console.log(selectedSeats);
+      console.log(selectedSeats.some((seat) => res.data.includes(seat)));
+      return selectedSeats.some((seat) => res.data.includes(seat));
     } catch (error) {
       console.log(error);
     }
   };
   const getSeatConcurrency = async () => {
-    try {
-      if (selectedSeats.filter((i) => {if(secondDb.includes(i))return false} )) ;//optimise this 
-    } catch (error) {
-      console.log(error);
-    }
-    return true;
+    const seatExistsInSecondDb = selectedSeats.some((seat) =>
+      secondDb.includes(seat)
+    );
+    return !seatExistsInSecondDb;
   };
   const seatCheck = async () => {
     if (getSeatConcurrency()) bookSeatConcurrency();
@@ -96,13 +114,19 @@ function BusLayout() {
   };
 
   const handleConfirm = async () => {
+    if (!confirmCheck()) {
+      toast.error("Seats already booked..........", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return false;
+    }
 
     bookSeatConcurrency();
-
-
-
-
-   
     const scriptLoaded = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -126,16 +150,15 @@ function BusLayout() {
           order_id: data.id,
           theme: {
             color: "#3bb19b",
-          }
-          ,
+          },
           modal: {
-            "ondismiss": function(){
+            ondismiss: function () {
               delSecondDb();
 
               clearTimeout(timeoutID);
-                console.log('Checkout form closed');
-            }
-        },
+              console.log("Checkout form closed");
+            },
+          },
           handler: async function (response) {
             const payload = {
               paymentId: response.razorpay_payment_id,
@@ -163,6 +186,8 @@ function BusLayout() {
               const data1 = response1.data;
 
               if (data1.success) {
+                console.log(localStorage.getItem("id"));
+                console.log("ticket","..........");
                 setVerificationResult("Payment is successful");
                 toast.success("Payment Success");
                 setBookingSuccess(true);
@@ -183,15 +208,11 @@ function BusLayout() {
         var modal = rzp1.open();
 
         // Close Razorpay window after 2 minutes
-        const timeoutID=setTimeout(() => {
+        const timeoutID = setTimeout(() => {
           delSecondDb();
-         //close razorpay
-        window.location.reload();
-      
-      
-          
-      }, 1 * 60 * 1000);// 2 min
-        
+          //close razorpay
+          window.location.reload();
+        }, 1 * 60 * 1000); // 2 min
       } catch (error) {
         console.log("Failed to load Razorpay script.", error);
       }
@@ -200,11 +221,10 @@ function BusLayout() {
     }
   };
 
-  
   const delSecondDb = async () => {
     try {
       const tempDelete = await axiosInst.post("/seat/unlock", {
-        busId:  id ,
+        busId: id,
         seatNos: selectedSeats,
       });
       // const data2=tempDelete.data;
@@ -281,7 +301,7 @@ function BusLayout() {
         draggable: true,
       });
     } else {
-      setShowConfirmation(true)
+      setShowConfirmation(true);
       // if (seatCheck()) {
       //   console.log("seat check");
       // }
@@ -358,11 +378,12 @@ function BusLayout() {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
-      // console.log(res.data,"///////")               ;
       setTravelInfo(res.data);
       totalSeats = res.data.totalSeats;
-      // console.log(res.data,".............");
-      setSeats(res.data.bookedSeats);
+      array = [...array, ...res.data.bookedSeats];
+      console.log("by id ", array);
+
+      setSeats(array);
     } catch (error) {
       console.log(error);
     }
@@ -381,9 +402,8 @@ function BusLayout() {
   }, [passengerDetails]);
 
   useEffect(() => {
-    fetchBusById();
     getSeatsSecondDb();
-    
+    fetchBusById();
   }, []);
 
   return (
