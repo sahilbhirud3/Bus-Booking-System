@@ -17,6 +17,7 @@ public class ApiResponse {
 	private String message;
 	private HttpStatus status;
 
+	private long id;
 	public ApiResponse(String message) {
 		super();
 		this.message = message;
@@ -27,5 +28,13 @@ public class ApiResponse {
 	        this.status = created;
 	        this.timeStamp = LocalDateTime.now();
 	    }
+	public ApiResponse(String message, HttpStatus status, long id) {
+		super();
+		this.message = message;
+		this.status = status;
+		this.id = id;
+		this.timeStamp = LocalDateTime.now();
+	}
+	 
 	
 }

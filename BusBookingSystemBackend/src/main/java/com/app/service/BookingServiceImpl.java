@@ -110,7 +110,7 @@ public class BookingServiceImpl implements BookingService {
 
 			// Check if the booking was successfully saved
 			if (savedBooking != null) {
-				return new ApiResponse("Booking Successful.", HttpStatus.CREATED);
+				return new ApiResponse("Booking Successful.", HttpStatus.CREATED,savedBooking.getId());
 			} else {
 				return new ApiResponse("Failed to add booking.", HttpStatus.INTERNAL_SERVER_ERROR);
 			}
