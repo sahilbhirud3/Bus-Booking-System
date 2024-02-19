@@ -1,6 +1,7 @@
 import  { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './BusDetailsCard.css';
+import logo from "../../assets/images/buslogo.jpg"
 
 function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -38,7 +39,7 @@ function BusDetailsCard({ busNo, from, to, startTime, endTime, duration, fare, h
       </div>
       </div>
       <div className='right'>
-        <img src="" alt="Logo here" />
+        <img src={logo} alt="Logo here" />
       </div>
     </div>
     </>
