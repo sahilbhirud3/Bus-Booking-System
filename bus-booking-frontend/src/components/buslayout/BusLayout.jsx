@@ -336,8 +336,8 @@ function BusLayout() {
                 console.log("................",data1);
                 ticketId=response1.data.id
                 console.log("TICKET ID...........",ticketId);
-
-                       downloadTicket()
+                
+                      await downloadTicket()
                        window.location="/";
 
                 // ticket.
